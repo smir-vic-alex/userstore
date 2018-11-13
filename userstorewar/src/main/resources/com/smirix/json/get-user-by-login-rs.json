@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "user": {
+      "type": "object",
+      "javaType":"com.smirix.entities.user.User"
+    },
+    "login": {
+      "type": "object",
+      "javaType":"com.smirix.entities.login.Login"
+    },
+    "error":{
+      "type":"object",
+      "javaType":"com.smirix.rest.elements.messages.Error"
+    }
+  }
+}
