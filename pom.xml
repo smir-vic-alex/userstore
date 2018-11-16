@@ -12,6 +12,9 @@
         <module>userstorewar</module>
         <module>userstorejar</module>
         <module>core</module>
+        <module>systemauthear</module>
+        <module>systemauthwar</module>
+        <module>systemauthjar</module>
     </modules>
     <packaging>pom</packaging>
 

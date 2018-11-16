@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "redirectUrl": {
+      "type": "string"
+    },
+    "error":{
+      "type":"object",
+      "javaType":"com.smirix.rest.elements.messages.Error"
+    }
+  }
+}
