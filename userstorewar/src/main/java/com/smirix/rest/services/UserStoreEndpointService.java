@@ -59,17 +59,17 @@ public class UserStoreEndpointService {
             user.setName(addUserRq.getUser().getName());
             user.setSurName(addUserRq.getUser().getSurName());
             user.setMiddleName(addUserRq.getUser().getSecondName());
-            userStoreService.saveOrUpdate(user);
+            userStoreService.saveOrUpdate(user, User.class);
 
             Login login = new Login();
             login.setLogin(addUserRq.getLogin().getLogin());
             login.setUserId(user.getId());
-            loginStoreService.saveOrUpdate(login);
+            loginStoreService.saveOrUpdate(login, Login.class);
 
             com.smirix.entities.password.Password passwd = new Password();
             passwd.setPassword(addUserRq.getPassword().getPassword());
             passwd.setUserId(user.getId());
-            passwordStoreService.saveOrUpdate(passwd);
+            passwordStoreService.saveOrUpdate(passwd, Password.class);
 
             return new AddUserRsBuilder(user, login).success();
         } catch (Exception e) {

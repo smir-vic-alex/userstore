@@ -28,12 +28,9 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-
     <servlet-mapping>
         <servlet-name>JerseyApplication</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
-
-
 
 </web-app>

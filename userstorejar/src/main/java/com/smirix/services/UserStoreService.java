@@ -8,11 +8,7 @@ import org.hibernate.query.Query;
 /**
  * Created by Виктор on 02.10.2018.
  */
-public class UserStoreService extends BusinessService<User> {
-
-    public UserStoreService(Executor executor) {
-        super(executor);
-    }
+public class UserStoreService extends BusinessService {
 
     public User getUserById(Long userId) {
         return super.getById(userId, User.class);

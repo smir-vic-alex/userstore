@@ -11,6 +11,8 @@
 
     <groupId>com.smirix</groupId>
     <artifactId>core</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <properties>
         <jersey-media-json-jackson.version>2.26</jersey-media-json-jackson.version>

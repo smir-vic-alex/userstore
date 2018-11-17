@@ -26,7 +26,7 @@ public class SystemAuthEndpoint {
 
     @POST
     @Path("/login")
-    public LoginRs login(LoginRq loginRq) {
+    public Response login(LoginRq loginRq) {
         return systemAuthService.login(loginRq);
     }
 

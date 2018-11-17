@@ -21,14 +21,16 @@
             <param-name>jersey.config.server.provider.packages</param-name>
             <param-value>com.smirix.rest.endpoints</param-value>
         </init-param>
+        <load-on-startup>1</load-on-startup>
     </servlet>
-
 
     <servlet-mapping>
         <servlet-name>JerseyApplication</servlet-name>
         <url-pattern>/rest/*</url-pattern>
     </servlet-mapping>
 
-
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
 
 </web-app>

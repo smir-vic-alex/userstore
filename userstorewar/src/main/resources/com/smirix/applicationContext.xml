@@ -8,18 +8,9 @@
 
     <bean id="userStoreEndpointService" class="com.smirix.rest.services.UserStoreEndpointService"/>
 
-    <bean id="dbExecutor" class="com.smirix.services.DBExecutor"/>
-
-    <bean id="userStoreService" class="com.smirix.services.UserStoreService">
-        <constructor-arg ref="dbExecutor"/>
-    </bean>
-    <bean id="loginStoreService" class="com.smirix.services.LoginStoreService">
-        <constructor-arg ref="dbExecutor"/>
-    </bean>
-    <bean id="passwordService" class="com.smirix.services.PasswordStoreService">
-        <constructor-arg ref="dbExecutor"/>
-    </bean>
-    <!--<bean class="RestInitializer"/>-->
+    <bean id="userStoreService" class="com.smirix.services.UserStoreService"/>
+    <bean id="loginStoreService" class="com.smirix.services.LoginStoreService"/>
+    <bean id="passwordService" class="com.smirix.services.PasswordStoreService"/>
 
     <context:annotation-config/>
 </beans>

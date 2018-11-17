@@ -5,24 +5,30 @@ import com.smirix.hibernate.HibernateExecutor;
 /**
  * Created by Виктор on 01.10.2018.
  */
-public class BusinessService<T> {
+public class BusinessService {
 
-    private Executor executor;
-
-    public BusinessService(Executor executor) {
-        this.executor = executor;
+    public <T> void saveOrUpdate(Object object, Class<T> type){
+        new HibernateExecutor<T>().execute((session) ->
+                {
+                    session.saveOrUpdate(object);
+                    return null;
+                }
+        );
     }
 
-
-    public void saveOrUpdate(final T object) {
-        executor.executeSaveOrUpdate(object, object.getClass());
+    public <T> T getById(Long id, Class<T> type) {
+        return new HibernateExecutor<T>().execute((session) ->
+                {
+                    return session.get(type, id);
+                }
+        );
     }
 
-    public T getById(final Long id, final Class<T> clazz) {
-        return executor.getById(id, clazz);
-    }
-
-    public T getByKey(final String key, final Class<T> clazz) {
-        return executor.getByKey(key, clazz);
+    public <T> T getByKey(String key, Class<T> type) {
+        return new HibernateExecutor<T>().execute((session) ->
+                {
+                    return session.get(type, key);
+                }
+        );
     }
 }
