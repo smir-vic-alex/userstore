@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="entities.Login" table="LOGINS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">logins_seq</param>
+            </generator>
+        </id>
+        <property name="login" column="LOGIN" type="java.lang.String"/>
+    </class>
+
+    <class name="entities.Password" table="PASSWORDS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">passwords_seq</param>
+            </generator>
+        </id>
+        <property name="hash" column="HASH" type="java.lang.String"/>
+        <property name="loginId" column="LOGIN_ID" type="java.lang.Long"/>
+    </class>
+
+    <class name="entities.Network" table="NETWORKS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">networks_id_seq</param>
+            </generator>
+        </id>
+
+        <discriminator formula="TYPE" type="string" not-null="true"/>
+        <property name="type" type="string" column="TYPE" not-null="true"/>
+        <property name="userId" type="java.lang.Long" column="USER_ID" not-null="true"/>
+        <subclass name="entities.VKUserNetwork" discriminator-value="VK">
+            <property name="vkAccessCode" type="java.lang.String" column="VK_ACCESS_TOKEN" not-null="false"/>
+            <property name="vkUserId" type="java.lang.Integer" column="VK_USER_ID" not-null="false"/>
+        </subclass>
+        <subclass name="entities.VKGroupNetwork" discriminator-value="VKG">
+            <property name="vkAccessCode" type="java.lang.String" column="VK_ACCESS_TOKEN" not-null="false"/>
+            <property name="vkUserId" type="java.lang.Integer" column="VK_USER_ID" not-null="false"/>
+        </subclass>
+    </class>
+
+    <class name="entities.Access" table="ACCESSES">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">operations_seq</param>
+            </generator>
+        </id>
+        <property name="type" column="TYPE" type="java.lang.String"/>
+    </class>
+
+    <class name="entities.User" table="USERS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">users_id_seq</param>
+            </generator>
+        </id>
+        <property name="loginId" column="LOGIN_ID" type="java.lang.Long"/>
+    </class>
+
+    <!--ПОСТРОИТЬ ПЛАНЫ ЗАПРОСОВ!-->
+    <query name="entities.Login.get.login.by.login">
+        select login from entities.Login as login where login.login= :login
+    </query>
+
+    <query name="entities.User.get.user.by.login.id">
+        select user from entities.User as user where user.loginId = :loginId
+    </query>
+
+    <query name="entities.Password.get.password.by.login.id">
+        select password from entities.Password as password where password.loginId = :loginId
+    </query>
+
+    <query name="entities.get.user.vk.by.user.id">
+        select network from entities.VKUserNetwork as network where network.userId = :userId and network.type = 'VK'
+    </query>
+
+    <query name="entities.get.groups.vk.by.user.id">
+        select network from entities.VKGroupNetwork as network where network.userId = :userId and network.type = 'VKG'
+    </query>
+
+    <query name="entities.get.group.vk.by.user.id">
+        select network from entities.VKGroupNetwork as network where network.vkUserId = :vkUserId and network.type = 'VKG'
+    </query>
+
+    <sql-query name="get.user.accesses">
+        <return alias="operation" class="entities.Access"/>
+        <![CDATA[
+            select {operation.*} from OPERATIONS operation where operation.id in (select uo.OPERATION_ID from USERS_OPERATIONS uo where uo.USER_ID = :userId)
+        ]]>
+    </sql-query>
+</hibernate-mapping>

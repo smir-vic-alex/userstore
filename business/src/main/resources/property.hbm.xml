@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="property.Property" table="SETTINGS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">property_sequence</param>
+            </generator>
+        </id>
+        <property name="key" column="KEY" type="java.lang.String" not-null="true"/>
+        <property name="value" column="VALUE" type="java.lang.String"/>
+    </class>
+
+    <query name="property.Property.get.by.key">
+        select property from property.Property as property where property.key= :key
+    </query>
+</hibernate-mapping>

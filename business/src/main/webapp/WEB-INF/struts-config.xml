@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts-config PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+        "http://struts.apache.org/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+
+    <form-beans>
+        <form-bean name="LoginActionForm" type="actionForms.LoginActionForm"/>
+        <form-bean name="RegisterActionForm" type="actionForms.RegisterActionForm"/>
+        <form-bean name="ClientAddVKGroupActionForm" type="actionForms.ClientAddVKGroupActionForm"/>
+        <form-bean name="ClientAddVKProfileActionForm" type="actionForms.ClientAddVKProfileActionForm"/>
+        <form-bean name="CodeVKActionForm" type="actionForms.CodeVKActionForm"/>
+        <form-bean name="ShowClientAdminVKGroupActionForm" type="actionForms.ShowClientAdminVKGroupActionForm"/>
+        <form-bean name="MakePostInVKGroupActionForm" type="actionForms.MakePostInVKGroupActionForm"/>
+        <form-bean name="CreatePostActionForm" type="actionForms.CreatePostActionForm"/>
+    </form-beans>
+
+    <global-exceptions>
+        <exception key="global.exception" type="java.lang.Exception" path="/WEB-INF/jsp/exception.jsp"/>
+    </global-exceptions>
+
+    <action-mappings>
+        <action path="/index"
+                forward="/WEB-INF/jsp/index.jsp"/>
+        <!--Логин пользователя-->
+        <action path="/login"
+                type="actions.LoginAction"
+                name="LoginActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="clientPage" path="/private/client/page/main.do" redirect="true"/>
+        </action>
+        <!--Главная страница пользователя с его продуктами, данными по остаткам-->
+        <action path="/private/client/page/main"
+                type="actions.ClientMainPageAction"
+                name="LoginActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/clientStartPage.jsp"/>
+        </action>
+        <!--Форма регистрации в приложении-->
+        <action path="/register"
+                type="actions.RegisterAction"
+                name="RegisterActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="fail" path="/index.do" redirect="true"/>
+            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
+        </action>
+        <!--Привязка аккаунта соцсети к профилю-->
+        <action path="/private/client/addVKProfile"
+                type="actions.vk.ClientAddVKProfileAction"
+                name="ClientAddVKProfileActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="error" path="/private/client/page/main.do" redirect="true"/>
+            <forward name="stub" path="/private/redirect/uri.do?code=123321123321123321" redirect="true"/>
+        </action>
+        <action path="/private/client/show/vk/groups"
+                type="actions.vk.ShowClientAdminVKGroupsAction"
+                name="ShowClientAdminVKGroupActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/showAdminGroupsList.jsp"/>
+        </action>
+        <!--&lt;!&ndash;Добавление группы для администрирования&ndash;&gt;-->
+        <action path="/private/client/addVKGroup"
+                type="actions.vk.ClientAddVKGroupAction"
+                name="ClientAddVKGroupActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="error" path="/private/client/page/main.do" redirect="true"/>
+            <forward name="stub" path="/private/redirect/uri.do?code=123321123321123321" redirect="true"/>
+        </action>
+        <!--Получение code от vk.com-->
+        <action path="/private/redirect/uri"
+                type="actions.vk.CodeVKAction"
+                name="CodeVKActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
+        </action>
+        <!--Получение code от vk.com-->
+        <action path="/private/redirect/vk/group/uri"
+                type="actions.vk.CodeVKGroupAction"
+                name="CodeVKActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
+        </action>
+        <!--Опубликаовать запись на стене сообщества-->
+        <action path="/private/send/post"
+                type="actions.vk.MakePostInVKGroupAction"
+                name="MakePostInVKGroupActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/postMessage.jsp"/>
+        </action>
+
+        <action path="/private/create/post"
+                type="actions.CreatePostAction"
+                name="CreatePostActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/createPost.jsp"/>
+        </action>
+
+    </action-mappings>
+    
+    <message-resources key="messageResources" parameter="" null="false"/>
+    <plug-in className="org.apache.struts.tiles.TilesPlugin">
+        <set-property property="definitions-config"
+                      value="/WEB-INF/tiles-definitions.xml"/>
+    </plug-in>
+
+</struts-config>

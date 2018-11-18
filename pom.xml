@@ -15,6 +15,7 @@
         <module>systemauthear</module>
         <module>systemauthwar</module>
         <module>systemauthjar</module>
+        <module>business</module>
     </modules>
     <packaging>pom</packaging>
 
