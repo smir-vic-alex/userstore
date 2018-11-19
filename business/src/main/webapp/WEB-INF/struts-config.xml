@@ -30,7 +30,8 @@
                 name="LoginActionForm"
                 scope="request"
                 parameter="unused">
-            <forward name="clientPage" path="/private/client/page/main.do" redirect="true"/>
+            <forward name="redirectUrl" path="/private/client/page/main.do" redirect="true"/>
+            <forward name="index" path="/index.do" redirect="true"/>
         </action>
         <!--Главная страница пользователя с его продуктами, данными по остаткам-->
         <action path="/private/client/page/main"
@@ -41,14 +42,14 @@
             <forward name="success" path="/WEB-INF/jsp/clientStartPage.jsp"/>
         </action>
         <!--Форма регистрации в приложении-->
-        <action path="/register"
-                type="actions.RegisterAction"
-                name="RegisterActionForm"
-                scope="request"
-                parameter="unused">
-            <forward name="fail" path="/index.do" redirect="true"/>
-            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
-        </action>
+        <!--<action path="/register"-->
+                <!--type="actions.RegisterAction"-->
+                <!--name="RegisterActionForm"-->
+                <!--scope="request"-->
+                <!--parameter="unused">-->
+            <!--<forward name="fail" path="/index.do" redirect="true"/>-->
+            <!--<forward name="success" path="/private/client/page/main.do" redirect="true"/>-->
+        <!--</action>-->
         <!--Привязка аккаунта соцсети к профилю-->
         <action path="/private/client/addVKProfile"
                 type="actions.vk.ClientAddVKProfileAction"

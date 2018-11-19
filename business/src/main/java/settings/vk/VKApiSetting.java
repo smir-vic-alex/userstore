@@ -1,6 +1,6 @@
 package settings.vk;
 
-import settings.Setting;
+import com.smirix.settings.Setting;
 
 /**
  * Общие настройки работы с networks.vk API

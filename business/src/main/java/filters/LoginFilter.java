@@ -21,7 +21,7 @@ public class LoginFilter implements Filter {
 
         if (filterConfig != null) {
             indexPageUrl = filterConfig.getInitParameter("indexPageUrl");
-            loginPageUrl = filterConfig.getInitParameter("loginPageUrl");
+            loginPageUrl = filterConfig.getInitParameter("loginUrl");
             registerUrl = filterConfig.getInitParameter("registerUrl");
         }
         if (indexPageUrl == null || loginPageUrl == null || registerUrl == null) {

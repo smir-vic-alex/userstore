@@ -1,7 +1,8 @@
-package settings;
+package com.smirix.settings;
 
-import property.Property;
-import property.PropertyService;
+
+import com.smirix.entities.Property;
+import com.smirix.services.PropertyService;
 
 import java.io.InputStream;
 import java.util.HashMap;

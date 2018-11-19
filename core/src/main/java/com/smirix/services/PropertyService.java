@@ -1,15 +1,15 @@
-package property;
+package com.smirix.services;
 
+import com.smirix.entities.Property;
+import com.smirix.hibernate.HibernateExecutor;
 import org.hibernate.query.Query;
-import hibernate.BusinessService;
-import hibernate.HibernateExecutor;
 
 import javax.persistence.NoResultException;
 
 /**
  * Created by Виктор on 17.05.2017.
  */
-public class PropertyService extends BusinessService<Property> {
+public class PropertyService extends BusinessService {
 
     public Property getPropertyByKey(final String key) {
         return new HibernateExecutor<Property>().execute((session) ->

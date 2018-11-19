@@ -16,6 +16,9 @@
         <module>systemauthwar</module>
         <module>systemauthjar</module>
         <module>business</module>
+        <module>busineess-ear</module>
+        <module>networks-gate</module>
+        <module>networks-gate-jar</module>
     </modules>
     <packaging>pom</packaging>
 
