@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "head": {
+      "javaType": "com.smirix.rest.elements.messages.Head"
+    },
+    "url": {
+      "type": "string"
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authRedirectUrl" : {
+          "type":"string"
+        }
+      }
+    }
+  }
+}
