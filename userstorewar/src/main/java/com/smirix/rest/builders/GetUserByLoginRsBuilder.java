@@ -2,7 +2,7 @@ package com.smirix.rest.builders;
 
 import com.smirix.entities.login.Login;
 import com.smirix.entities.user.User;
-import com.smirix.rest.elements.messages.Error;
+import com.smirix.rest.elements.messages.Status;
 import ru.json2pojo.beans.GetUserByLoginRs;
 
 /**
@@ -35,7 +35,7 @@ public class GetUserByLoginRsBuilder implements ResponseBuilder<GetUserByLoginRs
     @Override
     public GetUserByLoginRs fail() {
         GetUserByLoginRs rs = new GetUserByLoginRs();
-        rs.setError(new Error(-1L, errorMessage));
+        rs.setStatus(new Status(-1L, errorMessage));
 
         return rs;
     }

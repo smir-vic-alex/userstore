@@ -1,6 +1,8 @@
 package utils;
 
-import entities.User;
+
+import com.smirix.entities.user.User;
+import com.smirix.utils.WebContext;
 
 import javax.servlet.http.HttpSession;
 

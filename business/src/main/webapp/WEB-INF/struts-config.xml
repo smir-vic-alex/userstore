@@ -7,7 +7,7 @@
 <struts-config>
 
     <form-beans>
-        <form-bean name="LoginActionForm" type="actionForms.LoginActionForm"/>
+        <form-bean name="AuthActionForm" type="actionForms.AuthActionForm"/>
         <form-bean name="RegisterActionForm" type="actionForms.RegisterActionForm"/>
         <form-bean name="ClientAddVKGroupActionForm" type="actionForms.ClientAddVKGroupActionForm"/>
         <form-bean name="ClientAddVKProfileActionForm" type="actionForms.ClientAddVKProfileActionForm"/>
@@ -25,17 +25,18 @@
         <action path="/index"
                 forward="/WEB-INF/jsp/index.jsp"/>
         <!--Логин пользователя-->
-        <action path="/login"
-                type="actions.LoginAction"
-                name="LoginActionForm"
+        <action path="/auth"
+                type="actions.AuthAction"
+                name="AuthActionForm"
                 scope="request"
                 parameter="unused">
-            <forward name="clientPage" path="/private/client/page/main.do" redirect="true"/>
+            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
+            <forward name="forbidden" path="/private/client/page/main.do" redirect="true"/>
         </action>
         <!--Главная страница пользователя с его продуктами, данными по остаткам-->
         <action path="/private/client/page/main"
                 type="actions.ClientMainPageAction"
-                name="LoginActionForm"
+                name="AuthActionForm"
                 scope="request"
                 parameter="unused">
             <forward name="success" path="/WEB-INF/jsp/clientStartPage.jsp"/>

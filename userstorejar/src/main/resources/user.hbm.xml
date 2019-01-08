@@ -16,4 +16,7 @@
         <property name="middleName" column="MIDDLE_NAME" type="java.lang.String"/>
     </class>
 
+    <query name="com.smirix.entities.user.User.getUserById">
+        select user from com.smirix.entities.user.User as user where user.id = :userId
+    </query>
 </hibernate-mapping>

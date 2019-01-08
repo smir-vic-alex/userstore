@@ -1,12 +1,27 @@
 package com.smirix.rest.elements.messages;
 
+import java.io.Serializable;
+
 /**
  * Created by Виктор on 02.10.2018.
  */
-public class Message {
+public class Message<B extends Serializable> implements Serializable {
     private Head head;
-    private Object body;
-    private Error error;
+    private B body;
+    private Status status;
+
+    public Message() {
+    }
+
+    public Message(Head head, Status status) {
+        this.head = head;
+        this.status = status;
+    }
+
+    public Message(Head head, B body) {
+        this.head = head;
+        this.body = body;
+    }
 
     public Head getHead() {
         return head;
@@ -16,19 +31,19 @@ public class Message {
         this.head = head;
     }
 
-    public Object getBody() {
+    public B getBody() {
         return body;
     }
 
-    public void setBody(Object body) {
+    public void setBody(B body) {
         this.body = body;
     }
 
-    public Error getError() {
-        return error;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setError(Error error) {
-        this.error = error;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

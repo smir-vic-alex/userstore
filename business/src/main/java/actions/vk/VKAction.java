@@ -1,9 +1,9 @@
 package actions.vk;
 
-import actions.OperationActionBase;
+import actions.Action;
 
 /**
  * Created by Виктор on 06.09.2017.
  */
-public class VKAction extends OperationActionBase {
+public class VKAction extends Action {
 }

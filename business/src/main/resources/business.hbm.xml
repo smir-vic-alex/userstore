@@ -25,7 +25,7 @@
         <property name="loginId" column="LOGIN_ID" type="java.lang.Long"/>
     </class>
 
-    <class name="entities.Network" table="NETWORKS">
+    <class name="com.smirix.entities.Network" table="NETWORKS">
         <id  name="id" column="ID" type="java.lang.Long">
             <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
                 <param name="optimizer">none</param>
@@ -36,11 +36,11 @@
         <discriminator formula="TYPE" type="string" not-null="true"/>
         <property name="type" type="string" column="TYPE" not-null="true"/>
         <property name="userId" type="java.lang.Long" column="USER_ID" not-null="true"/>
-        <subclass name="entities.VKUserNetwork" discriminator-value="VK">
+        <subclass name="com.smirix.entities.VKUserActor" discriminator-value="VK">
             <property name="vkAccessCode" type="java.lang.String" column="VK_ACCESS_TOKEN" not-null="false"/>
             <property name="vkUserId" type="java.lang.Integer" column="VK_USER_ID" not-null="false"/>
         </subclass>
-        <subclass name="entities.VKGroupNetwork" discriminator-value="VKG">
+        <subclass name="com.smirix.entities.VKGroupActor" discriminator-value="VKG">
             <property name="vkAccessCode" type="java.lang.String" column="VK_ACCESS_TOKEN" not-null="false"/>
             <property name="vkUserId" type="java.lang.Integer" column="VK_USER_ID" not-null="false"/>
         </subclass>

@@ -1,7 +1,7 @@
 package com.smirix.rest.builders;
 
 import com.smirix.entities.user.User;
-import com.smirix.rest.elements.messages.Error;
+import com.smirix.rest.elements.messages.Status;
 import ru.json2pojo.beans.GetUserByIdRs;
 
 /**
@@ -31,7 +31,7 @@ public class GetUserByIdRsBuilder implements ResponseBuilder<GetUserByIdRs> {
     @Override
     public GetUserByIdRs fail() {
         GetUserByIdRs rs = new GetUserByIdRs();
-        rs.setError(new Error(-1L, messageFail));
+        rs.setStatus(new Status(-1L, messageFail));
         return rs;
     }
 }

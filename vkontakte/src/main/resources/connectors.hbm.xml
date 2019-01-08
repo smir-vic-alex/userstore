@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="com.smirix.entities.Network" table="VK_CONNECTORS">
+        <id name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">VK_CONNECTORS_ID_SEQ</param>
+            </generator>
+        </id>
+
+        <discriminator formula="TYPE" type="string" not-null="true"/>
+
+        <property name="type" type="string" column="TYPE" not-null="true"/>
+        <property name="userId" type="java.lang.Long" column="USER_ID" not-null="true"/>
+
+        <subclass name="com.smirix.entities.VKUserActor" discriminator-value="U">
+            <property name="vkAccessCode" type="java.lang.String" column="VK_ACCESS_TOKEN" not-null="false"/>
+            <property name="vkUserId" type="java.lang.Integer" column="VK_USER_ID" not-null="false"/>
+
+            <subclass name="com.smirix.entities.VKGroupActor" discriminator-value="G"/>
+        </subclass>
+    </class>
+
+    <query name="entities.get.user.vk.by.user.id">
+        select actor from com.smirix.entities.VKUserActor as actor where actor.userId = :userId and actor.type = 'U'
+    </query>
+
+    <query name="entities.get.groups.vk.by.user.id">
+        select groupActor from com.smirix.entities.VKGroupActor as groupActor where groupActor.userId = :userId and groupActor.type = 'G'
+    </query>
+
+
+</hibernate-mapping>

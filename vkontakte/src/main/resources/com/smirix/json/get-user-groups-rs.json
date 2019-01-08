@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "head": {
+      "type":"object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.rest.elements.messages.Head"
+    },
+    "body": {
+      "type": "array",
+      "additionalProperties": false,
+      "items":{
+        "javaType":"com.smirix.entities.VKGroup"
+      }
+    },
+    "status":{
+      "type":"object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.rest.elements.messages.Status"
+    }
+  }
+}

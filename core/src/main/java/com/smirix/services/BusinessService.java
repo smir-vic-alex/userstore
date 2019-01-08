@@ -16,19 +16,4 @@ public class BusinessService {
         );
     }
 
-    public <T> T getById(Long id, Class<T> type) {
-        return new HibernateExecutor<T>().execute((session) ->
-                {
-                    return session.get(type, id);
-                }
-        );
-    }
-
-    public <T> T getByKey(String key, Class<T> type) {
-        return new HibernateExecutor<T>().execute((session) ->
-                {
-                    return session.get(type, key);
-                }
-        );
-    }
 }

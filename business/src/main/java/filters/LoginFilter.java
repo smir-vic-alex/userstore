@@ -6,26 +6,28 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by SBT-Smirnov-VA on 21.07.2017.
  */
 public class LoginFilter implements Filter {
 
-    private String indexPageUrl;
-    private String loginPageUrl;
-    private String registerUrl;
+    private static final String RESOURCES_PATH = "resourcesPath";
+    private static final String AUTH_URL = "authUrl";
+    private static final String ERROR_URL = "errorUrl";
+    private static final int MAP_PATHS_SIZE = 3;
+    private static Map<String, String> paths;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
         if (filterConfig != null) {
-            indexPageUrl = filterConfig.getInitParameter("indexPageUrl");
-            loginPageUrl = filterConfig.getInitParameter("loginPageUrl");
-            registerUrl = filterConfig.getInitParameter("registerUrl");
-        }
-        if (indexPageUrl == null || loginPageUrl == null || registerUrl == null) {
-            throw new ServletException("Не установлен параметр инициализации");
+            paths = new HashMap<>(MAP_PATHS_SIZE);
+            paths.put(RESOURCES_PATH, filterConfig.getInitParameter(RESOURCES_PATH));
+            paths.put(AUTH_URL, filterConfig.getInitParameter(AUTH_URL));
+            paths.put(ERROR_URL, filterConfig.getInitParameter(ERROR_URL));
         }
     }
 
@@ -39,12 +41,12 @@ public class LoginFilter implements Filter {
         if (UserUtils.isUserLogin() || isAcceptedUrl(request)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            response.sendRedirect(request.getContextPath() + indexPageUrl);
+            response.sendRedirect(request.getContextPath() + paths.get(ERROR_URL));
         }
     }
 
     private boolean isAcceptedUrl(HttpServletRequest request) {
-        return request.getServletPath().contains("/resources/") || indexPageUrl.equals(request.getServletPath()) || loginPageUrl.equals(request.getServletPath()) || registerUrl.equals(request.getServletPath());
+        return paths.values().contains(request.getServletPath()) ;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package filters;
 
-import utils.WebContext;
+import com.smirix.utils.WebContext;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
