@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "head": {
+      "type":"object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.rest.elements.messages.Head"
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.senders.queries.requests.PostRs"
+    },
+    "status":{
+      "type":"object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.rest.elements.messages.Status"
+    }
+  }
+}

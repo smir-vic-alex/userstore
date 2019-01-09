@@ -16,5 +16,7 @@
         <property name="expired" column="EXPIRED" type="java.util.Calendar"/>
     </class>
 
-
+    <query name="com.smirix.entities.Token.getToken">
+        select token from com.smirix.entities.Token as token where token.token = :token
+    </query>
 </hibernate-mapping>

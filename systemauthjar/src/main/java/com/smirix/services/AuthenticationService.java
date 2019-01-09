@@ -44,4 +44,28 @@ public class AuthenticationService extends BusinessService {
     public void saveToken(Token token) {
         saveOrUpdate(token, Token.class);
     }
+
+    public Token getToken(String token) {
+        return new HibernateExecutor<Token>().execute((session) ->
+                {
+                    try {
+                        Query<Token> query = session.createNamedQuery("com.smirix.entities.Token.getToken", Token.class);
+                        query.setParameter("token", token);
+                        return query.getSingleResult();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+        );
+    }
+
+    public void remove(Token token) {
+        new HibernateExecutor<Token>().execute((session) ->
+            {
+                session.delete(token);
+                return null;
+            }
+        );
+    }
 }

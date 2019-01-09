@@ -16,6 +16,9 @@
         <module>systemauthwar</module>
         <module>systemauthjar</module>
         <module>business</module>
+        <module>telegram</module>
+        <module>vkontakte</module>
+        <module>vkjar</module>
     </modules>
     <packaging>pom</packaging>
 

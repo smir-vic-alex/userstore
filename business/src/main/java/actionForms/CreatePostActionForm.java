@@ -1,6 +1,6 @@
 package actionForms;
 
-import entities.VKGroupNetwork;
+import com.smirix.entities.VKGroupActor;
 import org.apache.struts.action.ActionForm;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Виктор on 15.10.2017.
  */
 public class CreatePostActionForm extends ActionForm {
-    private List<VKGroupNetwork> availableNetworks;
+    private List<VKGroupActor> availableNetworks;
     private String networkType;
     private String groupId;
     private String message;
@@ -38,11 +38,11 @@ public class CreatePostActionForm extends ActionForm {
         this.message = message;
     }
 
-    public List<VKGroupNetwork> getAvailableNetworks() {
+    public List<VKGroupActor> getAvailableNetworks() {
         return availableNetworks;
     }
 
-    public void setAvailableNetworks(List<VKGroupNetwork> availableNetworks) {
+    public void setAvailableNetworks(List<VKGroupActor> availableNetworks) {
         this.availableNetworks = availableNetworks;
     }
 }

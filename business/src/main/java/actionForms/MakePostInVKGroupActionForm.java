@@ -2,9 +2,11 @@ package actionForms;
 
 import org.apache.struts.action.ActionForm;
 
+import java.util.List;
+
 public class MakePostInVKGroupActionForm extends ActionForm {
     private String message;
-    private String groupId;
+    private Integer groupId;
     private String typeNetwork;
     private int time;
 
@@ -24,11 +26,11 @@ public class MakePostInVKGroupActionForm extends ActionForm {
         this.message = message;
     }
 
-    public String getGroupId() {
+    public Integer getGroupId() {
         return groupId;
     }
 
-    public void setGroupId(String groupId) {
+    public void setGroupId(Integer groupId) {
         this.groupId = groupId;
     }
 
@@ -38,5 +40,17 @@ public class MakePostInVKGroupActionForm extends ActionForm {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public List<String> getAttachments() {
+        return null;
+    }
+
+    public Integer getPublishDate() {
+        return null;
+    }
+
+    public Boolean getFromGroup() {
+        return null;
     }
 }

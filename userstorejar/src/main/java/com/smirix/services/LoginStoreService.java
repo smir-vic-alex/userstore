@@ -8,6 +8,6 @@ import com.smirix.entities.login.Login;
 public class LoginStoreService extends BusinessService {
 
     public Login getLoginByLoginName(final String loginName) {
-        return super.getByKey(loginName, Login.class);
+        return null;
     }
 }

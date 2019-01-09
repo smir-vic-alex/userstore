@@ -1,5 +1,7 @@
 package settings;
 
+import com.smirix.settings.Setting;
+
 /**
  * Created by Виктор on 05.09.2017.
  */
@@ -11,12 +13,7 @@ public class ApplicationGlobalSetting extends Setting {
         super(fileName);
     }
 
-    @Override
-    public void refreshPropertiesByCustomConfig() {
-        isUseStub = Boolean.parseBoolean(getProperty("settings.application.use.stub"));
-    }
-
     public boolean isUseStub() {
-        return isUseStub;
+        return Boolean.parseBoolean(getProperty("settings.application.use.stub"));
     }
 }

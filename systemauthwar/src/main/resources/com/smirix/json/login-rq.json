@@ -8,10 +8,6 @@
     },
     "password": {
       "type": "string"
-    },
-    "error":{
-      "type":"object",
-      "javaType":"com.smirix.rest.elements.messages.Error"
     }
   }
 }

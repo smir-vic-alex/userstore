@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by SBT-Smirnov-VA on 20.07.2017.
  */
-public class ClientMainPageAction extends LookupDispatchAction {
+public class ClientMainPageAction extends ActionBase {
 
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

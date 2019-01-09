@@ -13,6 +13,9 @@ import javax.ws.rs.core.Response;
 import java.util.Calendar;
 import java.util.UUID;
 
+import static javax.ws.rs.core.Cookie.DEFAULT_VERSION;
+import static javax.ws.rs.core.NewCookie.DEFAULT_MAX_AGE;
+
 /**
  * Created by Виктор on 15.11.2018.
  */
@@ -42,11 +45,11 @@ public class SystemAuthService {
         }
     }
 
-    private Response getResponse(Token token) {
+    private Response getResponse(Token token) throws Exception {
         LoginRs rs = new LoginRs();
-        rs.setRedirectUrl("http://localhost:8080/main");
-
-        return Response.ok(rs).cookie(new NewCookie("token", token.getToken())).build();
+        rs.setRedirectUrl("http://localhost:8081/auth.do");
+        NewCookie cookie = new NewCookie("token", token.getToken(), "/", null, DEFAULT_VERSION, null, DEFAULT_MAX_AGE, null, false, false);
+        return Response.ok(rs).cookie(cookie).build();
     }
 
     private Token getToken(Login login) {

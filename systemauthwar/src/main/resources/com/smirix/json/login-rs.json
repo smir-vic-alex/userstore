@@ -6,9 +6,9 @@
     "redirectUrl": {
       "type": "string"
     },
-    "error":{
+    "status":{
       "type":"object",
-      "javaType":"com.smirix.rest.elements.messages.Error"
+      "javaType":"com.smirix.rest.elements.messages.Status"
     }
   }
 }

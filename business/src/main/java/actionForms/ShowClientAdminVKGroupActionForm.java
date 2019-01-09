@@ -1,6 +1,6 @@
 package actionForms;
 
-import actions.vk.VKGroup;
+import com.smirix.entities.VKGroup;
 import org.apache.struts.action.ActionForm;
 
 import java.util.List;
