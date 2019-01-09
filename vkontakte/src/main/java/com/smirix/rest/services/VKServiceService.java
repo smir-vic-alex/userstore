@@ -15,6 +15,7 @@ import com.smirix.services.VkService;
 import com.smirix.settings.VKApiSetting;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.objects.groups.GroupFull;
+import com.vk.api.sdk.objects.wall.responses.PostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ru.json2pojo.beans.*;
@@ -51,7 +52,7 @@ public class VKServiceService {
         rs.setBody(urlRq.getBody());
         rs.setHead(urlRq.getHead());
         rs.getBody().setUrl(vkApiSetting.getAuthUrl(actorType, urlRq.getBody().getIds()));
-//https://oauth.vk.com/authorize?client_id=6049884&display=page&redirect_uri=https://oauth.vk.com/blank.html&group_ids=&response_type=code&scope=manage,messages&v=5.60
+
         return rs;
     }
 
@@ -96,13 +97,15 @@ public class VKServiceService {
     public CreatePostRs createPost(CreatePostRq rq) {
         PostRq post = rq.getBody();
 
-//        VKGroupActor groupNetwork = vkService.getVKGroupNetworkByUserId(post.getOwnerId());
         VKUserActor userNetwork = vkService.getVKUserNetworkByUserId(post.getUserId());
 
-        vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), post.getPublishDate());
+        Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), post.getPublishDate());
         CreatePostRs rs = new CreatePostRs();
         rs.setHead(rq.getHead());
-        rs.setBody(new PostRs());
+
+        PostRs postRs = new PostRs();
+        postRs.setPostId(postId);
+        rs.setBody(postRs);
 
         return rs;
     }

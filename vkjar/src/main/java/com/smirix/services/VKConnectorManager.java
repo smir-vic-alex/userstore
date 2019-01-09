@@ -67,7 +67,7 @@ public class VKConnectorManager
         return Collections.emptyList();
     }
 
-    public PostResponse createPost(UserActor actor, Integer groupId, String message, Integer time)
+    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time)
     {
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
         try
@@ -80,7 +80,7 @@ public class VKConnectorManager
             if(time != null) {
                 query.publishDate((int)(System.currentTimeMillis() / 1000L) + time);
             }
-            return query.execute();
+            return query.execute().getPostId();
         }
         catch (ApiException | ClientException e) {
             e.printStackTrace();
