@@ -9,6 +9,7 @@ import com.smirix.senders.auth.requests.GetActorAuthUrl;
 import com.smirix.senders.queries.CreatePostSender;
 import com.smirix.senders.queries.requests.PostRq;
 import com.smirix.senders.user.GetUserGroupsSender;
+import com.smirix.senders.user.requests.UserGroupsRq;
 
 import java.util.Arrays;
 import java.util.List;
@@ -77,7 +78,24 @@ public class VkNetworkService {
 
     public List<VKGroup> getUserGroups(Long userId) {
         try {
-            return getUserGroupsSender.send(userId);
+            UserGroupsRq rq = new UserGroupsRq();
+            rq.setUserId(userId);
+            rq.setLinked(false);
+
+            return getUserGroupsSender.send(rq);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<VKGroup> getUserLinkedGroups(Long userId) {
+        try {
+            UserGroupsRq rq = new UserGroupsRq();
+            rq.setUserId(userId);
+            rq.setLinked(true);
+
+            return getUserGroupsSender.send(rq);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

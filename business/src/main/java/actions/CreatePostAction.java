@@ -1,6 +1,7 @@
 package actions;
 
 import actionForms.CreatePostActionForm;
+import com.smirix.entities.VKGroup;
 import com.smirix.entities.user.User;
 import com.smirix.entities.VKGroupActor;
 import com.smirix.services.VkService;
@@ -24,7 +25,7 @@ public class CreatePostAction extends Action {
         CreatePostActionForm form = (CreatePostActionForm) frm;
 
         User user = UserUtils.getCurrentUser();
-        List<VKGroupActor> groupNetworks = null;//ServiceFactory.getVK().getVKGroupNetworksByUserId(user.getId());
+        List<VKGroup> groupNetworks = ServiceFactory.getVK().getUserLinkedGroups(user.getId());
 
         form.setAvailableNetworks(groupNetworks);
         return success(mapping);

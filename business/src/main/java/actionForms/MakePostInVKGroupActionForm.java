@@ -8,7 +8,8 @@ public class MakePostInVKGroupActionForm extends ActionForm {
     private String message;
     private Integer groupId;
     private String typeNetwork;
-    private int time;
+    private String time;
+    private boolean fromGroup;
 
     public String getTypeNetwork() {
         return typeNetwork;
@@ -34,11 +35,11 @@ public class MakePostInVKGroupActionForm extends ActionForm {
         this.groupId = groupId;
     }
 
-    public int getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -46,11 +47,11 @@ public class MakePostInVKGroupActionForm extends ActionForm {
         return null;
     }
 
-    public Integer getPublishDate() {
-        return null;
+    public Boolean getFromGroup() {
+        return fromGroup;
     }
 
-    public Boolean getFromGroup() {
-        return null;
+    public void setFromGroup(boolean fromGroup) {
+        this.fromGroup = fromGroup;
     }
 }

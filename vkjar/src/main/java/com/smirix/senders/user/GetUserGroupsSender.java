@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smirix.entities.VKGroup;
 import com.smirix.rest.elements.messages.Message;
 import com.smirix.rest.senders.json.JsonHttpSender;
+import com.smirix.senders.user.requests.UserGroupsRq;
 import com.smirix.settings.SenderSettingBase;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Виктор on 08.01.2019.
  */
-public class GetUserGroupsSender extends JsonHttpSender<Long, ArrayList<VKGroup>> {
+public class GetUserGroupsSender extends JsonHttpSender<UserGroupsRq, ArrayList<VKGroup>> {
     public GetUserGroupsSender(SenderSettingBase senderSetting) {
         super(senderSetting);
     }

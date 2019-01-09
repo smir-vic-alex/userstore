@@ -8,6 +8,7 @@ import com.smirix.rest.helpers.ActorHelper;
 import com.smirix.senders.auth.requests.AuthActorRq;
 import com.smirix.senders.queries.requests.PostRq;
 import com.smirix.senders.queries.requests.PostRs;
+import com.smirix.senders.user.requests.UserGroupsRq;
 import com.smirix.services.VKConnectorManager;
 import com.smirix.services.VKUtils;
 import com.smirix.services.VkService;
@@ -66,13 +67,29 @@ public class VKServiceService {
     }
 
     public GetUserGroupsRs getUserGroups(GetUserGroupsRq rq) {
-        VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(rq.getBody());
-        List<GroupFull> list = vkConnectorManager.getGroups(vkUserActor);
-
+        UserGroupsRq groupsRq = rq.getBody();
         GetUserGroupsRs rs = new GetUserGroupsRs();
         rs.setHead(rq.getHead());
-        rs.setBody(convertToVKGroupList(list));
 
+        VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(groupsRq.getUserId());
+        List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor);
+
+
+        if (groupsRq.getLinked()) {
+            List<VKGroupActor> groups = vkService.getVKGroupNetworksByUserId(groupsRq.getUserId());
+            //todo убрать из бд группы, которые не пришли из списка
+            List<GroupFull> filteredList = new ArrayList<>();
+            for (VKGroupActor actor : groups) {
+                for (GroupFull vkGroup : vkGroups) {
+                    if (vkGroup.getId().equals(actor.getVkUserId().toString())) {
+                        filteredList.add(vkGroup);
+                    }
+                }
+            }
+            vkGroups = filteredList;
+        }
+
+        rs.setBody(convertToVKGroupList(vkGroups));
         return rs;
     }
 
