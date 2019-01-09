@@ -1,6 +1,5 @@
 package networks.vk.connectors;
 
-import com.smirix.settings.SettingFactory;
 import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.exceptions.ApiException;
@@ -15,9 +14,11 @@ import com.vk.api.sdk.queries.groups.GroupsGetFilter;
 import com.vk.api.sdk.queries.wall.WallPostQuery;
 import entities.VKUserNetwork;
 import settings.vk.VKApiSetting;
+import settings.SettingFactory;
 import exeptions.connectors.ConnectorException;
 import utils.StringUtils;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 

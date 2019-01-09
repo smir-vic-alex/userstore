@@ -2,7 +2,6 @@ package utils;
 
 import entities.User;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 /**

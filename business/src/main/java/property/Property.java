@@ -1,4 +1,4 @@
-package com.smirix.entities;
+package property;
 
 /**
  * Проперти

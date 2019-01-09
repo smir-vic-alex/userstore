@@ -1,21 +1,17 @@
 package actions;
 
 import actionForms.LoginActionForm;
-import entities.Token;
 import entities.User;
 import exeptions.access.LoginException;
 import exeptions.access.LoginNotFoundException;
 import hibernate.services.AuthService;
 import entities.Login;
 import entities.Password;
-import hibernate.services.TokenService;
 import hibernate.services.UserService;
 import org.apache.struts.action.*;
 import utils.StringUtils;
 import utils.UserUtils;
-import utils.WebContext;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,30 +22,18 @@ public class LoginAction extends OperationActionBase {
 
     private static final AuthService authService = new AuthService();
     private static final UserService userService = new UserService();
-    private static final TokenService tokenService = new TokenService();
 
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         LoginActionForm loginActionForm = (LoginActionForm) form;
 
-        Cookie[] cookies = WebContext.getCurrentRequest().getCookies();
-        for (Cookie cookie : cookies) {
-            if ("token".equals(cookie.getName())) {
-                Token token = tokenService.getTokenByName(cookie.getName());
-                if (token != null && token.getToken().equals(cookie.getValue())) {
-                    Login login = getLogin(loginActionForm.getLogin());
-                    checkPassword(login.getId(), loginActionForm.getPassword());
-                    User user = userService.getUserByLogin(login);
-                    sessionUpdate(user);
+        Login login = getLogin(loginActionForm.getLogin());
+        checkPassword(login.getId(), loginActionForm.getPassword());
+        User user = userService.getUserByLogin(login);
+        sessionUpdate(user);
 
-                    return mapping.findForward("redirectUrl");
-                }
-                break;
-            }
-        }
-
-        return mapping.findForward("index");
+        return mapping.findForward("clientPage");
     }
 
     private void sessionUpdate(User user) {

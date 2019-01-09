@@ -13,7 +13,7 @@
             <param-value>/index.do</param-value>
         </init-param>
         <init-param>
-            <param-name>loginUrl</param-name>
+            <param-name>loginPageUrl</param-name>
             <param-value>/login.do</param-value>
         </init-param>
         <init-param>

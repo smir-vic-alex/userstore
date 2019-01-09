@@ -3,10 +3,9 @@ package com.smirix.rest.elements.messages;
 /**
  * Created by Виктор on 02.10.2018.
  */
-public class Message<T> {
+public class Message {
     private Head head;
-    private String url;
-    private T body;
+    private Object body;
     private Error error;
 
     public Head getHead() {
@@ -17,11 +16,11 @@ public class Message<T> {
         this.head = head;
     }
 
-    public T getBody() {
+    public Object getBody() {
         return body;
     }
 
-    public void setBody(T body) {
+    public void setBody(Object body) {
         this.body = body;
     }
 
@@ -31,13 +30,5 @@ public class Message<T> {
 
     public void setError(Error error) {
         this.error = error;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 }

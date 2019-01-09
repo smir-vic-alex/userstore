@@ -1,7 +1,5 @@
 package settings;
 
-import com.smirix.settings.Setting;
-
 /**
  * Created by Виктор on 05.09.2017.
  */

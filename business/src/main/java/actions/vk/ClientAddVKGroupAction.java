@@ -1,11 +1,11 @@
 package actions.vk;
 
 import actionForms.ClientAddVKGroupActionForm;
-import com.smirix.settings.SettingFactory;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import settings.ApplicationGlobalSetting;
+import settings.SettingFactory;
 import settings.vk.VKApiGroupSetting;
 import utils.VKUtils;
 

@@ -44,7 +44,7 @@ public class SystemAuthService {
 
     private Response getResponse(Token token) {
         LoginRs rs = new LoginRs();
-        rs.setRedirectUrl("http://localhost:8080/private/client/page/main");
+        rs.setRedirectUrl("http://localhost:8080/main");
 
         return Response.ok(rs).cookie(new NewCookie("token", token.getToken())).build();
     }
