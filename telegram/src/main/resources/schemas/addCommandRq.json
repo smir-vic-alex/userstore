@@ -1,0 +1,24 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "userId": {
+      "description": "userId",
+      "type": "object",
+      "javaType": "java.lang.Long"
+    },
+    "command": {
+      "description": "key of configuration",
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[/]+"
+    },
+    "value": {
+      "description": "new value",
+      "type": "string"
+    }
+  },
+  "required": ["command", "value"]
+}

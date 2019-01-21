@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.smirix.pojo.TelegramUser" table="TELEGRAM_USERS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">tlgm_users_seq</param>
+            </generator>
+        </id>
+        <property name="userId" column="USER_ID" type="java.lang.Long"/>
+        <property name="token" column="TOKEN" type="java.lang.String"/>
+        <property name="name" column="NAME" type="java.lang.String"/>
+        <property name="idTlgm" column="ID_TLGM" type="java.lang.Integer"/>
+        <property name="isBot" column="IS_BOT" type="java.lang.Boolean"/>
+        <property name="lastName" column="LAST_NAME" type="java.lang.String"/>
+        <property name="userName" column="USER_NAME" type="java.lang.String"/>
+        <property name="languageCode" column="LANGUAGE_CODE" type="java.lang.String"/>
+    </class>
+
+    <query name="com.smirix.pojo.TelegramUser.getByUserId">
+        select user from com.smirix.pojo.TelegramUser as user where user.userId = :userId
+    </query>
+
+</hibernate-mapping>

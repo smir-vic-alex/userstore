@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.smirix.pojo.TelegramChannel" table="TELEGRAM_CHANNELS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">tlgm_channels_seq</param>
+            </generator>
+        </id>
+        <property name="userId" column="USER_ID" type="java.lang.Long"/>
+        <property name="name" column="NAME" type="java.lang.String"/>
+        <property name="userTelegramId" column="USER_TELEGRAM_ID" type="java.lang.Long"/>
+    </class>
+
+    <query name="com.smirix.pojo.TelegramChannel.getChannelsByUserId">
+        select channel from com.smirix.pojo.TelegramChannel as channel where channel.userId = :userId
+    </query>
+
+    <query name="com.smirix.pojo.TelegramChannel.getChannelsByUserTelegramId">
+        select channel from com.smirix.pojo.TelegramChannel as channel where channel.userTelegramId = :userTelegramId
+    </query>
+
+</hibernate-mapping>

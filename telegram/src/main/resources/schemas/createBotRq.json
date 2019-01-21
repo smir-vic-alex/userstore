@@ -1,0 +1,23 @@
+{
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "head": {
+      "type":"object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.rest.elements.messages.Head"
+    },
+    "body": {
+      "type": "object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.senders.requests.AddBot"
+    },
+    "status":{
+      "type":"object",
+      "additionalProperties": false,
+      "javaType":"com.smirix.rest.elements.messages.Status"
+    }
+  }
+}

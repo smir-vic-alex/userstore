@@ -19,5 +19,6 @@
 
 
     <import resource="vkContext.xml"/>
+    <import resource="tlgmContext.xml"/>
     <context:annotation-config/>
 </beans>

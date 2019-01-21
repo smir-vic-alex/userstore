@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="addTelegramBotSender" class="com.smirix.senders.AddTelegramBotSender">
+        <constructor-arg ref="sendersSettings"/>
+    </bean>
+
+    <bean id="addTelegramChannelSender" class="com.smirix.senders.AddTelegramChannelSender">
+        <constructor-arg ref="sendersSettings"/>
+    </bean>
+
+    <bean id="executeTelegramMessageSender" class="com.smirix.senders.ExecuteTelegramMessageSender">
+        <constructor-arg ref="sendersSettings"/>
+    </bean>
+
+    <bean id="getUserTelegramBotsSender" class="com.smirix.senders.GetUserTelegramBotsSender">
+        <constructor-arg ref="sendersSettings"/>
+    </bean>
+
+    <bean id="getUserTelegramChannelsSender" class="com.smirix.senders.GetUserTelegramChannelsSender">
+        <constructor-arg ref="sendersSettings"/>
+    </bean>
+
+    <bean class="com.smirix.services.TlgmNetworkService">
+        <property name="addTelegramBotSender" ref="addTelegramBotSender"/>
+        <property name="addTelegramChannelSender" ref="addTelegramChannelSender"/>
+        <property name="executeTelegramMessageSender" ref="executeTelegramMessageSender"/>
+        <property name="getUserTelegramBotsSender" ref="getUserTelegramBotsSender"/>
+        <property name="getUserTelegramChannelsSender" ref="getUserTelegramChannelsSender"/>
+    </bean>
+
+    <context:annotation-config/>
+</beans>

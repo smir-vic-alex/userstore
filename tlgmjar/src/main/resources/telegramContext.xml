@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.telegram.telegrambots.ApiContextInitializer" init-method="init"/>
+
+    <bean class="org.telegram.telegrambots.meta.TelegramBotsApi"/>
+
+    <bean class="com.smirix.BotService"/>
+    <bean class="com.smirix.processors.ProcessorTypeSelector"/>
+    <bean class="com.smirix.TelegramBot" scope="prototype"/>
+    <bean class="com.smirix.TelegramBotFactory"/>
+    <bean class="com.smirix.messages.MessageBotResolver" scope="prototype"/>
+    <bean class="com.smirix.processors.AnswerProcessor" scope="prototype">
+        <property name="delegate" ref="simpleAnswerDelegate"/>
+    </bean>
+
+    <bean class="com.smirix.processors.CallBackProcessor" scope="prototype">
+        <property name="delegate" ref="callBackAnswerDelegate"/>
+    </bean>
+
+    <bean class="com.smirix.processors.CommandProcessor" scope="prototype">
+        <property name="delegate" ref="commandAnswerDelegate"/>
+    </bean>
+
+    <bean class="com.smirix.processors.BotMessageProcessorsFactory"/>
+</beans>

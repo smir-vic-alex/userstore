@@ -10,6 +10,11 @@
         <form-bean name="AuthActionForm" type="actionForms.AuthActionForm"/>
         <form-bean name="RegisterActionForm" type="actionForms.RegisterActionForm"/>
         <form-bean name="ClientAddVKGroupActionForm" type="actionForms.ClientAddVKGroupActionForm"/>
+        <form-bean name="ClientAddTelegramBotActionForm" type="actionForms.ClientAddTelegramBotActionForm"/>
+        <form-bean name="ClientAddTelegramChannelActionForm" type="actionForms.ClientAddTelegramChannelActionForm"/>
+        <form-bean name="MakePostInChannelActionForm" type="actionForms.MakePostInChannelActionForm"/>
+        <form-bean name="ShowClientTelegramBotsActionForm" type="actionForms.ShowClientTelegramBotsActionForm"/>
+        <form-bean name="ShowClientTelegramChannelsActionForm" type="actionForms.ShowClientTelegramChannelsActionForm"/>
         <form-bean name="ClientAddVKProfileActionForm" type="actionForms.ClientAddVKProfileActionForm"/>
         <form-bean name="CodeVKActionForm" type="actionForms.CodeVKActionForm"/>
         <form-bean name="ShowClientAdminVKGroupActionForm" type="actionForms.ShowClientAdminVKGroupActionForm"/>
@@ -58,6 +63,14 @@
                 parameter="unused">
             <forward name="error" path="/private/client/page/main.do" redirect="true"/>
             <forward name="stub" path="/private/redirect/uri.do?code=123321123321123321" redirect="true"/>
+        </action>
+        <action path="/private/client/addTlgmBot"
+                type="actions.telegram.ClientAddTelegramBotAction"
+                name="ClientAddTelegramBotActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="start" path="/WEB-INF/jsp/addTelegramBot.jsp"/>
+            <forward name="success" path="/WEB-INF/jsp/successAddTelegramBot.jsp"/>
         </action>
         <action path="/private/client/show/vk/groups"
                 type="actions.vk.ShowClientAdminVKGroupsAction"
@@ -108,6 +121,39 @@
             <forward name="success" path="/WEB-INF/jsp/createPost.jsp"/>
         </action>
 
+        <action path="/private/client/add/tlgm/channel"
+                type="actions.telegram.ClientAddTelegramChannelAction"
+                name="ClientAddTelegramChannelActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="show" path="/WEB-INF/jsp/addTelegramChannel.jsp"/>
+            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
+        </action>
+
+        <action path="/private/create/post/tlgm"
+                type="actions.telegram.MakePostInChannelAction"
+                name="MakePostInChannelActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="show" path="/WEB-INF/jsp/createTelegramPost.jsp"/>
+            <forward name="success" path="/WEB-INF/jsp/postMessage.jsp"/>
+        </action>
+
+        <action path="/private/show/tlgm/bots"
+                type="actions.telegram.ShowClientTelegramBotsAction"
+                name="ShowClientTelegramBotsActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/showTelegramBots.jsp"/>
+        </action>
+
+        <action path="/private/show/tlgm/channels"
+                type="actions.telegram.ShowClientTelegramChannelsAction"
+                name="ShowClientTelegramChannelsActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/showTelegramChannels.jsp"/>
+        </action>
     </action-mappings>
     
     <message-resources key="messageResources" parameter="" null="false"/>

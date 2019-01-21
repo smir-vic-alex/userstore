@@ -13,14 +13,14 @@
 
         <c:forEach var="network" items="${form.availableNetworks}">
             <html:form action="/private/send/post">
-                <img src="${network.urlPhoto}"/>
+                <div><img src="${network.urlPhoto}"/>
                 <c:out value="${network.name}"/>
                 <html:hidden property="groupId" value="${network.id}"/>
-                <html:hidden property="typeNetwork" value="VK"/>
-                <html:textarea property="message"/>
-                <html:text property="time"/>
+                <html:hidden property="typeNetwork" value="VK"/></div>
+                <div>Сообщение <html:textarea property="message"/>
+                Время dd.MM.yyyy HH:mm:ss : <html:text property="time"/>
                 <html:submit value="Разместить пост"/>
-                <html:checkbox property="fromGroup" value="true" title="От имени группы"/>
+                <html:checkbox property="fromGroup" value="true" title="От имени группы"/></div>
             </html:form>
         </c:forEach>
     </tiles:put>

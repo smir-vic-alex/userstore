@@ -9,6 +9,9 @@ public class Status implements Serializable {
     private Long code;
     private String description;
 
+    public Status() {
+    }
+
     public Status(Long code, String description) {
         this.code = code;
         this.description = description;

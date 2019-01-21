@@ -1,4 +1,4 @@
-package utils;
+package com.smirix.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,5 +16,9 @@ public class BeanUtils {
 
     public static <T> T getBean(String name, Class<T> type) {
         return context.getBean(name, type);
+    }
+
+    public static <T> T createBean(Class<T> tClass) {
+        return context.getBean(tClass);
     }
 }

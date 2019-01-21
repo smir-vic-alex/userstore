@@ -28,7 +28,7 @@
             </div>
         </div>
         <div style="float: right; margin-top: 20px; font-size: 10px; text-align: right;">
-            <a style="color: #dbdbdb;" href="/">LOGO</a>
+            <a style="color: #dbdbdb;" href="/private/client/page/main.do">LOGO</a>
             <p style="margin: 5px 0;">
                 Copyright © 2012 Whitesquare. A pcklab creation
             </p>
