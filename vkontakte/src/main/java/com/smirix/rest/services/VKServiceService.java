@@ -4,6 +4,7 @@ import com.smirix.entities.ActorType;
 import com.smirix.entities.VKGroup;
 import com.smirix.entities.VKGroupActor;
 import com.smirix.entities.VKUserActor;
+import com.smirix.rest.elements.messages.Status;
 import com.smirix.rest.helpers.ActorHelper;
 import com.smirix.senders.auth.requests.AuthActorRq;
 import com.smirix.senders.queries.requests.PostRq;
@@ -46,12 +47,18 @@ public class VKServiceService {
     private VKConnectorManager vkConnectorManager;
 
     public GetAuthUrlRs getAuthUrl(GetAuthUrlRq urlRq) {
-        ActorType actorType = urlRq.getBody().getActorType();
 
         GetAuthUrlRs rs = new GetAuthUrlRs();
-        rs.setBody(urlRq.getBody());
         rs.setHead(urlRq.getHead());
-        rs.getBody().setUrl(vkApiSetting.getAuthUrl(actorType, urlRq.getBody().getIds()));
+
+        try {
+            rs.setBody(urlRq.getBody());
+            ActorType actorType = urlRq.getBody().getActorType();
+            rs.getBody().setUrl(vkApiSetting.getAuthUrl(actorType, urlRq.getBody().getIds()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            rs.setStatus(new Status(-1L, e.getMessage()));
+        }
 
         return rs;
     }
@@ -60,52 +67,68 @@ public class VKServiceService {
         ActorAuthByCodeRs rs = new ActorAuthByCodeRs();
         rs.setHead(rq.getHead());
 
-        AuthActorRq authActorRq = rq.getBody();
-        Object vkRs = actorHelper.authActor(authActorRq);
-        actorHelper.saveOrUpdateVkCode(authActorRq, vkRs);
+        try {
+            AuthActorRq authActorRq = rq.getBody();
+            Object vkRs = actorHelper.authActor(authActorRq);
+            actorHelper.saveOrUpdateVkCode(authActorRq, vkRs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            rs.setStatus(new Status(-1L, e.getMessage()));
+        }
 
         return rs;
     }
 
     public GetUserGroupsRs getUserGroups(GetUserGroupsRq rq) {
-        UserGroupsRq groupsRq = rq.getBody();
+
         GetUserGroupsRs rs = new GetUserGroupsRs();
         rs.setHead(rq.getHead());
 
-        VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(groupsRq.getUserId());
-        List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor);
+        try {
+            UserGroupsRq groupsRq = rq.getBody();
+            VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(groupsRq.getUserId());
+            List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor);
 
 
-        if (groupsRq.getLinked()) {
-            List<VKGroupActor> groups = vkService.getVKGroupNetworksByUserId(groupsRq.getUserId());
-            //todo убрать из бд группы, которые не пришли из списка
-            List<GroupFull> filteredList = new ArrayList<>();
-            for (VKGroupActor actor : groups) {
-                for (GroupFull vkGroup : vkGroups) {
-                    if (vkGroup.getId().equals(actor.getVkUserId().toString())) {
-                        filteredList.add(vkGroup);
+            if (groupsRq.getLinked()) {
+                List<VKGroupActor> groups = vkService.getVKGroupNetworksByUserId(groupsRq.getUserId());
+                //todo убрать из бд группы, которые не пришли из списка
+                List<GroupFull> filteredList = new ArrayList<>();
+                for (VKGroupActor actor : groups) {
+                    for (GroupFull vkGroup : vkGroups) {
+                        if (vkGroup.getId().equals(actor.getVkUserId().toString())) {
+                            filteredList.add(vkGroup);
+                        }
                     }
                 }
+                vkGroups = filteredList;
             }
-            vkGroups = filteredList;
-        }
 
-        rs.setBody(convertToVKGroupList(vkGroups));
+            rs.setBody(convertToVKGroupList(vkGroups));
+        } catch (Exception e) {
+            e.printStackTrace();
+            rs.setStatus(new Status(-1L, e.getMessage()));
+        }
         return rs;
     }
 
     public CreatePostRs createPost(CreatePostRq rq) {
-        PostRq post = rq.getBody();
 
-        VKUserActor userNetwork = vkService.getVKUserNetworkByUserId(post.getUserId());
-
-        Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), post.getPublishDate());
         CreatePostRs rs = new CreatePostRs();
         rs.setHead(rq.getHead());
 
-        PostRs postRs = new PostRs();
-        postRs.setPostId(postId);
-        rs.setBody(postRs);
+        try {
+            PostRq post = rq.getBody();
+            VKUserActor userNetwork = vkService.getVKUserNetworkByUserId(post.getUserId());
+            Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), post.getPublishDate());
+
+            PostRs postRs = new PostRs();
+            postRs.setPostId(postId);
+            rs.setBody(postRs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            rs.setStatus(new Status(-1L, e.getMessage()));
+        }
 
         return rs;
     }
