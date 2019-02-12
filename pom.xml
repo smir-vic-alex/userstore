@@ -20,6 +20,8 @@
         <module>vkontakte</module>
         <module>vkjar</module>
         <module>tlgmjar</module>
+        <module>admin</module>
+        <module>adminjar</module>
     </modules>
     <packaging>pom</packaging>
 

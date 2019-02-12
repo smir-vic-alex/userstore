@@ -13,7 +13,7 @@
                 "password":password
             };
             $.ajax({
-                url: 'http://node66565-env-0853972.mircloud.ru/auth/rest/auth/login',
+                url: '/rest/auth/login',
                 type: 'POST',
                 data: JSON.stringify(arr),
                 contentType: 'application/json; charset=utf-8',

@@ -8,7 +8,7 @@
         <id  name="id" column="ID" type="java.lang.Long">
             <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
                 <param name="optimizer">none</param>
-                <param name="sequence_name">PROPERTY_SEQUENCE</param>
+                <param name="sequence_name">PROPERTIES_ID_SEQ</param>
             </generator>
         </id>
         <property name="key" column="KEY" type="java.lang.String"/>

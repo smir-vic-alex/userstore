@@ -2,17 +2,17 @@ package com.smirix.rest.senders.json;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smirix.rest.elements.messages.Message;
 import com.smirix.rest.senders.ModuleSender;
-import com.smirix.settings.SenderSettingBase;
+import com.smirix.services.apps.AppServicesService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -22,9 +22,8 @@ import java.io.Serializable;
  */
 public abstract class JsonHttpSender<Rq extends Serializable, Rs extends Serializable> extends ModuleSender<Rq, Rs> {
 
-    public JsonHttpSender(SenderSettingBase senderSetting) {
-        super(senderSetting);
-    }
+    @Autowired
+    private AppServicesService service;
 
     protected HttpResponse execute(Message<Rq> message) throws Exception {
         StringEntity requestEntity = new StringEntity(serializeToJson(message), ContentType.APPLICATION_JSON);
@@ -51,5 +50,12 @@ public abstract class JsonHttpSender<Rq extends Serializable, Rs extends Seriali
         return new ObjectMapper().writeValueAsString(message);
     }
 
+    @Override
+    protected String getPath() {
+        return service.getByType(getType()).getHost() + getUrl();
+    }
+
     protected abstract Message<Rs> fromJson(String json) throws IOException;
+    protected abstract String getType();
+    protected abstract String getUrl();
 }

@@ -1,5 +1,6 @@
 package com.smirix.settings;
 
+import com.smirix.services.PropertyFileLoaderService;
 import com.smirix.services.properties.Property;
 import com.smirix.services.properties.PropertyService;
 
@@ -12,32 +13,18 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created by Виктор on 04.01.2019.
  */
-public abstract class Setting {
+public abstract class Setting extends PropertyFileLoaderService {
 
     private volatile Map<String,String> map = new HashMap<>();
     private volatile boolean isUpdating = false;
     private long updatePeriod = -1;
+
     private final AtomicLong lastUpdateTime = new AtomicLong(0L);
-    private String fileName;
     private PropertyService propertyService = new PropertyService();
 
     protected Setting(String fileName) {
-        this.fileName = fileName;
         setUpdatePeriod(60000 * 10);
-        loadPropertiesFromFile();
-    }
-
-    private void loadPropertiesFromFile(){
-        try(InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName)){
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            for (Map.Entry entry :properties.entrySet()){
-                map.put((String)entry.getKey(), (String)entry.getValue());
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
+        map = loadPropertiesFromFile(fileName);
     }
 
     private void refreshPropertiesByDB(){

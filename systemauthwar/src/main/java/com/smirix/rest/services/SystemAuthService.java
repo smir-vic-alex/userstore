@@ -1,6 +1,7 @@
 package com.smirix.rest.services;
 
 import com.smirix.entities.Login;
+import com.smirix.entities.Node;
 import com.smirix.entities.Password;
 import com.smirix.entities.Token;
 import com.smirix.services.AuthenticationService;
@@ -47,7 +48,8 @@ public class SystemAuthService {
 
     private Response getResponse(Token token) throws Exception {
         LoginRs rs = new LoginRs();
-        rs.setRedirectUrl("http://localhost:8081/auth.do");
+        Node node = authenticationService.getUserNodeByUserId(token.getUserId());
+        rs.setRedirectUrl(node.getUrl());//"http://localhost:8081/auth.do"
         NewCookie cookie = new NewCookie("token", token.getToken(), "/", null, DEFAULT_VERSION, null, DEFAULT_MAX_AGE, null, false, false);
         return Response.ok(rs).cookie(cookie).build();
     }

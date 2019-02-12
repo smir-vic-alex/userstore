@@ -6,21 +6,13 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
-    <bean id="getActorAuthUrlSender" class="com.smirix.senders.auth.GetActorAuthUrlSender">
-        <constructor-arg ref="sendersSettings"/>
-    </bean>
+    <bean id="getActorAuthUrlSender" class="com.smirix.senders.auth.GetActorAuthUrlSender"/>
 
-    <bean id="authActorSender" class="com.smirix.senders.auth.AuthActorSender">
-        <constructor-arg ref="sendersSettings"/>
-    </bean>
+    <bean id="authActorSender" class="com.smirix.senders.auth.AuthActorSender"/>
 
-    <bean id="getUserGroupsSender" class="com.smirix.senders.user.GetUserGroupsSender">
-        <constructor-arg ref="sendersSettings"/>
-    </bean>
+    <bean id="getUserGroupsSender" class="com.smirix.senders.user.GetUserGroupsSender"/>
 
-    <bean id="createPostSender" class="com.smirix.senders.queries.CreatePostSender">
-        <constructor-arg ref="sendersSettings"/>
-    </bean>
+    <bean id="createPostSender" class="com.smirix.senders.queries.CreatePostSender"/>
 
     <bean class="com.smirix.services.VkNetworkService">
         <property name="authActorSender" ref="authActorSender"/>

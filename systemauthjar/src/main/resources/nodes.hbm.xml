@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.smirix.entities.Node" table="AUTH_NODES">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">auth_nodes_id_seq</param>
+            </generator>
+        </id>
+        <property name="name" column="NAME" type="java.lang.String"/>
+        <property name="url" column="URL" type="java.lang.String"/>
+    </class>
+
+
+    <sql-query name="com.smirix.entities.Node.getUserNode">
+        <return alias="node" class="com.smirix.entities.Node"/>
+        <![CDATA[select * from AUTH_NODES an where an.ID = (select ID_NODE from AUTH_NODES_USERS anu where anu.ID_USER = :userId);]]>
+    </sql-query>
+
+
+</hibernate-mapping>

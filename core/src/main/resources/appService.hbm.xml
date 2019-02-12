@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.smirix.services.apps.AppService" table="APP_SERVICES">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">APP_SERVICES_ID_SEQ</param>
+            </generator>
+        </id>
+        <property name="name" column="NAME" type="java.lang.String"/>
+        <property name="type" column="TYPE" type="java.lang.String"/>
+        <property name="host" column="HOST" type="java.lang.String"/>
+    </class>
+
+    <query name="com.smirix.services.apps.AppService.getAppServiceByType">
+        select appService from com.smirix.services.apps.AppService as appService where appService.type= :type
+    </query>
+
+</hibernate-mapping>

@@ -1,6 +1,7 @@
 package com.smirix.services;
 
 import com.smirix.entities.Login;
+import com.smirix.entities.Node;
 import com.smirix.entities.Password;
 import com.smirix.entities.Token;
 import com.smirix.hibernate.HibernateExecutor;
@@ -51,6 +52,21 @@ public class AuthenticationService extends BusinessService {
                     try {
                         Query<Token> query = session.createNamedQuery("com.smirix.entities.Token.getToken", Token.class);
                         query.setParameter("token", token);
+                        return query.getSingleResult();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }
+        );
+    }
+
+    public Node getUserNodeByUserId(Long userId) {
+        return new HibernateExecutor<Node>().execute((session) ->
+                {
+                    try {
+                        Query<Node> query = session.createNamedQuery("com.smirix.entities.Node.getUserNode", Node.class);
+                        query.setParameter("userId", userId);
                         return query.getSingleResult();
                     } catch (Exception e) {
                         e.printStackTrace();

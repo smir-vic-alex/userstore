@@ -10,7 +10,5 @@
         <property name="hibernate.connection.username">admin</property>
         <property name="hibernate.connection.password">admin</property>
         <property name="show_sql">true</property>
-        <mapping resource="property.hbm.xml"/>
-        <mapping resource="connectors.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

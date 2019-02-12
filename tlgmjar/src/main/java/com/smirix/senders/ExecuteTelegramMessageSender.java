@@ -3,24 +3,21 @@ package com.smirix.senders;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smirix.rest.elements.messages.Message;
-import com.smirix.rest.senders.json.JsonHttpSender;
 import com.smirix.senders.requests.DefaultAnswer;
 import com.smirix.senders.requests.ExecuteMessage;
-import com.smirix.settings.SenderSettingBase;
 
 import java.io.IOException;
 
 /**
  * Created by Виктор on 21.01.2019.
  */
-public class ExecuteTelegramMessageSender extends JsonHttpSender<ExecuteMessage, DefaultAnswer> {
-    public ExecuteTelegramMessageSender(SenderSettingBase senderSetting) {
-        super(senderSetting);
-    }
+public class ExecuteTelegramMessageSender extends TelegramSenderBase<ExecuteMessage, DefaultAnswer> {
+
+    private static final String REST_URL = "/rest/service/tlgm/send/message";
 
     @Override
-    protected Class getType() {
-        return ExecuteTelegramMessageSender.class;
+    protected String getUrl() {
+        return REST_URL;
     }
 
     @Override

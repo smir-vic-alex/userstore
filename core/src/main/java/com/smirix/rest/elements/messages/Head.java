@@ -12,8 +12,6 @@ public class Head implements Serializable {
     private String scUrl;
     private Calendar time;
     private String uuid;
-    private String spName;
-    private String scName;
 
     public Long getCode() {
         return code;
@@ -45,21 +43,5 @@ public class Head implements Serializable {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
-    }
-
-    public String getSpName() {
-        return spName;
-    }
-
-    public void setSpName(String spName) {
-        this.spName = spName;
-    }
-
-    public String getScName() {
-        return scName;
-    }
-
-    public void setScName(String scName) {
-        this.scName = scName;
     }
 }
