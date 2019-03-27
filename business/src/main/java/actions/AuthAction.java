@@ -32,7 +32,7 @@ public class AuthAction extends Action {
                     sessionUpdate(user);
                     authService.remove(token);
 
-                    return mapping.findForward(SUCCESS);
+                    return mapping.findForward(SUCCESS_FORWARD);
                 }
                 authService.remove(token);
             }

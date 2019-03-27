@@ -12,12 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by SBT-Smirnov-VA on 24.07.2017.
+ * Created by Smirnov-VA on 24.07.2017.
  */
 public abstract class ActionBase extends DispatchAction {
 
     private static final String REQUEST_PARAMETER_NAME = "operation";
-    protected static final String SUCCESS = "success";
+    protected static final String SUCCESS_FORWARD = "success";
+    protected static final String SHOW_FORWARD = "show";
     private Map<String, String> keyMethodMap = null;
     private final Object synkRoot = new Object();
 
@@ -75,6 +76,10 @@ public abstract class ActionBase extends DispatchAction {
             throws Exception;
 
     protected ActionForward success(ActionMapping mapping){
-        return mapping.findForward(SUCCESS);
+        return mapping.findForward(SUCCESS_FORWARD);
+    }
+
+    protected ActionForward show(ActionMapping mapping){
+        return mapping.findForward(SHOW_FORWARD);
     }
 }

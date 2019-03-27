@@ -14,11 +14,14 @@
 
     <bean id="createPostSender" class="com.smirix.senders.queries.CreatePostSender"/>
 
+    <bean id="getUserSender" class="com.smirix.senders.user.GetUserSender"/>
+
     <bean class="com.smirix.services.VkNetworkService">
         <property name="authActorSender" ref="authActorSender"/>
         <property name="getActorAuthUrlSender" ref="getActorAuthUrlSender"/>
         <property name="getUserGroupsSender" ref="getUserGroupsSender"/>
         <property name="createPostSender" ref="createPostSender"/>
+        <property name="getUserSender" ref="getUserSender"/>
     </bean>
 
     <context:annotation-config/>

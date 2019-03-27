@@ -1,9 +1,6 @@
 package com.smirix.rest.services;
 
-import com.smirix.entities.ActorType;
-import com.smirix.entities.VKGroup;
-import com.smirix.entities.VKGroupActor;
-import com.smirix.entities.VKUserActor;
+import com.smirix.entities.*;
 import com.smirix.rest.elements.messages.Status;
 import com.smirix.rest.helpers.ActorHelper;
 import com.smirix.senders.auth.requests.AuthActorRq;
@@ -79,6 +76,20 @@ public class VKServiceService {
         return rs;
     }
 
+    public GetUserRs getUser(GetUserRq rq) {
+        GetUserRs rs = new GetUserRs();
+        rs.setHead(rq.getHead());
+
+        VKUserActor actor = vkService.getVKUserNetworkByUserId(rq.getBody().getUserId());
+        VKUser vkUser = new VKUser();
+        vkUser.setId(actor.getId());
+        vkUser.setUserId(actor.getUserId());
+        vkUser.setVkUserId(actor.getVkUserId());
+        rs.setBody(vkUser);
+
+        return rs;
+    }
+
     public GetUserGroupsRs getUserGroups(GetUserGroupsRq rq) {
 
         GetUserGroupsRs rs = new GetUserGroupsRs();
@@ -90,19 +101,19 @@ public class VKServiceService {
             List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor);
 
 
-            if (groupsRq.getLinked()) {
-                List<VKGroupActor> groups = vkService.getVKGroupNetworksByUserId(groupsRq.getUserId());
-                //todo убрать из бд группы, которые не пришли из списка
-                List<GroupFull> filteredList = new ArrayList<>();
-                for (VKGroupActor actor : groups) {
-                    for (GroupFull vkGroup : vkGroups) {
-                        if (vkGroup.getId().equals(actor.getVkUserId().toString())) {
-                            filteredList.add(vkGroup);
-                        }
-                    }
-                }
-                vkGroups = filteredList;
-            }
+//            if (groupsRq.getLinked()) {
+//                List<VKGroupActor> groups = vkService.getVKGroupNetworksByUserId(groupsRq.getUserId());
+//                //todo убрать из бд группы, которые не пришли из списка
+//                List<GroupFull> filteredList = new ArrayList<>();
+//                for (VKGroupActor actor : groups) {
+//                    for (GroupFull vkGroup : vkGroups) {
+//                        if (vkGroup.getId().equals(actor.getVkUserId().toString())) {
+//                            filteredList.add(vkGroup);
+//                        }
+//                    }
+//                }
+//                vkGroups = filteredList;
+//            }
 
             rs.setBody(convertToVKGroupList(vkGroups));
         } catch (Exception e) {

@@ -90,8 +90,9 @@ public class TlgmNetworkService {
             return getUserTelegramBotsSender.send(rq).getBots();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
+
+        return Collections.emptyList();
     }
 
     public List<TelegramChannel> getUserChannels(Long userId) {
@@ -101,7 +102,7 @@ public class TlgmNetworkService {
             return getUserTelegramChannelsSender.send(rq).getChannels();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
+        return Collections.emptyList();
     }
 }

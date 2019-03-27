@@ -2,6 +2,7 @@ package com.smirix.services;
 
 import com.smirix.entities.ActorType;
 import com.smirix.entities.VKGroup;
+import com.smirix.entities.VKUser;
 import com.smirix.senders.auth.AuthActorSender;
 import com.smirix.senders.auth.GetActorAuthUrlSender;
 import com.smirix.senders.auth.requests.AuthActorRq;
@@ -9,7 +10,9 @@ import com.smirix.senders.auth.requests.GetActorAuthUrl;
 import com.smirix.senders.queries.CreatePostSender;
 import com.smirix.senders.queries.requests.PostRq;
 import com.smirix.senders.user.GetUserGroupsSender;
+import com.smirix.senders.user.GetUserSender;
 import com.smirix.senders.user.requests.UserGroupsRq;
+import com.smirix.senders.user.requests.UserRq;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +26,7 @@ public class VkNetworkService {
     private GetActorAuthUrlSender getActorAuthUrlSender;
     private AuthActorSender authActorSender;
     private GetUserGroupsSender getUserGroupsSender;
+    private GetUserSender getUserSender;
     private CreatePostSender createPostSender;
 
     public void setCreatePostSender(CreatePostSender createPostSender) {
@@ -31,6 +35,10 @@ public class VkNetworkService {
 
     public void setGetUserGroupsSender(GetUserGroupsSender getUserGroupsSender) {
         this.getUserGroupsSender = getUserGroupsSender;
+    }
+
+    public void setGetUserSender(GetUserSender getUserSender) {
+        this.getUserSender = getUserSender;
     }
 
     public void setGetActorAuthUrlSender(GetActorAuthUrlSender getActorAuthUrlSender) {
@@ -80,7 +88,6 @@ public class VkNetworkService {
         try {
             UserGroupsRq rq = new UserGroupsRq();
             rq.setUserId(userId);
-            rq.setLinked(false);
 
             return getUserGroupsSender.send(rq);
         } catch (Exception e) {
@@ -89,13 +96,12 @@ public class VkNetworkService {
         }
     }
 
-    public List<VKGroup> getUserLinkedGroups(Long userId) {
+    public VKUser getUser(Long userId) {
         try {
-            UserGroupsRq rq = new UserGroupsRq();
+            UserRq rq = new UserRq();
             rq.setUserId(userId);
-            rq.setLinked(true);
 
-            return getUserGroupsSender.send(rq);
+            return getUserSender.send(rq);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e);

@@ -1,20 +1,53 @@
+<%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<aside class="aside-container">
-    <nav>
-        <ul class="aside-menu">
-            <li class="active">Главная</li>
-            <li><a style="text-decoration: none;" href="/private/client/addVKProfile.do">Добавить профиль VK</a></li>
-            <li><a style="text-decoration: none;" href="/private/client/addTlgmBot.do">Добавить Telegram бота</a></li>
-            <li><a style="text-decoration: none;" href="/private/client/add/tlgm/channel.do">Добавить Telegram канал</a></li>
-            <li><a style="text-decoration: none;" href="/private/show/tlgm/bots.do">Список Telegram ботов</a></li>
-            <li><a style="text-decoration: none;" href="/private/show/tlgm/channels.do">Список Telegram каналов</a></li>
-            <li><a style="text-decoration: none;" href="/private/create/post/tlgm.do">Разместить Telegram пост</a></li>
-            <li><a style="text-decoration: none;" href="/private/client/show/vk/groups.do">Список групп</a></li>
-            <li><a style="text-decoration: none;" href="/private/create/post.do">Разместить пост</a></li>
-            <li><a style="text-decoration: none;" href="/cras/">Настройки</a></li>
-        </ul>
-    </nav>
-</aside>
-<section style="margin-left: 280px; padding-bottom: 50px;">
+<bean:define id="form" name="MainPageActionForm"/>
 
-</section>
+<c:choose>
+    <c:when test="${empty form.vkUser and empty form.telegramChannels and empty form.telegramBots}">
+        <h1>Нет подключенных социальных сетей</h1>
+        <div class="content-row">
+            <div>
+                Для начала работы Вам необходимо подключить хотя бы одну социальную сеть
+            </div>
+            <div class="social-network-row">
+                <div class="inline">
+                    <a href="${pageContext.request.contextPath}/private/client/addVKProfile.do">
+                        <img class="social-network-icon"
+                             src="${pageContext.request.contextPath}/resources/img/vkLogo.png" alt="VKontakte"/>
+                        <div class="social-network-icon-title">
+                            ВКонтакте
+                        </div>
+                    </a>
+                </div>
+                <div class="inline">
+                    <a href="${pageContext.request.contextPath}/private/client/addTlgmBot.do">
+                        <img class="social-network-icon"
+                             src="${pageContext.request.contextPath}/resources/img/telegramLogo.png" alt="Telegram"/>
+                        <div class="social-network-icon-title">
+                            Telegram
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </c:when>
+    <c:otherwise>
+        <c:if test="${not empty form.vkUser}">
+            <h1>ВКонтакте</h1>
+            <c:choose>
+                <c:when test="${not empty form.vkGroups}">
+                    <div class="content-row">
+                        У Вас неподключены группы для автоматического постинга.
+                        <a href="${pageContext.request.contextPath}/private/client/show/vk/groups.do">Нажмите чтобы подключить</a>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <div class="content-row">
+                        Не найдены администрируемые группы
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </c:if>
+    </c:otherwise>
+</c:choose>

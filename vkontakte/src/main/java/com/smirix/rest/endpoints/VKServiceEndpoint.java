@@ -43,6 +43,12 @@ public class VKServiceEndpoint {
     }
 
     @POST
+    @Path("/get/user")
+    public GetUserRs getUser(GetUserRq rq) {
+        return vkServiceService.getUser(rq);
+    }
+
+    @POST
     @Path("/create/post")
     public CreatePostRs createPost(CreatePostRq rq) {
         return vkServiceService.createPost(rq);

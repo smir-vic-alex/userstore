@@ -8,6 +8,7 @@
 
     <form-beans>
         <form-bean name="AuthActionForm" type="actionForms.AuthActionForm"/>
+        <form-bean name="MainPageActionForm" type="actionForms.MainPageActionForm"/>
         <form-bean name="RegisterActionForm" type="actionForms.RegisterActionForm"/>
         <form-bean name="ClientAddVKGroupActionForm" type="actionForms.ClientAddVKGroupActionForm"/>
         <form-bean name="ClientAddTelegramBotActionForm" type="actionForms.ClientAddTelegramBotActionForm"/>
@@ -19,6 +20,7 @@
         <form-bean name="CodeVKActionForm" type="actionForms.CodeVKActionForm"/>
         <form-bean name="ShowClientAdminVKGroupActionForm" type="actionForms.ShowClientAdminVKGroupActionForm"/>
         <form-bean name="MakePostInVKGroupActionForm" type="actionForms.MakePostInVKGroupActionForm"/>
+        <form-bean name="CreatePostVKActionForm" type="actionForms.CreatePostVKActionForm"/>
         <form-bean name="CreatePostActionForm" type="actionForms.CreatePostActionForm"/>
     </form-beans>
 
@@ -27,8 +29,6 @@
     </global-exceptions>
 
     <action-mappings>
-        <action path="/index"
-                forward="/WEB-INF/jsp/index.jsp"/>
         <!--Логин пользователя-->
         <action path="/auth"
                 type="actions.AuthAction"
@@ -41,7 +41,7 @@
         <!--Главная страница пользователя с его продуктами, данными по остаткам-->
         <action path="/private/client/page/main"
                 type="actions.ClientMainPageAction"
-                name="AuthActionForm"
+                name="MainPageActionForm"
                 scope="request"
                 parameter="unused">
             <forward name="success" path="/WEB-INF/jsp/clientStartPage.jsp"/>
@@ -52,7 +52,7 @@
                 name="RegisterActionForm"
                 scope="request"
                 parameter="unused">
-            <forward name="fail" path="/index.do" redirect="true"/>
+            <forward name="fail" path="/private/client/page/main.do" redirect="true"/>
             <forward name="success" path="/private/client/page/main.do" redirect="true"/>
         </action>
         <!--Привязка аккаунта соцсети к профилю-->
@@ -62,7 +62,7 @@
                 scope="request"
                 parameter="unused">
             <forward name="error" path="/private/client/page/main.do" redirect="true"/>
-            <forward name="stub" path="/private/redirect/uri.do?code=123321123321123321" redirect="true"/>
+            <forward name="stub" path="/private/client/vk/get/code.do?code=123321123321123321" redirect="true"/>
         </action>
         <action path="/private/client/addTlgmBot"
                 type="actions.telegram.ClientAddTelegramBotAction"
@@ -86,15 +86,15 @@
                 scope="request"
                 parameter="unused">
             <forward name="error" path="/private/client/page/main.do" redirect="true"/>
-            <forward name="stub" path="/private/redirect/uri.do?code=123321123321123321" redirect="true"/>
+            <forward name="stub" path="/private/client/vk/get/code.do?code=123321123321123321" redirect="true"/>
         </action>
         <!--Получение code от vk.com-->
-        <action path="/private/redirect/uri"
+        <action path="/private/client/vk/get/code"
                 type="actions.vk.CodeVKAction"
                 name="CodeVKActionForm"
                 scope="request"
                 parameter="unused">
-            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
+            <forward name="success" path="/private/client/show/vk/groups.do" redirect="true"/>
         </action>
         <!--Получение code от vk.com-->
         <action path="/private/redirect/vk/group/uri"
@@ -113,11 +113,20 @@
             <forward name="success" path="/WEB-INF/jsp/postMessage.jsp"/>
         </action>
 
+        <action path="/private/create/post/vk"
+                type="actions.vk.CreatePostVKAction"
+                name="CreatePostVKActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/createvkPost.jsp"/>
+        </action>
+
         <action path="/private/create/post"
                 type="actions.CreatePostAction"
                 name="CreatePostActionForm"
                 scope="request"
                 parameter="unused">
+            <forward name="show" path="/WEB-INF/jsp/createPost.jsp"/>
             <forward name="success" path="/WEB-INF/jsp/createPost.jsp"/>
         </action>
 

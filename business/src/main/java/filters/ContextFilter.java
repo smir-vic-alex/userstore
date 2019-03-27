@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by SBT-Smirnov-VA on 24.07.2017.
+ * Created by Smirnov-VA on 24.07.2017.
  */
 public class ContextFilter implements Filter {
 

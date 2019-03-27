@@ -5,12 +5,11 @@ import java.io.Serializable;
 /**
  * Class description.
  *
- * @author sbrf-Smirnov-VA
+ * @author Smirnov-VA
  * @created on 09.01.2019
  */
 public class UserGroupsRq implements Serializable {
     private Long userId;
-    private Boolean isLinked;
 
     public Long getUserId() {
         return userId;
@@ -20,11 +19,4 @@ public class UserGroupsRq implements Serializable {
         this.userId = userId;
     }
 
-    public Boolean getLinked() {
-        return isLinked;
-    }
-
-    public void setLinked(Boolean linked) {
-        isLinked = linked;
-    }
 }

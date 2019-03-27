@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by SBT-Smirnov-VA on 21.07.2017.
+ * Created by Smirnov-VA on 21.07.2017.
  */
 public class LoginFilter implements Filter {
 

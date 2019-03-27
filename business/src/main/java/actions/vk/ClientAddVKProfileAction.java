@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by SBT-Smirnov-VA on 20.07.2017.
+ * Created by Smirnov-VA on 20.07.2017.
  */
 public class ClientAddVKProfileAction extends VKAction {
 

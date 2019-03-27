@@ -35,7 +35,11 @@ public class AppServicesService extends BusinessService {
     public AppService getByType(String type) {
         if (serviceMap.get(type) == null) {
             synchronized (sync) {
-                return serviceMap.putIfAbsent(type, getAppServiceByType(type));
+                if (serviceMap.get(type) == null) {
+                    AppService appService = getAppServiceByType(type);
+                    serviceMap.put(type, appService);
+                    return appService;
+                }
             }
         }
         return serviceMap.get(type);
