@@ -1,7 +1,9 @@
 package com.smirix.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Виктор on 24.07.2017.
@@ -28,9 +30,9 @@ public class StringUtils {
         return false;
     }
 
-    public static List<String> integerListToListOfStrings(List<Integer> list){
-        List<String> newList = new ArrayList<String>(list.size());
-        for (Integer myInt : list) {
+    public static List<String> integerCollectionToListOfStrings(Collection<Integer> collection){
+        List<String> newList = new ArrayList<String>(collection.size());
+        for (Integer myInt : collection) {
             newList.add(String.valueOf(myInt));
         }
         return newList;

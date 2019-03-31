@@ -12,14 +12,19 @@ import com.smirix.services.VKUtils;
 import com.smirix.services.VkService;
 import com.smirix.settings.VKApiSetting;
 import com.vk.api.sdk.client.actors.UserActor;
+import com.vk.api.sdk.objects.GroupAuthResponse;
+import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.wall.responses.PostResponse;
+import org.apache.commons.collections4.SetUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ru.json2pojo.beans.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -66,14 +71,60 @@ public class VKServiceService {
 
         try {
             AuthActorRq authActorRq = rq.getBody();
-            Object vkRs = actorHelper.authActor(authActorRq);
-            actorHelper.saveOrUpdateVkCode(authActorRq, vkRs);
+            createActor(authActorRq);
         } catch (Exception e) {
             e.printStackTrace();
             rs.setStatus(new Status(-1L, e.getMessage()));
         }
 
         return rs;
+    }
+
+    private void createActor(AuthActorRq authActorRq) {
+        String code = authActorRq.getCode();
+        ActorType type = authActorRq.getActorType();
+        Long userId = authActorRq.getUserId();
+
+        if (ActorType.USER == type) {
+            createVKUserConnector(code, userId);
+        } else if (ActorType.GROUP == type) {
+            createVKGroup(code, userId);
+        } else {
+            throw new RuntimeException("Неизвестный тип actorType " + type);
+        }
+    }
+
+    private void createVKGroup(String code, Long userId) {
+        GroupAuthResponse rs = vkConnectorManager.authGroup(code);
+
+        VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(userId);
+        List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor, rs.getAccessTokens().keySet());
+
+        for (Map.Entry<Integer, String> entry : rs.getAccessTokens().entrySet())
+        {
+            VKGroupActor vkGroupNetwork = actorHelper.getVkGroupActor(userId, entry);
+            vkService.saveOrUpdate(vkGroupNetwork, VKGroupActor.class);
+
+            for (GroupFull groupFull : vkGroups) {
+                Long id = Long.parseLong(groupFull.getId());
+                if (id.equals(vkGroupNetwork.getVkUserId().longValue())) {
+                    VKGroup vkGroup = new VKGroup();
+                    vkGroup.setUserId(userId);
+                    vkGroup.setVkId(id);
+                    vkGroup.setName(groupFull.getName());
+                    vkGroup.setAvatarUrl(groupFull.getPhoto50());
+
+                    vkService.saveOrUpdate(vkGroup, VKGroup.class);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void createVKUserConnector(String code, Long userId) {
+        UserAuthResponse rs = vkConnectorManager.authUser(code);
+        VKUserActor vkUserActor = actorHelper.getVkUserActor(rs, userId);
+        vkService.saveOrUpdate(vkUserActor, VKUserActor.class);
     }
 
     public GetUserRs getUser(GetUserRq rq) {
@@ -90,6 +141,13 @@ public class VKServiceService {
         return rs;
     }
 
+    public List<VKGroup> getUserGroupsFromVK(UserGroupsRq rq) {
+        VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(rq.getUserId());
+        List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor);
+
+        return convertToVKGroupList(vkGroups);
+    }
+
     public GetUserGroupsRs getUserGroups(GetUserGroupsRq rq) {
 
         GetUserGroupsRs rs = new GetUserGroupsRs();
@@ -97,25 +155,14 @@ public class VKServiceService {
 
         try {
             UserGroupsRq groupsRq = rq.getBody();
-            VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(groupsRq.getUserId());
-            List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor);
+            List<VKGroup> groups;
+            if (groupsRq.getFromVK() != null && groupsRq.getFromVK()) {
+                groups = getUserGroupsFromVK(groupsRq);
+            } else {
+                groups = vkService.getVKGroups(groupsRq.getUserId());
+            }
 
-
-//            if (groupsRq.getLinked()) {
-//                List<VKGroupActor> groups = vkService.getVKGroupNetworksByUserId(groupsRq.getUserId());
-//                //todo убрать из бд группы, которые не пришли из списка
-//                List<GroupFull> filteredList = new ArrayList<>();
-//                for (VKGroupActor actor : groups) {
-//                    for (GroupFull vkGroup : vkGroups) {
-//                        if (vkGroup.getId().equals(actor.getVkUserId().toString())) {
-//                            filteredList.add(vkGroup);
-//                        }
-//                    }
-//                }
-//                vkGroups = filteredList;
-//            }
-
-            rs.setBody(convertToVKGroupList(vkGroups));
+            rs.setBody(groups);
         } catch (Exception e) {
             e.printStackTrace();
             rs.setStatus(new Status(-1L, e.getMessage()));
@@ -148,15 +195,14 @@ public class VKServiceService {
         return new UserActor(vkUserActor.getVkUserId(), vkUserActor.getVkAccessCode());
     }
 
-    private List<VKGroup> convertToVKGroupList(List<GroupFull> groupFulls)
-    {
+    private List<VKGroup> convertToVKGroupList(List<GroupFull> groupFulls) {
         List<VKGroup> vkGroupList = new ArrayList<>(groupFulls.size());
         for (GroupFull group : groupFulls) {
             VKGroup vkGroup = new VKGroup();
 
-            vkGroup.setId(group.getId());
+            vkGroup.setId(Long.parseLong(group.getId()));
             vkGroup.setName(group.getName());
-            vkGroup.setUrlPhoto(group.getPhoto50());
+            vkGroup.setAvatarUrl(group.getPhoto50());
             vkGroupList.add(vkGroup);
         }
         return vkGroupList;

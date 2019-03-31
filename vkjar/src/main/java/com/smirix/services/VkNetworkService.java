@@ -88,6 +88,7 @@ public class VkNetworkService {
         try {
             UserGroupsRq rq = new UserGroupsRq();
             rq.setUserId(userId);
+            rq.setFromVK(false);
 
             return getUserGroupsSender.send(rq);
         } catch (Exception e) {

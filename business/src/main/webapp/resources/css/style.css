@@ -326,3 +326,14 @@ footer .copyrights a.ph_link {
 .button:hover {
     box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
+
+.create-post-input-text {
+    width: 600px;
+    height: 140px;
+    margin: 10px;
+}
+
+.create-post-input-checkbox {
+    display: inline-block;
+    margin-left: 55px;
+}

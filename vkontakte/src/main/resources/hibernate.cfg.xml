@@ -12,5 +12,6 @@
         <property name="show_sql">true</property>
         <mapping resource="property.hbm.xml"/>
         <mapping resource="connectors.hbm.xml"/>
+        <mapping resource="vkGroups.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

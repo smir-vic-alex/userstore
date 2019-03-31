@@ -1,5 +1,6 @@
 <%@ taglib prefix="bean" uri="http://struts.apache.org/tags-bean" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <bean:define id="form" name="MainPageActionForm"/>
 
@@ -37,14 +38,28 @@
             <h1>ВКонтакте</h1>
             <c:choose>
                 <c:when test="${not empty form.vkGroups}">
-                    <div class="content-row">
-                        У Вас неподключены группы для автоматического постинга.
-                        <a href="${pageContext.request.contextPath}/private/client/show/vk/groups.do">Нажмите чтобы подключить</a>
-                    </div>
+                    <c:forEach var="group" items="${form.vkGroups}">
+                        <div class="content-row">
+                            <div class="inline">
+                                <img class="vk-group-icon" src="${group.avatarUrl}"/>
+                            </div>
+                            <div class="vk-group-icon-title inline">
+                                <c:out value="${group.name}"/>
+                            </div>
+                                <%--<html:hidden property="groupId" value="${group.id}"/>--%>
+                            <div class="vk-group-button inline">
+                                <a href="${pageContext.request.contextPath}/private/create/post.do">
+                                    <button class="button" type="submit">Создать пост</button>
+                                </a>
+                            </div>
+                        </div>
+                    </c:forEach>
                 </c:when>
                 <c:otherwise>
                     <div class="content-row">
-                        Не найдены администрируемые группы
+                        У Вас неподключены группы для автоматического постинга.
+                        <a href="${pageContext.request.contextPath}/private/client/show/vk/groups.do">Нажмите чтобы
+                            подключить</a>
                     </div>
                 </c:otherwise>
             </c:choose>

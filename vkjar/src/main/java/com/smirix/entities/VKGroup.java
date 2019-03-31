@@ -5,16 +5,34 @@ package com.smirix.entities;
  * Created by Виктор on 28.05.2017.
  */
 public class VKGroup {
+    private Long id;
+    private Long vkId;
+    private Long userId;
     private String name;
-    private String urlPhoto;
-    private String id;
+    private String avatarUrl;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getVkId() {
+        return vkId;
+    }
+
+    public void setVkId(Long vkId) {
+        this.vkId = vkId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -25,11 +43,11 @@ public class VKGroup {
         this.name = name;
     }
 
-    public String getUrlPhoto() {
-        return urlPhoto;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setUrlPhoto(String urlPhoto) {
-        this.urlPhoto = urlPhoto;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

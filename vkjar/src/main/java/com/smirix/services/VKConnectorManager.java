@@ -18,6 +18,7 @@ import com.vk.api.sdk.queries.wall.WallPostQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,7 +60,20 @@ public class VKConnectorManager
         try {
             GetResponse response = vk.groups().get(userActor).filter(GroupsGetFilter.ADMIN).execute();
 
-            return vk.groups().getById(userActor).groupIds(StringUtils.integerListToListOfStrings(response.getItems())).execute();
+            return vk.groups().getById(userActor).groupIds(StringUtils.integerCollectionToListOfStrings(response.getItems())).execute();
+        }
+        catch (ApiException | ClientException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public List<GroupFull> getGroups(VKUserActor vkUserActor, Collection<Integer> ids)
+    {
+        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
+        UserActor userActor = new UserActor(vkUserActor.getVkUserId(), vkUserActor.getVkAccessCode());
+        try {
+            return vk.groups().getById(userActor).groupIds((StringUtils.integerCollectionToListOfStrings(ids))).execute();
         }
         catch (ApiException | ClientException e) {
             e.printStackTrace();

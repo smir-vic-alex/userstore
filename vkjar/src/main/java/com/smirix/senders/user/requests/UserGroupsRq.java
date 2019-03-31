@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 public class UserGroupsRq implements Serializable {
     private Long userId;
+    private Boolean isFromVK;
 
     public Long getUserId() {
         return userId;
@@ -19,4 +20,11 @@ public class UserGroupsRq implements Serializable {
         this.userId = userId;
     }
 
+    public Boolean getFromVK() {
+        return isFromVK;
+    }
+
+    public void setFromVK(Boolean fromVK) {
+        isFromVK = fromVK;
+    }
 }
