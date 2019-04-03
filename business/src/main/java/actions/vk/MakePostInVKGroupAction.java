@@ -14,7 +14,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class MakePostInVKGroupAction extends VKAction {
 
@@ -25,20 +24,20 @@ public class MakePostInVKGroupAction extends VKAction {
         MakePostInVKGroupActionForm form = (MakePostInVKGroupActionForm) frm;
 
         Long userId = UserUtils.getCurrentUser().getId();
-        Integer groupId = form.getGroupId();
-        String message = form.getMessage();
-        List<String> attachments = form.getAttachments();
+        Integer groupId = form.getVkGroupId()[0].intValue();
+        String message = form.getPostText();
+//        List<String> attachments = form.getAttachments();
         Calendar publishDate = Calendar.getInstance();
-        publishDate.setTime(getDate(form.getTime()));
+        publishDate.setTime(getDate(form.getCalendar(), form.getTime()));
 
         Integer publishDateSeconds = (int) ((publishDate.getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) / 1000L);
-        Boolean fromGroup = form.getFromGroup();
+        Boolean fromGroup = form.getIsFromGroup();
 
 
         ServiceFactory.getVK().createPost(userId,
                 groupId,
                 message,
-                attachments,
+                null,
                 publishDateSeconds,
                 fromGroup);
 
@@ -46,16 +45,15 @@ public class MakePostInVKGroupAction extends VKAction {
     }
 
 
-    private DateFormat getFormatter()
-    {
+    private DateFormat getFormatter() {
         return (DateFormat)formatter.clone();
     }
-    private Date getDate(String s)
-    {
+
+    private Date getDate(String dateString, String timeString) {
         Date date = null;
-        if (!"".equals(s)) {
+        if (!"".equals(dateString)) {
             try {
-                date = getFormatter().parse(s);
+                date = getFormatter().parse(dateString + " " + timeString + ":00");
             } catch (ParseException e) {
                 throw new RuntimeException("Ошибка при получении даты " + e);
             }

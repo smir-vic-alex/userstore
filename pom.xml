@@ -22,6 +22,8 @@
         <module>tlgmjar</module>
         <module>admin</module>
         <module>adminjar</module>
+        <module>scheduler</module>
+        <module>scheduler-jar</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -1,4 +1,4 @@
-package schedulers.jobs;
+package com.smirix.rest.jobs;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

@@ -13,7 +13,7 @@
             <name>ExecuteVKPostJob</name>
             <group>ExecuteVKPost</group>
             <description>It find planned post`s and prepare their for publication</description>
-            <job-class>schedulers.jobs.ExecuteVKPostJob</job-class>
+            <job-class>com.smirix.rest.jobs.ExecuteVKPostJob</job-class>
         </job>
 
         <trigger>

@@ -13,27 +13,52 @@
     <tiles:put name="data" type="string">
         <h1>Создать пост</h1>
         <div class="content-row">
-            <div>
-                <h3>Куда постить</h3>
-                <div>вк телега</div>
-            </div>
-            <div>
-                <div class="inline">
-                    <h3>Текст</h3>
+            <c:if test="${not empty form.vkUser}">
+                <html:form action="/private/send/post">
                     <div>
-                        <input class="create-post-input-text" type="text">
+                        <h3>Куда постить</h3>
+                        <div>
+                            <c:if test="${not empty form.vkGroups}">
+                                <c:forEach var="group" items="${form.vkGroups}">
+                                    <div class="inline">
+                                        <img class="vk-group-icon" src="${group.avatarUrl}"/>
+                                        <html:checkbox property="vkGroupId" value="${group.vkId}"/>
+                                    </div>
+                                </c:forEach>
+                            </c:if>
+                        </div>
                     </div>
-                </div>
-                <div class="inline create-post-input-checkbox">
-                    <div><input type="checkbox">Запланировать</div>
-                    <div><input type="checkbox">От имени группы</div>
-                    <div><input type="checkbox">Добавить подпись</div>
-                    <div><input type="checkbox">Реклама</div>
-                </div>
-            </div>
-            <div>
-                <h3>Вложения</h3>
-            </div>
+                    <div>
+                        <div class="inline">
+                            <h3>Текст</h3>
+                            <div>
+                                <input name="postText" class="create-post-input-text" type="text">
+                            </div>
+                        </div>
+                        <div class="inline create-post-input-checkbox">
+                            <div><input name="isPlanned" type="checkbox" value="true">Запланировать</div>
+                            <div><input name="isFromGroup" type="checkbox" value="true">От имени группы</div>
+                            <div><input name="isAddSign" type="checkbox" value="true">Добавить подпись</div>
+                            <div><input name="isCommercial" type="checkbox" value="true">Реклама</div>
+                            <input type="text" name="calendar" value="" size="10" onClick="xCal(this)" onmouseenter="xCal(this)" onKeyUp="xCal()">
+                            <input type="text" name="time" data-toggle="timepicker">
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function(event)
+                                {
+                                    timepicker.load({
+                                        interval: 15,
+                                        defaultHour: 8
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Вложения</h3>
+                    </div>
+                    <html:submit>Отправить</html:submit>
+                </html:form>
+            </c:if>
         </div>
     </tiles:put>
 </tiles:insert>
