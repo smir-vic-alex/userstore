@@ -85,10 +85,4 @@
         <param-value>quartz.properties</param-value>
     </context-param>
 
-    <listener>
-        <listener-class>
-            org.quartz.ee.servlet.QuartzInitializerListener
-        </listener-class>
-    </listener>
-
 </web-app>

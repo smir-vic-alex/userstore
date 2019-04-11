@@ -1,3 +1,13 @@
-*.iml
 target/*
+*.log
+*.class
+
+.ideaDataSources/
+dataSources/
 .idea/*
+/out/
+*.iml
+*.iws
+*.ipr
+*.ids
+*/out/*

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.smirix.entities.DelayTask" table="DELAYED_TASK">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">delayed_task_id_seq</param>
+            </generator>
+        </id>
+        <property name="userId"     column="USER_ID"    type="java.lang.Long"/>
+        <property name="fireDate"       column="FIRE_DATE"       type="java.util.Calendar"/>
+        <property name="delayPostId"    column="DELAY_POST_ID"    type="java.lang.String"/>
+    </class>
+
+    <query name="com.smirix.entities.DelayTask.getTasks">
+        <![CDATA[
+        select task from com.smirix.entities.DelayTask as task where task.fireDate >= :fromDate and :toDate > task.fireDate
+        ]]>
+    </query>
+
+</hibernate-mapping>

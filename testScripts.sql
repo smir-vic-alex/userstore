@@ -5,3 +5,4 @@ insert into passwords (id, password, user_id)  VALUES (nextval('passwords_id_seq
 insert into logins (id, login, user_id)  VALUES (nextval('logins_id_seq'), 'test', 1);
 insert into app_services (id, name, type, host)  VALUES (nextval('app_services_id_seq'), 'Telegram', 'TLGM', 'http://localhost:8088');
 insert into app_services (id, name, type, host)  VALUES (nextval('app_services_id_seq'), 'Vkontakte', 'VK', 'http://localhost:8084');
+insert into app_services (id, name, type, host)  VALUES (nextval('app_services_id_seq'), 'Scheduler', 'SCHDLR', 'http://localhost:8086');

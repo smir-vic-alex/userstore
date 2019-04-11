@@ -8,7 +8,7 @@
         <id  name="id" column="ID" type="java.lang.Long">
             <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
                 <param name="optimizer">none</param>
-                <param name="sequence_name">tlgm_channels_seq</param>
+                <param name="sequence_name">telegrams_channels_id_seq</param>
             </generator>
         </id>
         <property name="userId" column="USER_ID" type="java.lang.Long"/>

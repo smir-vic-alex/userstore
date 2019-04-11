@@ -9,13 +9,13 @@ import java.io.Serializable;
  * @created on 2019-04-04
  */
 public class VKDelayPostRs implements Serializable {
-    private Integer postId;
+    private Long postId;
 
-    public Integer getPostId() {
+    public Long getPostId() {
         return postId;
     }
 
-    public void setPostId(Integer postId) {
+    public void setPostId(Long postId) {
         this.postId = postId;
     }
 }

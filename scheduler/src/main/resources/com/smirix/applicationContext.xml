@@ -8,6 +8,8 @@
 
 
     <bean id="schedulerService" class="com.smirix.rest.services.SchedulerService"/>
+    <bean id="executeVKPostJobService" class="com.smirix.rest.jobs.ExecuteVKPostJobService"/>
+    <bean id="delayPostService" class="com.smirix.services.DelayPostService"/>
 
     <context:annotation-config/>
 </beans>

@@ -1,6 +1,7 @@
 package com.smirix.requests;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public class VKDelayPostRq implements Serializable {
     private String message;
     private Boolean fromGroup;
     private List<String> attachments;
-    private String publishDate;
+    private Calendar publishDate;
 
     public Long getUserId() {
         return userId;
@@ -57,11 +58,11 @@ public class VKDelayPostRq implements Serializable {
         this.attachments = attachments;
     }
 
-    public String getPublishDate() {
+    public Calendar getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(String publishDate) {
+    public void setPublishDate(Calendar publishDate) {
         this.publishDate = publishDate;
     }
 }

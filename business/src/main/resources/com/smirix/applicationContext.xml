@@ -14,5 +14,6 @@
 
     <import resource="vkContext.xml"/>
     <import resource="tlgmContext.xml"/>
+    <import resource="schdlrContext.xml"/>
     <context:annotation-config/>
 </beans>
