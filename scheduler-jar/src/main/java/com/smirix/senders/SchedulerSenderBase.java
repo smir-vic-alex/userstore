@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Class description
  *
- * @author sbrf-Smirnov-VA
+ * @author Smirnov-VA
  * @created on 2019-04-12
  */
 public abstract class SchedulerSenderBase<Rq extends Serializable, Rs extends Serializable> extends JsonHttpSender<Rq, Rs> {

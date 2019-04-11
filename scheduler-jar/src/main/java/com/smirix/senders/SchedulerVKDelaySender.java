@@ -11,7 +11,7 @@ import java.io.IOException;
 /**
  * Class description
  *
- * @author sbrf-Smirnov-VA
+ * @author Smirnov-VA
  * @created on 2019-04-12
  */
 public class SchedulerVKDelaySender extends SchedulerSenderBase<VKDelayPostRq, VKDelayPostRs> {

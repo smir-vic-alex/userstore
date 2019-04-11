@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Class description
  *
- * @author sbrf-Smirnov-VA
+ * @author Smirnov-VA
  * @created on 2019-04-10
  */
 public class ExecuteVKPostJobService {

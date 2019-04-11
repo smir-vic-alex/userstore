@@ -5,7 +5,7 @@ import com.smirix.senders.SchedulerVKDelaySender;
 /**
  * Class description
  *
- * @author sbrf-Smirnov-VA
+ * @author Smirnov-VA
  * @created on 2019-04-12
  */
 public class SchedulerService {
