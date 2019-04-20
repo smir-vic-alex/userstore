@@ -19,7 +19,8 @@ public class UserStoreService extends BusinessService {
                 query.setParameter("userId", userId);
                 return query.getSingleResult();
             }
-            catch (NoResultException e) {
+            catch (Exception e) {
+                LOGGER.error(ERROR_MSG, e);
                 return null;
             }
         });

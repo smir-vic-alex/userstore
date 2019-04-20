@@ -6,7 +6,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-
+    <bean class="com.smirix.services.apps.AppServicesService"/>
     <bean id="vkServiceService" class="com.smirix.rest.services.VKServiceService"/>
 
     <bean id="vkApiSetting" class="com.smirix.settings.VKApiSetting">
@@ -18,5 +18,6 @@
     <bean id="vkConnectorManager" class="com.smirix.services.VKConnectorManager"/>
     <bean id="actorHelper" class="com.smirix.rest.helpers.ActorHelper"/>
 
+    <import resource="schdlrContext.xml"/>
     <context:annotation-config/>
 </beans>

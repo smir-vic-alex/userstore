@@ -25,7 +25,7 @@ public class AppServicesService extends BusinessService {
 
                         return query.getSingleResult();
                     } catch (NoResultException e) {
-                        e.printStackTrace();
+                        LOGGER.error(ERROR_MSG, e);
                         return null;
                     }
                 }

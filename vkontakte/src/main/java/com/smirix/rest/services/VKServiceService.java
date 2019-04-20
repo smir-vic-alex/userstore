@@ -1,36 +1,38 @@
 package com.smirix.rest.services;
 
 import com.smirix.entities.*;
+import com.smirix.requests.VKDelayPostRq;
 import com.smirix.rest.elements.messages.Status;
 import com.smirix.rest.helpers.ActorHelper;
 import com.smirix.senders.auth.requests.AuthActorRq;
 import com.smirix.senders.queries.requests.PostRq;
 import com.smirix.senders.queries.requests.PostRs;
 import com.smirix.senders.user.requests.UserGroupsRq;
+import com.smirix.services.SchedulerService;
 import com.smirix.services.VKConnectorManager;
-import com.smirix.services.VKUtils;
 import com.smirix.services.VkService;
 import com.smirix.settings.VKApiSetting;
+import com.smirix.utils.DateUtils;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.objects.GroupAuthResponse;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
-import com.vk.api.sdk.objects.wall.responses.PostResponse;
-import org.apache.commons.collections4.SetUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ru.json2pojo.beans.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 /**
  * Created by Виктор on 04.01.2019.
  */
 public class VKServiceService {
+
+    private static final String ERROR_MSG = "Ошибка!";
+    private static Logger LOGGER = LoggerFactory.getLogger(VKServiceService.class);
 
     @Autowired
     @Qualifier("vkApiSetting")
@@ -48,8 +50,11 @@ public class VKServiceService {
     @Qualifier("vkConnectorManager")
     private VKConnectorManager vkConnectorManager;
 
-    public GetAuthUrlRs getAuthUrl(GetAuthUrlRq urlRq) {
+    @Autowired
+    @Qualifier("schedulerService")
+    private SchedulerService schedulerService;
 
+    public GetAuthUrlRs getAuthUrl(GetAuthUrlRq urlRq) {
         GetAuthUrlRs rs = new GetAuthUrlRs();
         rs.setHead(urlRq.getHead());
 
@@ -58,7 +63,7 @@ public class VKServiceService {
             ActorType actorType = urlRq.getBody().getActorType();
             rs.getBody().setUrl(vkApiSetting.getAuthUrl(actorType, urlRq.getBody().getIds()));
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR_MSG, e);
             rs.setStatus(new Status(-1L, e.getMessage()));
         }
 
@@ -73,7 +78,7 @@ public class VKServiceService {
             AuthActorRq authActorRq = rq.getBody();
             createActor(authActorRq);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR_MSG, e);
             rs.setStatus(new Status(-1L, e.getMessage()));
         }
 
@@ -90,6 +95,7 @@ public class VKServiceService {
         } else if (ActorType.GROUP == type) {
             createVKGroup(code, userId);
         } else {
+            LOGGER.error("Неизвестный тип actorType " + type);
             throw new RuntimeException("Неизвестный тип actorType " + type);
         }
     }
@@ -164,31 +170,51 @@ public class VKServiceService {
 
             rs.setBody(groups);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR_MSG, e);
             rs.setStatus(new Status(-1L, e.getMessage()));
         }
         return rs;
     }
 
     public CreatePostRs createPost(CreatePostRq rq) {
-
         CreatePostRs rs = new CreatePostRs();
         rs.setHead(rq.getHead());
+        PostRs postRs = new PostRs();
 
         try {
             PostRq post = rq.getBody();
             VKUserActor userNetwork = vkService.getVKUserNetworkByUserId(post.getUserId());
-            Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), post.getPublishDate());
+            if(!post.isNotNeedCheckSchedule() && isNeedToDelay(post.getPublishDate())) {
 
-            PostRs postRs = new PostRs();
-            postRs.setPostId(postId);
+                VKDelayPostRq vkDelayPostRq = new VKDelayPostRq();
+                vkDelayPostRq.setUserId(post.getUserId());
+                vkDelayPostRq.setOwnerId(post.getOwnerId());
+                vkDelayPostRq.setFromGroup(post.getFromGroup());
+                vkDelayPostRq.setMessage(post.getMessage());
+                vkDelayPostRq.setPublishDate(post.getPublishDate());
+                vkDelayPostRq.setAttachments(null);
+
+                schedulerService.delayVKPost(vkDelayPostRq);
+
+                postRs.setDescription("Пост запланирован с датой исполнения " + post.getPublishDate() + ". За " + vkApiSetting.getDiffMinutesBeforePost() + " минут до исполнения система подготовит пост в группе");
+            } else {
+                Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), DateUtils.getDiffDateAndCurrentDateInSeconds(post.getPublishDate()));
+                postRs.setPostId(postId);
+            }
+
             rs.setBody(postRs);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error(ERROR_MSG, e);
             rs.setStatus(new Status(-1L, e.getMessage()));
         }
 
         return rs;
+    }
+
+    private boolean isNeedToDelay(String publishDate) {
+        Long minutes = DateUtils.getDiffDateAndCurrentDateInMinutes(publishDate);
+
+        return minutes > vkApiSetting.getDiffMinutesBeforePost();
     }
 
     private UserActor getUserActor(VKUserActor vkUserActor) {

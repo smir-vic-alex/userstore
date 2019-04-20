@@ -21,7 +21,8 @@ public class AuthenticationService extends BusinessService {
                         Query<Login> query = session.createNamedQuery("com.smirix.entities.login.Login.getLoginByLoginName", Login.class);
                         query.setParameter("login", login);
                         return query.getSingleResult();
-                    } catch (NoResultException e) {
+                    } catch (Exception e) {
+                        LOGGER.error(ERROR_MSG, e);
                         return null;
                     }
                 }
@@ -35,7 +36,8 @@ public class AuthenticationService extends BusinessService {
                         Query<Password> query = session.createNamedQuery("com.smirix.entities.Password.getPasswdById", Password.class);
                         query.setParameter("userId", userId);
                         return query.getSingleResult();
-                    } catch (NoResultException e) {
+                    } catch (Exception e) {
+                        LOGGER.error(ERROR_MSG, e);
                         return null;
                     }
                 }
@@ -54,7 +56,7 @@ public class AuthenticationService extends BusinessService {
                         query.setParameter("token", token);
                         return query.getSingleResult();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        LOGGER.error(ERROR_MSG, e);
                         return null;
                     }
                 }
@@ -69,7 +71,7 @@ public class AuthenticationService extends BusinessService {
                         query.setParameter("userId", userId);
                         return query.getSingleResult();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        LOGGER.error(ERROR_MSG, e);
                         return null;
                     }
                 }
@@ -79,8 +81,13 @@ public class AuthenticationService extends BusinessService {
     public void remove(Token token) {
         new HibernateExecutor<Token>().execute((session) ->
             {
-                session.delete(token);
-                return null;
+                try {
+                    session.delete(token);
+                    return null;
+                } catch (Exception e) {
+                    LOGGER.error(ERROR_MSG, e);
+                    return null;
+                }
             }
         );
     }

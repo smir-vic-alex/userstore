@@ -15,6 +15,11 @@
         <property name="type"       column="TYPE"       type="java.lang.String"/>
         <property name="message"    column="MESSAGE"    type="java.lang.String"/>
         <property name="fromGroup"  column="FROM_GROUP" type="java.lang.Boolean"/>
+        <property name="ownerId"    column="OWNER_ID"   type="java.lang.Integer"/>
     </class>
+
+    <query name="com.smirix.entities.DelayedPost.getById">
+        select post from com.smirix.entities.DelayedPost as post where post.userId = :userId and post.id = :id
+    </query>
 
 </hibernate-mapping>

@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class PostRs implements Serializable {
     private Integer postId;
+    private String description;
 
     public Integer getPostId() {
         return postId;
@@ -14,5 +15,13 @@ public class PostRs implements Serializable {
 
     public void setPostId(Integer postId) {
         this.postId = postId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

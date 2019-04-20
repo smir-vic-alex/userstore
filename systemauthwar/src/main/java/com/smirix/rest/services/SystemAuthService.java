@@ -59,7 +59,7 @@ public class SystemAuthService {
         token.setToken(UUID.randomUUID().toString());
         token.setUserId(login.getUserId());
         Calendar expired = Calendar.getInstance();
-        expired.add(Calendar.DAY_OF_MONTH, 1);
+        expired.add(Calendar.MINUTE, 1);
         token.setExpired(expired);
         return token;
     }

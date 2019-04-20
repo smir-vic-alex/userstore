@@ -13,6 +13,7 @@ public class DelayedPost {
     private String type;
     private String message;
     private Boolean fromGroup;
+    private Integer ownerId;
 
     public Long getId() {
         return id;
@@ -52,5 +53,13 @@ public class DelayedPost {
 
     public void setFromGroup(Boolean fromGroup) {
         this.fromGroup = fromGroup;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
+        this.ownerId = ownerId;
     }
 }

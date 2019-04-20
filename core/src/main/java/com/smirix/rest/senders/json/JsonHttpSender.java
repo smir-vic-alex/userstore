@@ -12,6 +12,8 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -21,6 +23,8 @@ import java.io.Serializable;
  * Created by Виктор on 05.01.2019.
  */
 public abstract class JsonHttpSender<Rq extends Serializable, Rs extends Serializable> extends ModuleSender<Rq, Rs> {
+
+    private static Logger LOGGER = LoggerFactory.getLogger(JsonHttpSender.class);
 
     @Autowired
     private AppServicesService service;
@@ -43,11 +47,14 @@ public abstract class JsonHttpSender<Rq extends Serializable, Rs extends Seriali
     @Override
     protected Message<Rs> buildResponse(Object message) throws Exception {
         String json = (String) message;
+        LOGGER.info(json);
         return fromJson(json);
     }
 
     private String serializeToJson(Message<Rq> message) throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(message);
+        String json = new ObjectMapper().writeValueAsString(message);
+        LOGGER.info(json);
+        return json;
     }
 
     @Override

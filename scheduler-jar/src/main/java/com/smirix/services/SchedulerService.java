@@ -1,5 +1,6 @@
 package com.smirix.services;
 
+import com.smirix.requests.VKDelayPostRq;
 import com.smirix.senders.SchedulerVKDelaySender;
 
 /**
@@ -16,9 +17,9 @@ public class SchedulerService {
         this.vkDelaySender = vkDelaySender;
     }
 
-    public void delayVKPost() {
+    public void delayVKPost(VKDelayPostRq rq) {
         try {
-            vkDelaySender.send(null);
+            vkDelaySender.send(rq);
         } catch (Exception e) {
             e.printStackTrace();
         }

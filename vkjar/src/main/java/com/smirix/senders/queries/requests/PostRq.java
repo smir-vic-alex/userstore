@@ -2,6 +2,7 @@ package com.smirix.senders.queries.requests;
 
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -13,7 +14,8 @@ public class PostRq implements Serializable {
     private String message;
     private Boolean fromGroup;
     private List<String> attachments;
-    private Integer publishDate;
+    private String publishDate;
+    private boolean isNotNeedCheckSchedule;
 
     public Long getUserId() {
         return userId;
@@ -55,11 +57,19 @@ public class PostRq implements Serializable {
         this.attachments = attachments;
     }
 
-    public Integer getPublishDate() {
+    public String getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Integer publishDate) {
+    public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public boolean isNotNeedCheckSchedule() {
+        return isNotNeedCheckSchedule;
+    }
+
+    public void setNotNeedCheckSchedule(boolean notNeedCheckSchedule) {
+        isNotNeedCheckSchedule = notNeedCheckSchedule;
     }
 }

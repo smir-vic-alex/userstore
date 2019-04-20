@@ -1,7 +1,5 @@
 package utils;
 
-import com.smirix.senders.SchedulerVKDelaySender;
-import com.smirix.services.SchedulerService;
 import com.smirix.services.TlgmNetworkService;
 import com.smirix.services.VkNetworkService;
 import com.smirix.utils.BeanUtils;
@@ -17,10 +15,6 @@ public class ServiceFactory {
 
     public static TlgmNetworkService getTlgm() {
         return BeanUtils.getBean(TlgmNetworkService.class);
-    }
-
-    public static SchedulerService getSchdlr() {
-        return BeanUtils.getBean(SchedulerService.class);
     }
 
 }

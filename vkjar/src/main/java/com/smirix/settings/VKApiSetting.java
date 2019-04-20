@@ -11,28 +11,29 @@ import java.util.List;
  * Created by Виктор on 20.05.2017.
  */
 public class VKApiSetting extends Setting {
-    private static final String PREFIX = "com.smirix.settings.VKApiSetting";
-    private static final String USER_PREFIX = PREFIX + ".user.";
-    private static final String GROUP_PREFIX = PREFIX + ".group.";
+    private static final String PREFIX = "com.smirix.settings.VKApiSetting.";
+    private static final String USER_PREFIX = PREFIX + "user.";
+    private static final String GROUP_PREFIX = PREFIX + "group.";
+    private static final String DIFF_MINUTES_BEFORE_POST_KEY = PREFIX + "diff.minutes.before.post";
 
     public VKApiSetting(String fileName) {
         super(fileName);
     }
 
     public String getApplicationSecretKey() {
-        return getProperty(PREFIX + ".application.secret.key");
+        return getProperty(PREFIX + "application.secret.key");
     }
 
     public Integer getApplicationId() {
-        return Integer.parseInt(getProperty(PREFIX + ".application.id"));
+        return Integer.parseInt(getProperty(PREFIX + "application.id"));
     }
 
     public String getApplicationRedirectUri() {
-        return getProperty(PREFIX + ".application.redirect.uri");
+        return getProperty(PREFIX + "application.redirect.uri");
     }
 
     public String getVersion() {
-        return getProperty(PREFIX + ".application.version");
+        return getProperty(PREFIX + "application.version");
     }
 
     public String getAuthUrl(ActorType type, List<String> ids) {
@@ -55,5 +56,9 @@ public class VKApiSetting extends Setting {
         return String.format(appAuthorizeConnectionUrl, getApplicationId(),
                 appDisplay, getApplicationRedirectUri(),
                 responseType, scope, getVersion());
+    }
+
+    public int getDiffMinutesBeforePost() {
+        return Integer.parseInt(getProperty(DIFF_MINUTES_BEFORE_POST_KEY));
     }
 }

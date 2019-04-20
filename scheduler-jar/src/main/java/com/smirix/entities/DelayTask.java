@@ -13,6 +13,7 @@ public class DelayTask {
     private Long userId;
     private Calendar fireDate;
     private Long delayPostId;
+    private String status;
 
     public Long getId() {
         return id;
@@ -44,5 +45,13 @@ public class DelayTask {
 
     public void setDelayPostId(Long delayPostId) {
         this.delayPostId = delayPostId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

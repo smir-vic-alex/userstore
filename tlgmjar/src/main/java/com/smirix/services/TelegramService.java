@@ -22,7 +22,8 @@ public class TelegramService extends BusinessService {
                 query.setParameter("userId", userId);
 
                 return query.list();
-            } catch (NoResultException e) {
+            } catch (Exception e) {
+                LOGGER.error(ERROR_MSG, e);
                 return Collections.emptyList();
             }
         });
@@ -36,7 +37,8 @@ public class TelegramService extends BusinessService {
                 query.setParameter("userId", userId);
 
                 return query.list();
-            } catch (NoResultException e) {
+            } catch (Exception e) {
+                LOGGER.error(ERROR_MSG, e);
                 return Collections.emptyList();
             }
         });
@@ -50,7 +52,8 @@ public class TelegramService extends BusinessService {
                 query.setParameter("userTelegramId", userTelegramId);
 
                 return query.list();
-            } catch (NoResultException e) {
+            } catch (Exception e) {
+                LOGGER.error(ERROR_MSG, e);
                 return Collections.emptyList();
             }
         });

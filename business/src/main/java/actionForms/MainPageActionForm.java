@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Class description
  *
- * @author sbrf-Smirnov-VA
+ * @author Smirnov-VA
  * @created on 2019-03-24
  */
 public class MainPageActionForm extends ActionForm {

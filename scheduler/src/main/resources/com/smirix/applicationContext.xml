@@ -10,6 +10,12 @@
     <bean id="schedulerService" class="com.smirix.rest.services.SchedulerService"/>
     <bean id="executeVKPostJobService" class="com.smirix.rest.jobs.ExecuteVKPostJobService"/>
     <bean id="delayPostService" class="com.smirix.services.DelayPostService"/>
+    <bean class="com.smirix.services.apps.AppServicesService"/>
 
+    <bean id="schedulerSetting" class="com.smirix.settings.SchedulerSetting">
+        <constructor-arg value="com/smirix/scheduler-application-config.properties" type="java.lang.String"/>
+    </bean>
+
+    <import resource="vkContext.xml"/>
     <context:annotation-config/>
 </beans>

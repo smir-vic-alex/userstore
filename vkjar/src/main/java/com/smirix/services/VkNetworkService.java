@@ -15,6 +15,7 @@ import com.smirix.senders.user.requests.UserGroupsRq;
 import com.smirix.senders.user.requests.UserRq;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -109,7 +110,7 @@ public class VkNetworkService {
         }
     }
 
-    public void createPost(Long userId, Integer groupId, String message, List<String> attachments, Integer publishDate, Boolean fromGroup) {
+    public void createPost(Long userId, Integer groupId, String message, List<String> attachments, String publishDate, Boolean fromGroup, boolean isNoNeedCheckSchedule) {
         try {
             PostRq rq = new PostRq();
             rq.setUserId(userId);
@@ -118,6 +119,7 @@ public class VkNetworkService {
             rq.setAttachments(attachments);
             rq.setPublishDate(publishDate);
             rq.setFromGroup(fromGroup);
+            rq.setNotNeedCheckSchedule(isNoNeedCheckSchedule);
 
             createPostSender.send(rq);
         } catch (Exception e) {

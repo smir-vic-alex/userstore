@@ -13,5 +13,6 @@
         <mapping resource="property.hbm.xml"/>
         <mapping resource="connectors.hbm.xml"/>
         <mapping resource="vkGroups.hbm.xml"/>
+        <mapping resource="appService.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

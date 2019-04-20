@@ -13,12 +13,13 @@
         </id>
         <property name="userId"     column="USER_ID"    type="java.lang.Long"/>
         <property name="fireDate"       column="FIRE_DATE"       type="java.util.Calendar"/>
-        <property name="delayPostId"    column="DELAY_POST_ID"    type="java.lang.String"/>
+        <property name="delayPostId"    column="DELAY_POST_ID"    type="java.lang.Long"/>
+        <property name="status"         column="STATUS"             type="java.lang.String"/>
     </class>
 
     <query name="com.smirix.entities.DelayTask.getTasks">
         <![CDATA[
-        select task from com.smirix.entities.DelayTask as task where task.fireDate >= :fromDate and :toDate > task.fireDate
+        select task from com.smirix.entities.DelayTask as task where task.fireDate >= :fromDate and :toDate > task.fireDate and task.status = :status
         ]]>
     </query>
 

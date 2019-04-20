@@ -22,7 +22,7 @@ public class VkService extends BusinessService {
                 query.setParameter("userId", userId);
                 return query.getSingleResult();
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error(ERROR_MSG, e);
                 return null;
             }
         });
@@ -36,7 +36,7 @@ public class VkService extends BusinessService {
                 query.setParameter("userId", userId);
                 return query.list();
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error(ERROR_MSG, e);
                 return null;
             }
         });
@@ -50,7 +50,7 @@ public class VkService extends BusinessService {
                 query.setParameter("userId", userId);
                 return query.list();
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error(ERROR_MSG, e);
                 return Collections.emptyList();
             }
         });
@@ -64,7 +64,7 @@ public class VkService extends BusinessService {
                 query.setParameter("vkUserId", vkUserId);
                 return query.uniqueResult();
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error(ERROR_MSG, e);
                 return null;
             }
         });

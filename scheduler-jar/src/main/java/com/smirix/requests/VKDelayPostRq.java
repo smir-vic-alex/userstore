@@ -16,7 +16,7 @@ public class VKDelayPostRq implements Serializable {
     private String message;
     private Boolean fromGroup;
     private List<String> attachments;
-    private Calendar publishDate;
+    private String publishDate;
 
     public Long getUserId() {
         return userId;
@@ -58,11 +58,11 @@ public class VKDelayPostRq implements Serializable {
         this.attachments = attachments;
     }
 
-    public Calendar getPublishDate() {
+    public String getPublishDate() {
         return publishDate;
     }
 
-    public void setPublishDate(Calendar publishDate) {
+    public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
     }
 }
