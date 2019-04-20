@@ -15,12 +15,19 @@
         <property name="fireDate"       column="FIRE_DATE"       type="java.util.Calendar"/>
         <property name="delayPostId"    column="DELAY_POST_ID"    type="java.lang.Long"/>
         <property name="status"         column="STATUS"             type="java.lang.String"/>
+        <property name="type"       column="TYPE"       type="java.lang.String"/>
+        <property name="ownerId"    column="OWNER_ID"   type="java.lang.Long"/>
     </class>
 
     <query name="com.smirix.entities.DelayTask.getTasks">
         <![CDATA[
         select task from com.smirix.entities.DelayTask as task where task.fireDate >= :fromDate and :toDate > task.fireDate and task.status = :status
         ]]>
+    </query>
+
+
+    <query name="com.smirix.entities.DelayTask.getAllTasks">
+        select task from com.smirix.entities.DelayTask as task where task.userId = :userId and task.type = :type and task.ownerId = :ownerId
     </query>
 
 </hibernate-mapping>

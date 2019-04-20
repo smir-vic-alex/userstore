@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ru.json2pojo.beans.VkCreatePostRq;
 import ru.json2pojo.beans.VkCreatePostRs;
+import ru.json2pojo.beans.VkGetAllDelayedPostsRq;
+import ru.json2pojo.beans.VkGetAllDelayedPostsRs;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -31,5 +33,11 @@ public class SchedulerServiceEndpoint {
     @Path("/delay/vk/post")
     public VkCreatePostRs scheduleVKPost(VkCreatePostRq rq) {
         return schedulerService.delayVKCreatePost(rq);
+    }
+
+    @POST
+    @Path("/get/all/vk/delayed/posts")
+    public VkGetAllDelayedPostsRs getAllDelayedPosts(VkGetAllDelayedPostsRq rq) {
+        return schedulerService.getAllDelayedPosts(rq);
     }
 }

@@ -18,7 +18,7 @@
         <form-bean name="ShowClientTelegramChannelsActionForm" type="actionForms.ShowClientTelegramChannelsActionForm"/>
         <form-bean name="ClientAddVKProfileActionForm" type="actionForms.ClientAddVKProfileActionForm"/>
         <form-bean name="CodeVKActionForm" type="actionForms.CodeVKActionForm"/>
-        <form-bean name="ShowClientAdminVKGroupActionForm" type="actionForms.ShowClientAdminVKGroupActionForm"/>
+        <form-bean name="ShowClientCommunitiesActionForm" type="actionForms.ShowClientCommunitiesActionForm"/>
         <form-bean name="MakePostInVKGroupActionForm" type="actionForms.MakePostInVKGroupActionForm"/>
         <form-bean name="CreatePostVKActionForm" type="actionForms.CreatePostVKActionForm"/>
         <form-bean name="CreatePostActionForm" type="actionForms.CreatePostActionForm"/>
@@ -72,9 +72,9 @@
             <forward name="start" path="/WEB-INF/jsp/addTelegramBot.jsp"/>
             <forward name="success" path="/WEB-INF/jsp/successAddTelegramBot.jsp"/>
         </action>
-        <action path="/private/client/show/vk/groups"
-                type="actions.vk.ShowClientAdminVKGroupsAction"
-                name="ShowClientAdminVKGroupActionForm"
+        <action path="/private/client/show/communities"
+                type="actions.ShowClientCommunitiesAction"
+                name="ShowClientCommunitiesActionForm"
                 scope="request"
                 parameter="unused">
             <forward name="success" path="/WEB-INF/jsp/showAdminGroupsList.jsp"/>
@@ -94,7 +94,7 @@
                 name="CodeVKActionForm"
                 scope="request"
                 parameter="unused">
-            <forward name="success" path="/private/client/show/vk/groups.do" redirect="true"/>
+            <forward name="success" path="/private/client/show/communities.do" redirect="true"/>
         </action>
         <!--Получение code от vk.com-->
         <action path="/private/redirect/vk/group/uri"

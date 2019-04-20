@@ -6,10 +6,12 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <bean id="schedulerVKDelaySender" class="com.smirix.senders.SchedulerVKDelaySender"/>
+    <bean id="schedulerGetDelayedPostsSender" class="com.smirix.senders.SchedulerGetDelayedPostsSender"/>
 
 
     <bean id="schedulerService" class="com.smirix.services.SchedulerService">
         <property name="vkDelaySender" ref="schedulerVKDelaySender"/>
+        <property name="schedulerGetDelayedPostsSender" ref="schedulerGetDelayedPostsSender"/>
     </bean>
 
     <context:annotation-config/>

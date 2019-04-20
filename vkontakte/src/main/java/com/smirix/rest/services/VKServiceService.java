@@ -1,6 +1,8 @@
 package com.smirix.rest.services;
 
 import com.smirix.entities.*;
+import com.smirix.requests.DelayedPostRs;
+import com.smirix.requests.GetDelayedPostsRs;
 import com.smirix.requests.VKDelayPostRq;
 import com.smirix.rest.elements.messages.Status;
 import com.smirix.rest.helpers.ActorHelper;
@@ -8,6 +10,7 @@ import com.smirix.senders.auth.requests.AuthActorRq;
 import com.smirix.senders.queries.requests.PostRq;
 import com.smirix.senders.queries.requests.PostRs;
 import com.smirix.senders.user.requests.UserGroupsRq;
+import com.smirix.senders.user.requests.UserGroupsRs;
 import com.smirix.services.SchedulerService;
 import com.smirix.services.VKConnectorManager;
 import com.smirix.services.VkService;
@@ -17,6 +20,7 @@ import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.objects.GroupAuthResponse;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -147,8 +151,8 @@ public class VKServiceService {
         return rs;
     }
 
-    public List<VKGroup> getUserGroupsFromVK(UserGroupsRq rq) {
-        VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(rq.getUserId());
+    public List<VKGroup> getUserGroupsFromVK(Long userId) {
+        VKUserActor vkUserActor = vkService.getVKUserNetworkByUserId(userId);
         List<GroupFull> vkGroups = vkConnectorManager.getGroups(vkUserActor);
 
         return convertToVKGroupList(vkGroups);
@@ -161,19 +165,55 @@ public class VKServiceService {
 
         try {
             UserGroupsRq groupsRq = rq.getBody();
-            List<VKGroup> groups;
+            UserGroupsRs userGroupsRs = new UserGroupsRs();
+
+            Long userId = groupsRq.getUserId();
             if (groupsRq.getFromVK() != null && groupsRq.getFromVK()) {
-                groups = getUserGroupsFromVK(groupsRq);
+                userGroupsRs.setGroups(getUserGroupsFromVK(userId));
             } else {
-                groups = vkService.getVKGroups(groupsRq.getUserId());
+                List<VKGroup> groups = vkService.getVKGroups(userId);
+                userGroupsRs.setGroups(groups);
+                userGroupsRs.setDelayedVKPosts(convert(schedulerService.getAllUserDelayedPosts(userId, getListVKGroupIds(groups))));
             }
 
-            rs.setBody(groups);
+            rs.setBody(userGroupsRs);
         } catch (Exception e) {
             LOGGER.error(ERROR_MSG, e);
             rs.setStatus(new Status(-1L, e.getMessage()));
         }
         return rs;
+    }
+
+    private List<DelayedVKPost> convert(GetDelayedPostsRs allUserDelayedPosts) {
+        List<DelayedPostRs> delayedPosts = allUserDelayedPosts.getDelayedPostRs();
+
+        if (CollectionUtils.isNotEmpty(delayedPosts)) {
+            List<DelayedVKPost> delayedVKPostList = new ArrayList<>(delayedPosts.size());
+            for (DelayedPostRs postRs : delayedPosts) {
+                DelayedVKPost delayedVKPost = new DelayedVKPost();
+                delayedVKPost.setFireDate(postRs.getFireDate());
+                delayedVKPost.setFromGroup(postRs.getFromGroup());
+                delayedVKPost.setMessage(postRs.getMessage());
+                delayedVKPost.setOwnerId(postRs.getOwnerId());
+                delayedVKPost.setStatus(postRs.getStatus());
+                delayedVKPost.setType(postRs.getType());
+
+                delayedVKPostList.add(delayedVKPost);
+            }
+
+            return delayedVKPostList;
+        }
+
+        return Collections.emptyList();
+    }
+
+    private List<Long> getListVKGroupIds(List<VKGroup> groups) {
+        List<Long> ids = new ArrayList<>(groups.size());
+        for (VKGroup group : groups) {
+            ids.add(group.getVkId());
+        }
+
+        return ids;
     }
 
     public CreatePostRs createPost(CreatePostRq rq) {

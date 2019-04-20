@@ -9,22 +9,47 @@
         <jsp:include page="topMenuClientPage.jsp"/>
     </tiles:put>
     <tiles:put name="data" type="string">
-        <bean:define id="form" name="ShowClientAdminVKGroupActionForm"/>
-        <c:forEach var="group" items="${form.vkGroups}">
-            <div class="content-row">
-                <html:form action="/private/client/addVKGroup">
-                    <div class="inline">
-                        <img class="vk-group-icon" src="${group.urlPhoto}"/>
+        <bean:define id="form" name="ShowClientCommunitiesActionForm"/>
+        <h1>Ваши администрируемые сообщества</h1>
+        <c:choose>
+            <c:when test="${not empty form.vkGroups}">
+                Ваши подключенные группы ВКонтакте:
+                <c:forEach var="group" items="${form.vkGroups}">
+                    <div class="content-row">
+                        <html:form action="/private/client/addVKGroup">
+                            <div class="inline">
+                                <img class="vk-group-icon" src="${group.avatarUrl}"/>
+                            </div>
+                            <div class="vk-group-icon-title inline">
+                                <c:out value="${group.name}"/>
+                            </div>
+                            <html:hidden property="groupId" value="${group.id}"/>
+                        </html:form>
                     </div>
-                    <div class="vk-group-icon-title inline">
-                        <c:out value="${group.name}"/>
+                </c:forEach>
+            </c:when>
+            <c:when test="${not empty form.notConnectedVkGroups}">
+                У Вас нет подключенных групп ВКонтакте. Пожалуйста выберите и добавьте из списка:
+                <c:forEach var="group" items="${form.notConnectedVkGroups}">
+                    <div class="content-row">
+                        <html:form action="/private/client/addVKGroup">
+                            <div class="inline">
+                                <img class="vk-group-icon" src="${group.avatarUrl}"/>
+                            </div>
+                            <div class="vk-group-icon-title inline">
+                                <c:out value="${group.name}"/>
+                            </div>
+                            <html:hidden property="groupId" value="${group.id}"/>
+                            <div class="vk-group-button inline">
+                                <html:submit value="Добавить группу" styleClass="button"/>
+                            </div>
+                        </html:form>
                     </div>
-                   <html:hidden property="groupId" value="${group.id}"/>
-                    <div class="vk-group-button inline">
-                        <html:submit value="Добавить группу" styleClass="button"/>
-                    </div>
-                </html:form>
-            </div>
-        </c:forEach>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                У Вас нет групп для администрирования
+            </c:otherwise>
+        </c:choose>
     </tiles:put>
 </tiles:insert>

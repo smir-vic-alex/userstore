@@ -27,7 +27,7 @@ public class CreatePostAction extends ActionBase {
 
         VKUser vkUser = ServiceFactory.getVK().getUser(userId);
         if (vkUser != null && vkUser.getVkUserId() != null) {
-            form.setVkGroups(ServiceFactory.getVK().getUserGroups(userId));
+            form.setVkGroups(ServiceFactory.getVK().getUserGroups(userId, false).getGroups());
             form.setVkUser(vkUser);
         }
 

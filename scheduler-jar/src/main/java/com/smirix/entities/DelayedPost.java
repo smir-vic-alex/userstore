@@ -10,10 +10,8 @@ package com.smirix.entities;
 public class DelayedPost {
     private Long id;
     private Long userId;
-    private String type;
     private String message;
     private Boolean fromGroup;
-    private Integer ownerId;
 
     public Long getId() {
         return id;
@@ -29,14 +27,6 @@ public class DelayedPost {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getMessage() {
@@ -55,11 +45,4 @@ public class DelayedPost {
         this.fromGroup = fromGroup;
     }
 
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Integer ownerId) {
-        this.ownerId = ownerId;
-    }
 }

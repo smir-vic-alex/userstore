@@ -11,7 +11,7 @@
     "body": {
       "type": "object",
       "additionalProperties": false,
-      "javaType":"com.smirix.senders.user.requests.UserGroupsRs"
+      "javaType":"com.smirix.requests.GetDelayedPostsRq"
     },
     "status":{
       "type":"object",

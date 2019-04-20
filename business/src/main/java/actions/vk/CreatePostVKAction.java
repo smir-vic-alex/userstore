@@ -24,7 +24,7 @@ public class CreatePostVKAction extends Action {
         CreatePostVKActionForm form = (CreatePostVKActionForm) frm;
 
         User user = UserUtils.getCurrentUser();
-        List<VKGroup> groupNetworks = ServiceFactory.getVK().getUserGroups(user.getId());
+        List<VKGroup> groupNetworks = ServiceFactory.getVK().getUserGroups(user.getId(),false).getGroups();
 
         form.setAvailableNetworks(groupNetworks);
         return success(mapping);

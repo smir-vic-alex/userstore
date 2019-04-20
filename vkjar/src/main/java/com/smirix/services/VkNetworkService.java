@@ -12,10 +12,13 @@ import com.smirix.senders.queries.requests.PostRq;
 import com.smirix.senders.user.GetUserGroupsSender;
 import com.smirix.senders.user.GetUserSender;
 import com.smirix.senders.user.requests.UserGroupsRq;
+import com.smirix.senders.user.requests.UserGroupsRs;
 import com.smirix.senders.user.requests.UserRq;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -23,6 +26,8 @@ import java.util.List;
  * Created by Виктор on 06.01.2019.
  */
 public class VkNetworkService {
+
+    protected static Logger LOGGER = LoggerFactory.getLogger(VkNetworkService.class);
 
     private GetActorAuthUrlSender getActorAuthUrlSender;
     private AuthActorSender authActorSender;
@@ -85,16 +90,16 @@ public class VkNetworkService {
         }
     }
 
-    public List<VKGroup> getUserGroups(Long userId) {
+    public UserGroupsRs getUserGroups(Long userId, boolean isFromVK) {
         try {
             UserGroupsRq rq = new UserGroupsRq();
             rq.setUserId(userId);
-            rq.setFromVK(false);
+            rq.setFromVK(isFromVK);
 
             return getUserGroupsSender.send(rq);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error(String.format("Для пользователя с userId %s не найден список ВК групп.", userId));
+            return null;
         }
     }
 
@@ -105,8 +110,8 @@ public class VkNetworkService {
 
             return getUserSender.send(rq);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error(String.format("Для пользователя с userId %s не найден ВК профиль.", userId));
+            return null;
         }
     }
 

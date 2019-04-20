@@ -5,7 +5,7 @@
     <session-factory>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>
         <!--<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>-->
-        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/smirixdb</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/admin</property>
         <property name="connection.pool_size">1</property>
         <property name="hibernate.connection.username">admin</property>
         <property name="hibernate.connection.password">admin</property>

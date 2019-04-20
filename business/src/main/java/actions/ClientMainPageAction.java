@@ -2,6 +2,7 @@ package actions;
 
 import actionForms.MainPageActionForm;
 import com.smirix.entities.VKUser;
+import com.smirix.senders.user.requests.UserGroupsRs;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -25,11 +26,13 @@ public class ClientMainPageAction extends ActionBase {
         VKUser vkUser = ServiceFactory.getVK().getUser(userId);
         if (vkUser != null && vkUser.getVkUserId() != null) {
             form.setVkUser(vkUser);
-            form.setVkGroups(ServiceFactory.getVK().getUserGroups(userId));
+            UserGroupsRs rs = ServiceFactory.getVK().getUserGroups(userId, false);
+            form.setVkGroups(rs.getGroups());
+            form.setDelayedVKPosts(rs.getDelayedVKPosts());
         }
 
-        form.setTelegramBots(ServiceFactory.getTlgm().getUserBots(userId));
-        form.setTelegramChannels(ServiceFactory.getTlgm().getUserChannels(userId));
+//        form.setTelegramBots(ServiceFactory.getTlgm().getUserBots(userId));
+//        form.setTelegramChannels(ServiceFactory.getTlgm().getUserChannels(userId));
 
         return success(mapping);
     }

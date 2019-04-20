@@ -1,5 +1,6 @@
 package actionForms;
 
+import com.smirix.entities.DelayedVKPost;
 import com.smirix.entities.VKGroup;
 import com.smirix.entities.VKUser;
 import com.smirix.pojo.TelegramChannel;
@@ -18,6 +19,7 @@ public class MainPageActionForm extends ActionForm {
 
     private VKUser vkUser;
     private List<VKGroup> vkGroups;
+    private List<DelayedVKPost> delayedVKPosts;
     private List<TelegramUser> telegramBots;
     private List<TelegramChannel> telegramChannels;
 
@@ -51,5 +53,13 @@ public class MainPageActionForm extends ActionForm {
 
     public void setTelegramChannels(List<TelegramChannel> telegramChannels) {
         this.telegramChannels = telegramChannels;
+    }
+
+    public List<DelayedVKPost> getDelayedVKPosts() {
+        return delayedVKPosts;
+    }
+
+    public void setDelayedVKPosts(List<DelayedVKPost> delayedVKPosts) {
+        this.delayedVKPosts = delayedVKPosts;
     }
 }

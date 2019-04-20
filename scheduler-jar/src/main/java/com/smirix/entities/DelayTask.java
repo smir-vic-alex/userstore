@@ -14,6 +14,8 @@ public class DelayTask {
     private Calendar fireDate;
     private Long delayPostId;
     private String status;
+    private String type;
+    private Long ownerId;
 
     public Long getId() {
         return id;
@@ -53,5 +55,21 @@ public class DelayTask {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

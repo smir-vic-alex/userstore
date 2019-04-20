@@ -49,7 +49,7 @@ public class ExecuteVKPostJobService {
 
                 if (post != null) {
                     vkNetworkService.createPost(task.getUserId(),
-                            post.getOwnerId(),
+                            task.getOwnerId().intValue(),
                             post.getMessage(),
                             null,
                             DateUtils.dateToString(task.getFireDate()),
