@@ -14,6 +14,8 @@ public class DelayedVKPost {
 
     private String fireDate;
     private String status;
+    private String avatarUrl;
+    private String groupName;
 
     public String getType() {
         return type;
@@ -61,5 +63,21 @@ public class DelayedVKPost {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

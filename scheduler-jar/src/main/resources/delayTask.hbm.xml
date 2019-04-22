@@ -27,7 +27,11 @@
 
 
     <query name="com.smirix.entities.DelayTask.getAllTasks">
-        select task from com.smirix.entities.DelayTask as task where task.userId = :userId and task.type = :type and task.ownerId = :ownerId
+        select task from com.smirix.entities.DelayTask as task
+            where task.userId = :userId
+                and task.type = :type
+                and task.ownerId = :ownerId
+                and task.status = :status
     </query>
 
 </hibernate-mapping>

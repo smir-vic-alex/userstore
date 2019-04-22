@@ -12,8 +12,8 @@
     <div class="inline content">
         ${data}
     </div>
-
+    <%--<jsp:include page="footer.jsp"/>--%>
 </div>
-<jsp:include page="footer.jsp"/>
+
 </body>
 </html>

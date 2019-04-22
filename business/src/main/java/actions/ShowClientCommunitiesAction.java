@@ -37,11 +37,14 @@ public class ShowClientCommunitiesAction extends ActionBase
 
     private void setVKGroups(ShowClientCommunitiesActionForm actionForm, User user) {
         List<VKGroup> storedVKGroups = ServiceFactory.getVK().getUserGroups(user.getId(), false).getGroups();
+        List<VKGroup> vkGroupList = ServiceFactory.getVK().getUserGroups(user.getId(), true).getGroups();
 
-        if (CollectionUtils.isEmpty(storedVKGroups)) {
-            actionForm.setNotConnectedVkGroups(ServiceFactory.getVK().getUserGroups(user.getId(), true).getGroups());
+        for (VKGroup storedGroup : storedVKGroups) {
+            CollectionUtils.filterInverse(vkGroupList, vkGroup -> storedGroup.getVkId().equals(vkGroup.getVkId()));
         }
 
+
+        actionForm.setNotConnectedVkGroups(vkGroupList);
         actionForm.setVkGroups(storedVKGroups);
     }
 }

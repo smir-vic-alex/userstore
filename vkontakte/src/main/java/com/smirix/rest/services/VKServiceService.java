@@ -173,7 +173,7 @@ public class VKServiceService {
             } else {
                 List<VKGroup> groups = vkService.getVKGroups(userId);
                 userGroupsRs.setGroups(groups);
-                userGroupsRs.setDelayedVKPosts(convert(schedulerService.getAllUserDelayedPosts(userId, getListVKGroupIds(groups))));
+                userGroupsRs.setDelayedVKPosts(convert(groups, schedulerService.getAllUserDelayedPosts(userId, getListVKGroupIds(groups))));
             }
 
             rs.setBody(userGroupsRs);
@@ -184,7 +184,7 @@ public class VKServiceService {
         return rs;
     }
 
-    private List<DelayedVKPost> convert(GetDelayedPostsRs allUserDelayedPosts) {
+    private List<DelayedVKPost> convert(List<VKGroup> groups, GetDelayedPostsRs allUserDelayedPosts) {
         List<DelayedPostRs> delayedPosts = allUserDelayedPosts.getDelayedPostRs();
 
         if (CollectionUtils.isNotEmpty(delayedPosts)) {
@@ -197,6 +197,7 @@ public class VKServiceService {
                 delayedVKPost.setOwnerId(postRs.getOwnerId());
                 delayedVKPost.setStatus(postRs.getStatus());
                 delayedVKPost.setType(postRs.getType());
+                getGroupAvatar(delayedVKPost, groups);
 
                 delayedVKPostList.add(delayedVKPost);
             }
@@ -205,6 +206,15 @@ public class VKServiceService {
         }
 
         return Collections.emptyList();
+    }
+
+    private void getGroupAvatar(DelayedVKPost delayedVKPost, List<VKGroup> groups) {
+        for (VKGroup group : groups) {
+            if (delayedVKPost.getOwnerId().longValue() == group.getVkId()){
+                delayedVKPost.setAvatarUrl(group.getAvatarUrl());
+                delayedVKPost.setGroupName(group.getName());
+            }
+        }
     }
 
     private List<Long> getListVKGroupIds(List<VKGroup> groups) {
@@ -266,7 +276,7 @@ public class VKServiceService {
         for (GroupFull group : groupFulls) {
             VKGroup vkGroup = new VKGroup();
 
-            vkGroup.setId(Long.parseLong(group.getId()));
+            vkGroup.setVkId(Long.parseLong(group.getId()));
             vkGroup.setName(group.getName());
             vkGroup.setAvatarUrl(group.getPhoto50());
             vkGroupList.add(vkGroup);

@@ -12,7 +12,9 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -24,24 +26,31 @@ import java.util.List;
  */
 public class DelayPostService extends BusinessService {
 
-    public Pair<DelayTask, DelayedPost> getUserDelayedTask(Long userId, Long ownerId, String type) {
-        return new HibernateExecutor<Pair<DelayTask, DelayedPost>>().execute((session) ->
+    public List<Pair<DelayTask, DelayedPost>> getUserDelayedTask(Long userId, Long ownerId, String type, String status) {
+        return new HibernateExecutor<List<Pair<DelayTask, DelayedPost>>>().execute((session) ->
                 {
                     try {
                         Query<DelayTask> query = session.createNamedQuery("com.smirix.entities.DelayTask.getAllTasks", DelayTask.class);
                         query.setParameter("userId", userId);
                         query.setParameter("type", type);
                         query.setParameter("ownerId", ownerId);
+                        query.setParameter("status", status);
 
                         List<DelayTask> tasks = query.getResultList();
 
                         if (CollectionUtils.isNotEmpty(tasks)) {
-                            DelayedPost post = getDelayedPost(tasks.get(0).getDelayPostId(), userId, session);
-                            if (post != null)
-                                return new Pair<>(tasks.get(0), post);
+                            List<Pair<DelayTask, DelayedPost>> pairs = new ArrayList<>(tasks.size());
+
+                            for (DelayTask task : tasks) {
+                                DelayedPost post = getDelayedPost(task.getDelayPostId(), userId, session);
+                                if (post != null)
+                                    pairs.add(new Pair<>(task, post));
+                            }
+                            return pairs;
+
                         }
 
-                        return null;
+                        return Collections.emptyList();
 
                     } catch (Exception e) {
                         LOGGER.error(ERROR_MSG, e);

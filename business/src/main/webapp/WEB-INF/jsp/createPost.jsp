@@ -35,7 +35,7 @@
                                 <input name="postText" class="create-post-input-text" type="text">
                             </div>
                         </div>
-                        <div class="inline create-post-input-checkbox">
+                        <div class="create-post-input-checkbox">
                             <div><input name="isPlanned" type="checkbox" value="true">Запланировать</div>
                             <div><input name="isFromGroup" type="checkbox" value="true">От имени группы</div>
                             <div><input name="isAddSign" type="checkbox" value="true">Добавить подпись</div>

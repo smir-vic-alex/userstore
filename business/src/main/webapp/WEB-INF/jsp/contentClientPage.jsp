@@ -34,54 +34,82 @@
         </div>
     </c:when>
     <c:otherwise>
-        <c:if test="${not empty form.vkUser}">
-            <h1>ВКонтакте</h1>
-            <c:choose>
-                <c:when test="${not empty form.vkGroups}">
-                    <c:forEach var="group" items="${form.vkGroups}">
-                        <div class="content-row">
-                            <div class="inline">
-                                <img class="vk-group-icon" src="${group.avatarUrl}"/>
+        <c:choose>
+            <c:when test="${not empty form.delayedVKPosts}">
+                <h1>Планируемые посты:</h1>
+                <c:forEach var="post" items="${form.delayedVKPosts}">
+                    <div class="content-row">
+                        <div class="inline">
+                            <img class="vk-group-icon" src="${post.avatarUrl}"/>
+                        </div>
+                        <div class="vk-group-icon-block inline">
+                            <div style="font-size: 1.5em; color: #2a5885;">
+                                <c:out value="${post.groupName}"/>
                             </div>
-                            <div class="vk-group-icon-title inline">
-                                <c:out value="${group.name}"/>
+
+                            <div class="">
+                                Дата публикации:
+                                <c:out value="${post.fireDate}"/>
                             </div>
-                                <%--<html:hidden property="groupId" value="${group.id}"/>--%>
-                            <div class="vk-group-button inline">
-                                <a href="${pageContext.request.contextPath}/private/create/post.do">
-                                    <button class="button" type="submit">Создать пост</button>
-                                </a>
+                            <div class="">
+                                <c:set var="checked">
+                                    <c:choose>
+                                        <c:when test="${post.fromGroup}">
+                                            checked
+                                        </c:when>
+                                    </c:choose>
+                                </c:set>
+                                От имени группы:
+                                <input type="checkbox" disabled="true" <c:out value="${checked}"/>>
                             </div>
                         </div>
-                    </c:forEach>
-                </c:when>
-                <c:when test="${not empty form.delayedVKPosts}">
-                    <h1>Планируемые посты:</h1>
-                    <c:forEach var="post" items="${form.delayedVKPosts}">
-                        <div class="content-row">
-                            <%--<div class="inline">--%>
-                                <%--<img class="vk-group-icon" src="${group.avatarUrl}"/>--%>
-                            <%--</div>--%>
-                            <div class="vk-group-icon-title inline">
+                        <html:hidden property="groupId" value="${post.ownerId}"/>
+                        <div style="margin:15px;">
+                            <div class="inline">
+                                Сообщение:
+
+                            </div>
+                            <div class="inline vk-post-msg-area">
                                 <c:out value="${post.message}"/>
                             </div>
-                                <%--<html:hidden property="groupId" value="${group.id}"/>--%>
-                            <%--<div class="vk-group-button inline">--%>
-                                <%--<a href="${pageContext.request.contextPath}/private/create/post.do">--%>
-                                    <%--<button class="button" type="submit">Создать пост</button>--%>
-                                <%--</a>--%>
-                            <%--</div>--%>
                         </div>
-                    </c:forEach>
-                </c:when>
-                <c:otherwise>
-                    <div class="content-row">
-                        У Вас неподключены группы для автоматического постинга.
-                        <a href="${pageContext.request.contextPath}/private/client/show/communities.do">Нажмите чтобы
-                            подключить</a>
                     </div>
-                </c:otherwise>
-            </c:choose>
-        </c:if>
+                </c:forEach>
+            </c:when>
+            <c:when test="${not empty form.vkUser}">
+                <h1>ВКонтакте</h1>
+                <h2>У вас нет запланированных постов.</h2>
+                <h2>Выберите группу, чтобы создать новые</h2>
+                <c:choose>
+                    <c:when test="${not empty form.vkGroups}">
+                        <c:forEach var="group" items="${form.vkGroups}">
+                            <div class="content-row">
+                                <div class="inline">
+                                    <img class="vk-group-icon" src="${group.avatarUrl}"/>
+                                </div>
+                                <div class="vk-group-icon-title inline">
+                                    <c:out value="${group.name}"/>
+                                </div>
+                                    <%--<html:hidden property="groupId" value="${group.id}"/>--%>
+                                <div class="vk-group-button inline">
+                                    <a href="${pageContext.request.contextPath}/private/create/post.do">
+                                        <button class="button" type="submit">Создать пост</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="content-row">
+                            У Вас неподключены группы для автоматического постинга.
+                            <a href="${pageContext.request.contextPath}/private/client/show/communities.do">Нажмите
+                                чтобы
+                                подключить</a>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+            </c:when>
+        </c:choose>
+
     </c:otherwise>
 </c:choose>

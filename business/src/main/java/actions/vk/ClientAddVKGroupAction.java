@@ -1,6 +1,7 @@
 package actions.vk;
 
 import actionForms.ClientAddVKGroupActionForm;
+import com.smirix.utils.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -18,6 +19,10 @@ public class ClientAddVKGroupAction extends VKAction {
     public ActionForward start(ActionMapping mapping, ActionForm frm, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ClientAddVKGroupActionForm form = (ClientAddVKGroupActionForm) frm;
         String groupId = form.getGroupId();
+
+        if (StringUtils.isEmpty(groupId))
+            throw new RuntimeException();
+
         String url = ServiceFactory.getVK().getGroupActorAuthUrl(groupId);
         return new ActionForward(url, true);
     }

@@ -3,6 +3,7 @@ package com.smirix.rest.services;
 import com.smirix.common.Pair;
 import com.smirix.entities.DelayTask;
 import com.smirix.entities.DelayedPost;
+import com.smirix.entities.TaskStatus;
 import com.smirix.requests.DelayedPostRs;
 import com.smirix.requests.GetDelayedPostsRq;
 import com.smirix.requests.GetDelayedPostsRs;
@@ -10,6 +11,7 @@ import com.smirix.requests.VKDelayPostRs;
 import com.smirix.rest.elements.messages.Status;
 import com.smirix.services.DelayPostService;
 import com.smirix.utils.DateUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.json2pojo.beans.VkCreatePostRq;
 import ru.json2pojo.beans.VkCreatePostRs;
@@ -58,9 +60,11 @@ public class SchedulerService {
         GetDelayedPostsRq body = rq.getBody();
         List<DelayedPostRs> delayedPostRs = new ArrayList<>();
         for (Long ownerId : body.getGroupIds()) {
-            Pair<DelayTask, DelayedPost> pair = delayPostService.getUserDelayedTask(body.getUserId(), ownerId, "VK");
-            if (pair != null) {
-                delayedPostRs.add(convert(pair.getFirst(), pair.getSecond()));
+            List<Pair<DelayTask, DelayedPost>> pairs = delayPostService.getUserDelayedTask(body.getUserId(), ownerId, "VK", TaskStatus.PREPARED.getValue());
+            if (CollectionUtils.isNotEmpty(pairs)) {
+                for (Pair<DelayTask, DelayedPost> pair : pairs) {
+                    delayedPostRs.add(convert(pair.getFirst(), pair.getSecond()));
+                }
             }
         }
         GetDelayedPostsRs postsRs = new GetDelayedPostsRs();

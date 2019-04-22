@@ -1,7 +1,6 @@
 package actions.vk;
 
 import actionForms.MakePostInVKGroupActionForm;
-import com.smirix.utils.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -10,7 +9,8 @@ import utils.UserUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Calendar;
+import java.util.Arrays;
+import java.util.List;
 
 public class MakePostInVKGroupAction extends VKAction {
 
@@ -19,20 +19,21 @@ public class MakePostInVKGroupAction extends VKAction {
         MakePostInVKGroupActionForm form = (MakePostInVKGroupActionForm) frm;
 
         Long userId = UserUtils.getCurrentUser().getId();
-        Integer groupId = form.getVkGroupId()[0].intValue();
+        List<Long> groupIds = Arrays.asList(form.getVkGroupId());
         String message = form.getPostText();
 //        List<String> attachments = form.getAttachments();
 
         Boolean fromGroup = form.getIsFromGroup();
 
-        ServiceFactory.getVK().createPost(userId,
-                groupId,
-                message,
-                null,
-                form.getCalendar() + " " + form.getTime() + ":00",
-                fromGroup,
-                false);
-
+        for (Long groupId : groupIds) {
+            ServiceFactory.getVK().createPost(userId,
+                    groupId.intValue(),
+                    message,
+                    null,
+                    form.getCalendar() + " " + form.getTime() + ":00",
+                    fromGroup,
+                    false);
+        }
         return success(mapping);
     }
 }
