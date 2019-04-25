@@ -32,6 +32,10 @@ public class VKApiSetting extends Setting {
         return getProperty(PREFIX + "application.redirect.uri");
     }
 
+    public String getApplicationRedirectGroupUri() {
+        return getProperty(PREFIX + "application.redirect.group.uri");
+    }
+
     public String getVersion() {
         return getProperty(PREFIX + "application.version");
     }
@@ -50,11 +54,16 @@ public class VKApiSetting extends Setting {
         String responseType = getProperty(prefix + "response.type");
         String scope = getProperty(prefix + "scope");
 
-        if (ActorType.GROUP == type)
+        String applicationRedirectUri = null;
+        if (ActorType.GROUP == type) {
             appAuthorizeConnectionUrl = VKUtils.insertGroupIdIntoRequestUrl(ids, appAuthorizeConnectionUrl);
+            applicationRedirectUri = getApplicationRedirectGroupUri();
+        } else {
+            applicationRedirectUri = getApplicationRedirectUri();
+        }
 
         return String.format(appAuthorizeConnectionUrl, getApplicationId(),
-                appDisplay, getApplicationRedirectUri(),
+                appDisplay, applicationRedirectUri,
                 responseType, scope, getVersion());
     }
 

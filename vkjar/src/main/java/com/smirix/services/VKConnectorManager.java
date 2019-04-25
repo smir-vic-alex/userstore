@@ -109,7 +109,7 @@ public class VKConnectorManager
         try
         {
             authResponse = vk.oauth()
-                    .groupAuthorizationCodeFlow(vkApiSetting.getApplicationId(), vkApiSetting.getApplicationSecretKey(), vkApiSetting.getApplicationRedirectUri(), code)
+                    .groupAuthorizationCodeFlow(vkApiSetting.getApplicationId(), vkApiSetting.getApplicationSecretKey(), vkApiSetting.getApplicationRedirectGroupUri(), code)
                     .execute();
         }
         catch (Exception e) {
