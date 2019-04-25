@@ -30,7 +30,7 @@
 
     <action-mappings>
         <!--Логин пользователя-->
-        <action path="/auth"
+        <action path="/private/auth"
                 type="actions.AuthAction"
                 name="AuthActionForm"
                 scope="request"

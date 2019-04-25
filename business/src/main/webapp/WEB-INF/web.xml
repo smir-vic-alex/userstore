@@ -23,7 +23,7 @@
         </init-param>
         <init-param>
             <param-name>authUrl</param-name>
-            <param-value>/auth.do</param-value>
+            <param-value>/private/auth.do</param-value>
         </init-param>
         <init-param>
             <param-name>errorUrl</param-name>
