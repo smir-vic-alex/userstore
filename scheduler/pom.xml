@@ -23,6 +23,7 @@
     </properties>
 
     <build>
+        <finalName>scheduler</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>

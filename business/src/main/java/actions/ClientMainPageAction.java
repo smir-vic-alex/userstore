@@ -20,20 +20,27 @@ public class ClientMainPageAction extends ActionBase {
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm frm, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        MainPageActionForm form = (MainPageActionForm) frm;
-        Long userId = UserUtils.getCurrentUser().getId();
+        try {
+            MainPageActionForm form = (MainPageActionForm) frm;
+            Long userId = UserUtils.getCurrentUser().getId();
 
-        VKUser vkUser = ServiceFactory.getVK().getUser(userId);
-        if (vkUser != null && vkUser.getVkUserId() != null) {
-            form.setVkUser(vkUser);
-            UserGroupsRs rs = ServiceFactory.getVK().getUserGroups(userId, false);
-            form.setVkGroups(rs.getGroups());
-            form.setDelayedVKPosts(rs.getDelayedVKPosts());
-        }
+            VKUser vkUser = ServiceFactory.getVK().getUser(userId);
+            if (vkUser != null && vkUser.getVkUserId() != null) {
+                form.setVkUser(vkUser);
+                UserGroupsRs rs = ServiceFactory.getVK().getUserGroups(userId, false);
+
+                if (rs != null){
+                    form.setVkGroups(rs.getGroups());
+                    form.setDelayedVKPosts(rs.getDelayedVKPosts());
+                }
+            }
 
 //        form.setTelegramBots(ServiceFactory.getTlgm().getUserBots(userId));
 //        form.setTelegramChannels(ServiceFactory.getTlgm().getUserChannels(userId));
-
-        return success(mapping);
+            return success(mapping);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 }

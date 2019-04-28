@@ -22,6 +22,7 @@
     </properties>
 
     <build>
+        <finalName>auth</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
