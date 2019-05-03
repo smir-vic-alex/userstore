@@ -24,7 +24,7 @@
                             </div>
                             <html:hidden property="groupId" value="${group.id}"/>
                             <div class="vk-group-button inline">
-                                <a href="/private/create/post.do">
+                                <a href="${pageContext.request.contextPath}/private/create/post.do">
                                     <button class="button" type="submit">Создать пост</button>
                                 </a>
                             </div>
