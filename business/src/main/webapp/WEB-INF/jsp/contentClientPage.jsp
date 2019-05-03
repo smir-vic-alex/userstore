@@ -13,18 +13,18 @@
             </div>
             <div class="social-network-row">
                 <div class="inline">
-                    <a href="${pageContext.request.contextPath}/private/client/addVKProfile.do">
+                    <a href="/private/client/addVKProfile.do">
                         <img class="social-network-icon"
-                             src="${pageContext.request.contextPath}/resources/img/vkLogo.png" alt="VKontakte"/>
+                             src="/resources/img/vkLogo.png" alt="VKontakte"/>
                         <div class="social-network-icon-title">
                             ВКонтакте
                         </div>
                     </a>
                 </div>
                 <div class="inline">
-                    <a href="${pageContext.request.contextPath}/private/client/addTlgmBot.do">
+                    <a href="/private/client/addTlgmBot.do">
                         <img class="social-network-icon"
-                             src="${pageContext.request.contextPath}/resources/img/telegramLogo.png" alt="Telegram"/>
+                             src="/resources/img/telegramLogo.png" alt="Telegram"/>
                         <div class="social-network-icon-title">
                             Telegram
                         </div>
@@ -92,7 +92,7 @@
                                 </div>
                                     <%--<html:hidden property="groupId" value="${group.id}"/>--%>
                                 <div class="vk-group-button inline">
-                                    <a href="${pageContext.request.contextPath}/private/create/post.do">
+                                    <a href="/private/create/post.do">
                                         <button class="button" type="submit">Создать пост</button>
                                     </a>
                                 </div>
@@ -102,7 +102,7 @@
                     <c:otherwise>
                         <div class="content-row">
                             У Вас неподключены группы для автоматического постинга.
-                            <a href="${pageContext.request.contextPath}/private/client/show/communities.do">Нажмите
+                            <a href="/private/client/show/communities.do">Нажмите
                                 чтобы
                                 подключить</a>
                         </div>

@@ -2,10 +2,10 @@
 <header>
     <div class="media header">
         <div>
-            <a href="${pageContext.request.contextPath}/private/client/page/main.do" class="logo">smm Posting</a>
+            <a href="/private/client/page/main.do" class="logo">smm Posting</a>
         </div>
         <div class="exit_block">
-            <a href="${pageContext.request.contextPath}/private/exit.do">
+            <a href="/private/exit.do">
                 <button class="exit_btn" type="submit">Выйти</button>
             </a>
         </div>
