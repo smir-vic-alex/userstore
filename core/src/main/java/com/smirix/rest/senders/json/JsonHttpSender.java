@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smirix.rest.elements.messages.Message;
 import com.smirix.rest.senders.ModuleSender;
+import com.smirix.security.ssl.SslUtils;
 import com.smirix.services.apps.AppServicesService;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -35,7 +36,10 @@ public abstract class JsonHttpSender<Rq extends Serializable, Rs extends Seriali
         HttpPost postMethod = new HttpPost(message.getHead().getScUrl());
         postMethod.setEntity(requestEntity);
 
-        return HttpClientBuilder.create().build().execute(postMethod);
+        return HttpClientBuilder.create()
+                                .setSSLContext(SslUtils.getContext())
+                                .build()
+                                .execute(postMethod);
     }
 
     @Override
