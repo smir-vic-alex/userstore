@@ -4,10 +4,8 @@ import com.smirix.services.PropertyFileLoaderService;
 import com.smirix.services.properties.Property;
 import com.smirix.services.properties.PropertyService;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -23,7 +21,7 @@ public abstract class Setting extends PropertyFileLoaderService {
     private PropertyService propertyService = new PropertyService();
 
     protected Setting(String fileName) {
-        setUpdatePeriod(60000 * 10);
+        setUpdatePeriod(1000 * 10);
         map = loadPropertiesFromFile(fileName);
     }
 
@@ -63,8 +61,7 @@ public abstract class Setting extends PropertyFileLoaderService {
         return value.trim();
     }
 
-    private boolean needUpdate()
-    {
+    private boolean needUpdate() {
         if (isUpdating)
             return false;
 
@@ -72,8 +69,7 @@ public abstract class Setting extends PropertyFileLoaderService {
         return lstUpdateTime <= 0 || (0 < updatePeriod &&  lstUpdateTime + updatePeriod < System.currentTimeMillis());
     }
 
-    private void setUpdatePeriod(int periodForUpdate)
-    {
+    private void setUpdatePeriod(int periodForUpdate) {
         updatePeriod = periodForUpdate;
     }
 }

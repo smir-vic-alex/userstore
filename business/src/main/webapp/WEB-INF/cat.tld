@@ -15,4 +15,10 @@
         <function-class>utils.StrutsUtils</function-class>
         <function-signature>java.lang.Object currentForm(javax.servlet.jsp.PageContext)</function-signature>
     </function>
+
+    <function>
+        <name>isUserHasVKProfile</name>
+        <function-class>utils.UserUtils</function-class>
+        <function-signature>boolean isUserHasVKProfile()</function-signature>
+    </function>
 </taglib>

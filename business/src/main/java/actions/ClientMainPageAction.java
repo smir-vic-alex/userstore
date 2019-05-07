@@ -26,6 +26,7 @@ public class ClientMainPageAction extends ActionBase {
 
             VKUser vkUser = ServiceFactory.getVK().getUser(userId);
             if (vkUser != null && vkUser.getVkUserId() != null) {
+                UserUtils.setIsUserHasVKProfile(true);
                 form.setVkUser(vkUser);
                 UserGroupsRs rs = ServiceFactory.getVK().getUserGroups(userId, false);
 

@@ -7,6 +7,15 @@ import org.apache.struts.action.ActionForm;
  */
 public class ClientAddVKGroupActionForm extends ActionForm {
     private String groupId;
+    private String userActorAuthUrl;
+
+    public String getUserActorAuthUrl() {
+        return userActorAuthUrl;
+    }
+
+    public void setUserActorAuthUrl(String userActorAuthUrl) {
+        this.userActorAuthUrl = userActorAuthUrl;
+    }
 
     public String getGroupId() {
         return groupId;

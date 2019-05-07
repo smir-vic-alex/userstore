@@ -24,6 +24,8 @@ public class ClientAddVKGroupAction extends VKAction {
             throw new RuntimeException();
 
         String url = ServiceFactory.getVK().getGroupActorAuthUrl(groupId);
-        return new ActionForward(url, true);
+        form.setUserActorAuthUrl(url);
+
+        return success(mapping);
     }
 }

@@ -44,9 +44,9 @@
                         </div>
                         <div class="vk-group-icon-block inline">
                             <div style="font-size: 1.5em; color: #2a5885;">
-                                <c:out value="${post.groupName}"/>
+                                <a href="https://vk.com/club${post.ownerId}" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"><c:out value="${post.groupName}"/></a>
                             </div>
-
+                            <%--https://vk.com/club ownerId--%>
                             <div class="">
                                 Дата публикации:
                                 <c:out value="${post.fireDate}"/>
@@ -62,6 +62,16 @@
                                 От имени группы:
                                 <input type="checkbox" disabled="true" <c:out value="${checked}"/>>
                             </div>
+                        </div>
+                        <div class="inline" style="float: right;">
+                            <ul class="delayedPostMenu">
+                                <li><a href=#><img src="/resources/img/gearIcon.png" style="width: 40px;"></a>
+                                    <ul class="delayedPostSubMenu">
+                                        <li><a href=#>Редактировать</a></li>
+                                        <li><a href=#>Удалить</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </div>
                         <html:hidden property="groupId" value="${post.ownerId}"/>
                         <div style="margin:15px;">
@@ -88,8 +98,9 @@
                                     <img class="vk-group-icon" src="${group.avatarUrl}"/>
                                 </div>
                                 <div class="vk-group-icon-title inline">
-                                    <c:out value="${group.name}"/>
+                                    <a href="https://vk.com/club${group.vkId}" onclick="window.open(this.href); return false;" onkeypress="window.open(this.href); return false;"><c:out value="${group.name}"/></a>
                                 </div>
+                                <%--https://vk.com/club--%>
                                     <%--<html:hidden property="groupId" value="${group.id}"/>--%>
                                 <div class="vk-group-button inline">
                                     <a href="${pageContext.request.contextPath}/private/create/post.do">

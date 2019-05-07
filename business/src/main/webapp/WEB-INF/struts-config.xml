@@ -38,6 +38,13 @@
             <forward name="success" path="/private/client/page/main.do" redirect="true"/>
             <forward name="forbidden" path="/private/client/page/main.do" redirect="true"/>
         </action>
+        <action path="/private/exit"
+                type="actions.ExitAction"
+                name="AuthActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/private/client/page/main.do" redirect="true"/>
+        </action>
         <!--Главная страница пользователя с его продуктами, данными по остаткам-->
         <action path="/private/client/page/main"
                 type="actions.ClientMainPageAction"
@@ -61,6 +68,7 @@
                 name="ClientAddVKProfileActionForm"
                 scope="request"
                 parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/addVKProfile.jsp"/>
             <forward name="error" path="/private/client/page/main.do" redirect="true"/>
             <forward name="stub" path="/private/client/vk/get/code.do?code=123321123321123321" redirect="true"/>
         </action>
@@ -85,6 +93,7 @@
                 name="ClientAddVKGroupActionForm"
                 scope="request"
                 parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/addVKGroup.jsp"/>
             <forward name="error" path="/private/client/page/main.do" redirect="true"/>
             <forward name="stub" path="/private/client/vk/get/code.do?code=123321123321123321" redirect="true"/>
         </action>

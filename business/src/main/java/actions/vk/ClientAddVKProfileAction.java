@@ -1,5 +1,6 @@
 package actions.vk;
 
+import actionForms.ClientAddVKProfileActionForm;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -15,7 +16,12 @@ public class ClientAddVKProfileAction extends VKAction {
 
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ClientAddVKProfileActionForm frm = (ClientAddVKProfileActionForm) form;
+
         String url = ServiceFactory.getVK().getUserActorAuthUrl();
-        return new ActionForward(url, true);
+        frm.setUserActorAuthUrl(url);
+
+        return success(mapping);
     }
 }

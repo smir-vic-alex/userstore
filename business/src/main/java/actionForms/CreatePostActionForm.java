@@ -2,6 +2,7 @@ package actionForms;
 
 import com.smirix.entities.VKGroup;
 import com.smirix.entities.VKUser;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.struts.action.ActionForm;
 
 import java.util.List;
@@ -30,5 +31,9 @@ public class CreatePostActionForm extends ActionForm {
 
     public void setVkGroups(List<VKGroup> vkGroups) {
         this.vkGroups = vkGroups;
+    }
+
+    public boolean getIsOneGroup() {
+        return CollectionUtils.isNotEmpty(vkGroups) && vkGroups.size() == 1;
     }
 }

@@ -12,10 +12,10 @@ import javax.servlet.http.HttpSession;
 public class UserUtils {
 
     private static final String IS_USER_LOGIN_ATTR = "isUserLogin";
-    private static final boolean IS_USER_LOGIN = true;
     private static final boolean NOT_CREATE_SESSION = false;
     private static final String USER_ATTR = "user";
-    public static final String ATTEMPTS_COUNT_ATTR = "attemptsCount";
+    private static final String ATTEMPTS_COUNT_ATTR = "attemptsCount";
+    private static final String IS_USER_HAS_VK_PROFILE_ATTR = "isUserHasVKProfile";
 
     public static User getCurrentUser(){
         return (User) WebContext.getCurrentRequest().getSession(NOT_CREATE_SESSION).getAttribute(USER_ATTR);
@@ -25,8 +25,8 @@ public class UserUtils {
         WebContext.getCurrentRequest().getSession(NOT_CREATE_SESSION).setAttribute(USER_ATTR, user);
     }
 
-    public static void setUserIsLogin(){
-        WebContext.getCurrentRequest().getSession(NOT_CREATE_SESSION).setAttribute(IS_USER_LOGIN_ATTR, IS_USER_LOGIN);
+    public static void setUserIsLogin(boolean userIsLogin){
+        WebContext.getCurrentRequest().getSession(NOT_CREATE_SESSION).setAttribute(IS_USER_LOGIN_ATTR, userIsLogin);
     }
 
     public static boolean isUserLogin(){
@@ -41,5 +41,14 @@ public class UserUtils {
 
     public static void setAttemptsCounts(Integer attemptsCount){
         WebContext.getCurrentRequest().getSession(NOT_CREATE_SESSION).setAttribute(ATTEMPTS_COUNT_ATTR, attemptsCount);
+    }
+
+    public static boolean isUserHasVKProfile() {
+        HttpSession session = WebContext.getCurrentRequest().getSession();
+        return session.getAttribute(IS_USER_HAS_VK_PROFILE_ATTR) != null && (boolean) session.getAttribute(IS_USER_HAS_VK_PROFILE_ATTR);
+    }
+
+    public static void setIsUserHasVKProfile(boolean isHas) {
+        WebContext.getCurrentRequest().getSession().setAttribute(IS_USER_HAS_VK_PROFILE_ATTR, isHas);
     }
 }

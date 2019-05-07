@@ -42,7 +42,7 @@ public class AuthAction extends Action {
     }
 
     private void sessionUpdate(User user) {
-        UserUtils.setUserIsLogin();
+        UserUtils.setUserIsLogin(true);
         UserUtils.setCurrentUser(user);
     }
 }

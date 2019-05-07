@@ -348,3 +348,57 @@ footer .copyrights a.ph_link {
     border: 1px solid #c5c2c2;
     padding: 8px;
 }
+
+ul {
+    display: block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+ul:after {
+    display: block;
+    content: ' ';
+    clear: both;
+    float: none;
+}
+ul.delayedPostMenu > li {
+    float: left;
+    position: relative;
+}
+ul.delayedPostMenu > li > a {
+    display: block;
+    padding: 10px;
+    color: #626262;
+    text-decoration: none;
+    /*border-radius: 10px;*/
+}
+ul.delayedPostMenu > li > a:hover {
+    /*background-color: gray;*/
+}
+ul.delayedPostSubMenu {
+    display: none;
+    position: absolute;
+    /* top: 37px; */
+    left: 5px;
+    padding: 10px;
+    background-color: white;
+    border: 1px black solid;
+    border-radius: 10px;
+}
+ul.delayedPostSubMenu > li {
+    display: block;
+}
+ul.delayedPostSubMenu > li > a {
+    display: block;
+    padding: 10px;
+    color: #626262;
+    /*background-color: #222629;;*/
+    text-decoration: none;
+}
+ul.delayedPostSubMenu > li > a:hover {
+    text-decoration: underline;
+}
+
+ul.delayedPostMenu > li:hover > ul.delayedPostSubMenu {
+    display: block;
+}
