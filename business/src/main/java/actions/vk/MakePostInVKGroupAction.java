@@ -27,6 +27,7 @@ public class MakePostInVKGroupAction extends VKAction {
 
         for (Long groupId : groupIds) {
             ServiceFactory.getVK().createPost(userId,
+                    form.getTaskId(),
                     groupId.intValue(),
                     message,
                     null,

@@ -49,6 +49,7 @@ public class ExecuteVKPostJobService {
 
                 if (post != null) {
                     vkNetworkService.createPost(task.getUserId(),
+                            null,
                             task.getOwnerId().intValue(),
                             post.getMessage(),
                             null,

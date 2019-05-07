@@ -15,6 +15,8 @@ import java.util.Date;
 public class DateUtils {
 
     private static final DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private static final DateFormat formatterDate = new SimpleDateFormat("dd.MM.yyyy");
+    private static final DateFormat formatterTime = new SimpleDateFormat("HH:mm");
 
     private static DateFormat getFormatter() {
         return (DateFormat)formatter.clone();
@@ -57,6 +59,14 @@ public class DateUtils {
         }
 
         return formatter.format(date.getTime());
+    }
+
+    public static String getOnlyDateFromString(String date) {
+        return formatterDate.format(getDate(date).getTime());
+    }
+
+    public static String getOnlyTimeFromString(String date) {
+        return formatterTime.format(getDate(date).getTime());
     }
 
 }

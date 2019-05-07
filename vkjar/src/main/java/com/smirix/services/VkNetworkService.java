@@ -115,9 +115,10 @@ public class VkNetworkService {
         }
     }
 
-    public void createPost(Long userId, Integer groupId, String message, List<String> attachments, String publishDate, Boolean fromGroup, boolean isNoNeedCheckSchedule) {
+    public void createPost(Long userId, Long taskId, Integer groupId, String message, List<String> attachments, String publishDate, Boolean fromGroup, boolean isNoNeedCheckSchedule) {
         try {
             PostRq rq = new PostRq();
+            rq.setTaskId(taskId);
             rq.setUserId(userId);
             rq.setOwnerId(groupId);
             rq.setMessage(message);

@@ -4,10 +4,7 @@ import com.smirix.common.Pair;
 import com.smirix.entities.DelayTask;
 import com.smirix.entities.DelayedPost;
 import com.smirix.entities.TaskStatus;
-import com.smirix.requests.DelayedPostRs;
-import com.smirix.requests.GetDelayedPostsRq;
-import com.smirix.requests.GetDelayedPostsRs;
-import com.smirix.requests.VKDelayPostRs;
+import com.smirix.requests.*;
 import com.smirix.rest.elements.messages.Status;
 import com.smirix.services.DelayPostService;
 import com.smirix.utils.DateUtils;
@@ -40,8 +37,25 @@ public class SchedulerService {
             rs.setStatus(new Status(0L, "ok"));
 
             VKDelayPostRs postRs = new VKDelayPostRs();
+            VKDelayPostRq postRq = rq.getBody();
+            Long taskId = postRq.getTaskId();
+            if (taskId == null) {
+                postRs.setPostId(delayPostService.delayPost(postRq).getId());
+            } else {
 
-            postRs.setPostId(delayPostService.delayPost(rq.getBody()).getId());
+                DelayTask delayTask = delayPostService.getTaskById(taskId);
+
+                if (delayTask != null) {
+                    DelayedPost delayedPost = delayPostService.getDelayedPost(delayTask.getDelayPostId(), delayTask.getUserId());
+
+                    if (delayedPost != null) {
+                        delayTask.setFireDate(DateUtils.getDate(postRq.getPublishDate()));
+                        delayedPost.setMessage(postRq.getMessage());
+                        delayedPost.setFromGroup(postRq.getFromGroup());
+                        postRs.setPostId(delayPostService.updateDelayedPost(delayedPost, delayTask).getId());
+                    }
+                }
+            }
             rs.setBody(postRs);
 
         } catch (Exception e) {
@@ -83,6 +97,7 @@ public class SchedulerService {
         delayedPostRs.setType(task.getType());
         delayedPostRs.setMessage(post.getMessage());
         delayedPostRs.setFromGroup(post.getFromGroup());
+        delayedPostRs.setTaskId(task.getId());
 
         return delayedPostRs;
     }

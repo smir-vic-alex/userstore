@@ -12,9 +12,18 @@ public class DelayedPostRs {
     private String message;
     private Boolean fromGroup;
     private Integer ownerId;
+    private Long taskId;
 
     private String fireDate;
     private String status;
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
 
     public String getType() {
         return type;

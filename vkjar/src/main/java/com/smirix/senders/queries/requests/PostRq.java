@@ -9,6 +9,7 @@ import java.util.List;
  * Created by Виктор on 08.01.2019.
  */
 public class PostRq implements Serializable {
+    private Long taskId;
     private Long userId;
     private Integer ownerId;
     private String message;
@@ -16,6 +17,14 @@ public class PostRq implements Serializable {
     private List<String> attachments;
     private String publishDate;
     private boolean isNotNeedCheckSchedule;
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
 
     public Long getUserId() {
         return userId;

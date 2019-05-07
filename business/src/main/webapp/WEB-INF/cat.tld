@@ -21,4 +21,16 @@
         <function-class>utils.UserUtils</function-class>
         <function-signature>boolean isUserHasVKProfile()</function-signature>
     </function>
+
+    <function>
+        <name>getTime</name>
+        <function-class>com.smirix.utils.DateUtils</function-class>
+        <function-signature>java.lang.String getOnlyTimeFromString(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <name>getDate</name>
+        <function-class>com.smirix.utils.DateUtils</function-class>
+        <function-signature>java.lang.String getOnlyDateFromString(java.lang.String)</function-signature>
+    </function>
 </taglib>

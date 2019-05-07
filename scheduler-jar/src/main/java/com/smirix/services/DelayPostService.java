@@ -102,6 +102,22 @@ public class DelayPostService extends BusinessService {
         );
     }
 
+    public DelayTask updateDelayedPost(DelayedPost delayedPost, DelayTask delayTask) {
+        return new HibernateExecutor<DelayTask>().execute((session) ->
+                {
+                    try {
+                        saveOrUpdate(delayedPost, DelayedPost.class);
+                        saveOrUpdate(delayTask, DelayTask.class);
+
+                        return delayTask;
+                    } catch (Exception e) {
+                        LOGGER.error(ERROR_MSG, e);
+                        throw e;
+                    }
+                }
+        );
+    }
+
     public List<DelayTask> getTask(Calendar fromDate, Calendar toDate, String taskStatus) {
         return new HibernateExecutor<List<DelayTask>>().execute((session) ->
                 {
@@ -119,6 +135,23 @@ public class DelayPostService extends BusinessService {
                 }
         );
     }
+
+    public DelayTask getTaskById(Long id) {
+        return new HibernateExecutor<DelayTask>().execute((session) ->
+                {
+                    try {
+                        Query<DelayTask> query = session.createNamedQuery("com.smirix.entities.DelayTask.getTaskById", DelayTask.class);
+                        query.setParameter("id", id);
+
+                        return query.list().get(0);
+                    } catch (NoResultException e) {
+                        LOGGER.error(ERROR_MSG, e);
+                        return null;
+                    }
+                }
+        );
+    }
+
 
     public DelayedPost getDelayedPost(Long postId, Long userId) {
         return new HibernateExecutor<DelayedPost>().execute((session) ->

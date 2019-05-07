@@ -197,6 +197,7 @@ public class VKServiceService {
                 delayedVKPost.setOwnerId(postRs.getOwnerId());
                 delayedVKPost.setStatus(postRs.getStatus());
                 delayedVKPost.setType(postRs.getType());
+                delayedVKPost.setTaskId(postRs.getTaskId());
                 getGroupAvatar(delayedVKPost, groups);
 
                 delayedVKPostList.add(delayedVKPost);
@@ -237,6 +238,7 @@ public class VKServiceService {
             if(!post.isNotNeedCheckSchedule() && isNeedToDelay(post.getPublishDate())) {
 
                 VKDelayPostRq vkDelayPostRq = new VKDelayPostRq();
+                vkDelayPostRq.setTaskId(post.getTaskId());
                 vkDelayPostRq.setUserId(post.getUserId());
                 vkDelayPostRq.setOwnerId(post.getOwnerId());
                 vkDelayPostRq.setFromGroup(post.getFromGroup());

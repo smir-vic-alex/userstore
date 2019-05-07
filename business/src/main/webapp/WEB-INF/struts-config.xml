@@ -130,8 +130,8 @@
             <forward name="success" path="/WEB-INF/jsp/createvkPost.jsp"/>
         </action>
 
-        <action path="/private/create/post"
-                type="actions.CreatePostAction"
+        <action path="/private/edit/post"
+                type="actions.EditPostAction"
                 name="CreatePostActionForm"
                 scope="request"
                 parameter="unused">

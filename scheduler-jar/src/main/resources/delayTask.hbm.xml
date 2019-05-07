@@ -25,6 +25,12 @@
         ]]>
     </query>
 
+    <query name="com.smirix.entities.DelayTask.getTaskById">
+        <![CDATA[
+        select task from com.smirix.entities.DelayTask as task where task.id = :id
+        ]]>
+    </query>
+
 
     <query name="com.smirix.entities.DelayTask.getAllTasks">
         select task from com.smirix.entities.DelayTask as task

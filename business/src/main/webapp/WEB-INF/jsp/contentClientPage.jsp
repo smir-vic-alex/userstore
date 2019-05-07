@@ -67,7 +67,7 @@
                             <ul class="delayedPostMenu">
                                 <li><a href=#><img src="/resources/img/gearIcon.png" style="width: 40px;"></a>
                                     <ul class="delayedPostSubMenu">
-                                        <li><a href=#>Редактировать</a></li>
+                                        <li><a href="${pageContext.request.contextPath}/private/edit/post.do?groupId=${post.ownerId}&taskId=${post.taskId}">Редактировать</a></li>
                                         <li><a href=#>Удалить</a></li>
                                     </ul>
                                 </li>
@@ -103,7 +103,7 @@
                                 <%--https://vk.com/club--%>
                                     <%--<html:hidden property="groupId" value="${group.id}"/>--%>
                                 <div class="vk-group-button inline">
-                                    <a href="${pageContext.request.contextPath}/private/create/post.do">
+                                    <a href="${pageContext.request.contextPath}/private/edit/post.do">
                                         <button class="button" type="submit">Создать пост</button>
                                     </a>
                                 </div>

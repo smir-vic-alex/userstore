@@ -11,6 +11,15 @@ public class MakePostInVKGroupActionForm extends ActionForm {
     private boolean isFromGroup;
     private boolean isAddSign;
     private boolean isCommercial;
+    private Long taskId;
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
 
     public Long[] getVkGroupId() {
         return vkGroupId;

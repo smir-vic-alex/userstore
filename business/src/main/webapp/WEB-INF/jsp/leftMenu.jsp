@@ -10,7 +10,7 @@
     </div>
     <nav id="nav">
         <ul>
-            <li><a href="${pageContext.request.contextPath}/private/create/post.do">Создать пост</a></li>
+            <li><a href="${pageContext.request.contextPath}/private/edit/post.do">Создать пост</a></li>
             <c:if test="${not cat:isUserHasVKProfile()}">
                 <li><a href="${pageContext.request.contextPath}/private/client/addVKProfile.do">Добавить профиль VK</a></li>
             </c:if>

@@ -12,11 +12,20 @@ import java.util.List;
  */
 public class VKDelayPostRq implements Serializable {
     private Long userId;
+    private Long taskId;
     private Integer ownerId;
     private String message;
     private Boolean fromGroup;
     private List<String> attachments;
     private String publishDate;
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
 
     public Long getUserId() {
         return userId;
