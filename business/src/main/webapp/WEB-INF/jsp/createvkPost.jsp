@@ -12,7 +12,7 @@
         <bean:define id="form" name="CreatePostActionForm"/>
 
         <c:forEach var="network" items="${form.availableNetworks}">
-            <html:form action="/private/send/post">
+            <html:form action="/private/edit/post">
                 <div><img src="${network.urlPhoto}"/>
                 <c:out value="${network.name}"/>
                 <html:hidden property="groupId" value="${network.id}"/>

@@ -33,4 +33,16 @@
         <function-class>com.smirix.utils.DateUtils</function-class>
         <function-signature>java.lang.String getOnlyDateFromString(java.lang.String)</function-signature>
     </function>
+
+    <function>
+        <name>getErrorMessage</name>
+        <function-class>utils.StrutsUtils</function-class>
+        <function-signature>java.lang.String getErrorMessage()</function-signature>
+    </function>
+
+    <function>
+        <name>getUserMessage</name>
+        <function-class>utils.StrutsUtils</function-class>
+        <function-signature>java.lang.String getUserMessage()</function-signature>
+    </function>
 </taglib>

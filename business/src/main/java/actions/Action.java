@@ -12,7 +12,6 @@ public class Action extends ActionBase {
 
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm frm, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        processActionForm();
         return super.execute(mapping, frm, request, response);
     }
 
@@ -30,8 +29,5 @@ public class Action extends ActionBase {
     }
 
     public void saveMessages() {
-    }
-
-    public void processActionForm() {
     }
 }

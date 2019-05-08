@@ -1,5 +1,7 @@
 package actions;
 
+import com.smirix.utils.WebContext;
+import org.apache.struts.Globals;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -18,6 +20,7 @@ public abstract class ActionBase extends DispatchAction {
 
     private static final String REQUEST_PARAMETER_NAME = "operation";
     protected static final String SUCCESS_FORWARD = "success";
+    protected static final String FAIL_FORWARD = "fail";
     protected static final String SHOW_FORWARD = "show";
     private Map<String, String> keyMethodMap = null;
     private final Object synkRoot = new Object();
@@ -79,7 +82,15 @@ public abstract class ActionBase extends DispatchAction {
         return mapping.findForward(SUCCESS_FORWARD);
     }
 
+    protected ActionForward fail(ActionMapping mapping){
+        return mapping.findForward(FAIL_FORWARD);
+    }
+
     protected ActionForward show(ActionMapping mapping){
         return mapping.findForward(SHOW_FORWARD);
+    }
+
+    protected void setUserMessage(String msg) {
+        WebContext.getCurrentRequest().setAttribute(Globals.MESSAGES_KEY,msg);
     }
 }

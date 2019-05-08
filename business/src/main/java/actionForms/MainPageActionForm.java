@@ -7,6 +7,7 @@ import com.smirix.pojo.TelegramChannel;
 import com.smirix.pojo.TelegramUser;
 import org.apache.struts.action.ActionForm;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ import java.util.List;
  * @author Smirnov-VA
  * @created on 2019-03-24
  */
-public class MainPageActionForm extends ActionForm {
+public class MainPageActionForm extends ActionFormBase {
 
     private VKUser vkUser;
     private List<VKGroup> vkGroups;
@@ -61,5 +62,10 @@ public class MainPageActionForm extends ActionForm {
 
     public void setDelayedVKPosts(List<DelayedVKPost> delayedVKPosts) {
         this.delayedVKPosts = delayedVKPosts;
+    }
+
+    @Override
+    public boolean validate() {
+        return true;
     }
 }

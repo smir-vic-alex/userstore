@@ -2,10 +2,12 @@ package actionForms;
 
 import org.apache.struts.action.ActionForm;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by Smirnov-VA on 25.07.2017.
  */
-public class RegisterActionForm extends ActionForm {
+public class RegisterActionForm extends ActionFormBase {
     private String login;
     private String password;
 
@@ -23,5 +25,10 @@ public class RegisterActionForm extends ActionForm {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean validate() {
+        return true;
     }
 }

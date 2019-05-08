@@ -4,12 +4,13 @@ import com.smirix.entities.VKGroup;
 import com.smirix.entities.VKGroupActor;
 import org.apache.struts.action.ActionForm;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
  * Created by Виктор on 15.10.2017.
  */
-public class CreatePostVKActionForm extends ActionForm {
+public class CreatePostVKActionForm extends ActionFormBase {
     private List<VKGroup> availableNetworks;
     private String groupId;
     private String message;
@@ -36,5 +37,10 @@ public class CreatePostVKActionForm extends ActionForm {
 
     public void setAvailableNetworks(List<VKGroup> availableNetworks) {
         this.availableNetworks = availableNetworks;
+    }
+
+    @Override
+    public boolean validate() {
+        return true;
     }
 }

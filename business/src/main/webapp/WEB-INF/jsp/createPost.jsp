@@ -11,10 +11,10 @@
         <jsp:include page="topMenuClientPage.jsp"/>
     </tiles:put>
     <tiles:put name="data" type="string">
-        <h1>Создать пост</h1>
+        <h1>Создать новый пост</h1>
         <div class="content-row">
             <c:if test="${not empty form.vkUser}">
-                <html:form action="/private/send/post">
+                <html:form action="/private/edit/post">
                     <div>
                         <h3>Куда постить</h3>
                         <div>

@@ -1,11 +1,12 @@
 package actionForms;
 
-import org.apache.struts.action.ActionForm;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Smirnov-VA on 20.07.2017.
  */
-public class ClientAddVKGroupActionForm extends ActionForm {
+public class ClientAddVKGroupActionForm extends ActionFormBase {
     private String groupId;
     private String userActorAuthUrl;
 
@@ -23,5 +24,10 @@ public class ClientAddVKGroupActionForm extends ActionForm {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
+    }
+
+    @Override
+    public boolean validate() {
+        return true;
     }
 }

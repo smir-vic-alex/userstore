@@ -122,14 +122,6 @@
             <forward name="success" path="/WEB-INF/jsp/postMessage.jsp"/>
         </action>
 
-        <action path="/private/create/post/vk"
-                type="actions.vk.CreatePostVKAction"
-                name="CreatePostVKActionForm"
-                scope="request"
-                parameter="unused">
-            <forward name="success" path="/WEB-INF/jsp/createvkPost.jsp"/>
-        </action>
-
         <action path="/private/edit/post"
                 type="actions.EditPostAction"
                 name="CreatePostActionForm"
@@ -137,6 +129,14 @@
                 parameter="unused">
             <forward name="show" path="/WEB-INF/jsp/createPost.jsp"/>
             <forward name="success" path="/WEB-INF/jsp/createPost.jsp"/>
+        </action>
+
+        <action path="/private/create/post/vk"
+                type="actions.vk.CreatePostVKAction"
+                name="CreatePostVKActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/createvkPost.jsp"/>
         </action>
 
         <action path="/private/client/add/tlgm/channel"

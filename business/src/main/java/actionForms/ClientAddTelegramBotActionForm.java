@@ -1,11 +1,12 @@
 package actionForms;
 
-import org.apache.struts.action.ActionForm;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Виктор on 21.01.2019.
  */
-public class ClientAddTelegramBotActionForm extends ActionForm {
+public class ClientAddTelegramBotActionForm extends ActionFormBase {
     private String name;
     private String token;
 
@@ -23,5 +24,10 @@ public class ClientAddTelegramBotActionForm extends ActionForm {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    @Override
+    public boolean validate() {
+        return true;
     }
 }

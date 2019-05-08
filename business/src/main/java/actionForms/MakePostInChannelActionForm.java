@@ -3,12 +3,13 @@ package actionForms;
 import com.smirix.pojo.TelegramChannel;
 import org.apache.struts.action.ActionForm;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
  * Created by Виктор on 21.01.2019.
  */
-public class MakePostInChannelActionForm extends ActionForm {
+public class MakePostInChannelActionForm extends ActionFormBase {
 
     private List<TelegramChannel> channels;
     private String channelName;
@@ -36,5 +37,10 @@ public class MakePostInChannelActionForm extends ActionForm {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public boolean validate() {
+        return true;
     }
 }

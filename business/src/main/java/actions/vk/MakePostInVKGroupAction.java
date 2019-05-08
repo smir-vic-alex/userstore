@@ -18,23 +18,28 @@ public class MakePostInVKGroupAction extends VKAction {
     public ActionForward start(ActionMapping mapping, ActionForm frm, HttpServletRequest request, HttpServletResponse response) throws Exception {
         MakePostInVKGroupActionForm form = (MakePostInVKGroupActionForm) frm;
 
-        Long userId = UserUtils.getCurrentUser().getId();
-        List<Long> groupIds = Arrays.asList(form.getVkGroupId());
-        String message = form.getPostText();
-//        List<String> attachments = form.getAttachments();
-
-        Boolean fromGroup = form.getIsFromGroup();
-
-        for (Long groupId : groupIds) {
-            ServiceFactory.getVK().createPost(userId,
-                    form.getTaskId(),
-                    groupId.intValue(),
-                    message,
-                    null,
-                    form.getCalendar() + " " + form.getTime() + ":00",
-                    fromGroup,
-                    false);
+        if (!form.validate()) {
+            return fail(mapping);
         }
+
+
+//        Long userId = UserUtils.getCurrentUser().getId();
+//        List<Long> groupIds = Arrays.asList(form.getVkGroupId());
+//        String message = form.getPostText();
+////        List<String> attachments = form.getAttachments();
+//
+//        Boolean fromGroup = form.getIsFromGroup();
+//
+//        for (Long groupId : groupIds) {
+//            ServiceFactory.getVK().createPost(userId,
+//                    form.getTaskId(),
+//                    groupId.intValue(),
+//                    message,
+//                    null,
+//                    form.getCalendar() + " " + form.getTime() + ":00",
+//                    fromGroup,
+//                    false);
+//        }
         return success(mapping);
     }
 }
