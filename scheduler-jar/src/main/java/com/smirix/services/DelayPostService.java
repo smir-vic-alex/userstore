@@ -168,4 +168,8 @@ public class DelayPostService extends BusinessService {
             }
         );
     }
+
+    public void saveOrUpdateTask(Object object) {
+        super.saveOrUpdate(object, DelayTask.class);
+    }
 }

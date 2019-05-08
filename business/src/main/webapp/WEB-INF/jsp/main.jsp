@@ -12,12 +12,14 @@
 <div class="media">
     <c:set var="errorMessage" value="${cat:getErrorMessage()}"/>
     <c:set var="userMessage" value="${cat:getUserMessage()}"/>
+    <div id="globalMessage">
     <c:if test="${not empty errorMessage}">
         <div class="errorMessage">${errorMessage}</div>
     </c:if>
     <c:if test="${not empty userMessage}">
         <div class="userMessage">${userMessage}</div>
     </c:if>
+    </div>
     <jsp:include page="leftMenu.jsp"/>
     <div class="inline content">
         ${data}

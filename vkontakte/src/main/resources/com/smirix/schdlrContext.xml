@@ -7,11 +7,13 @@
 
     <bean id="schedulerVKDelaySender" class="com.smirix.senders.SchedulerVKDelaySender"/>
     <bean id="schedulerGetDelayedPostsSender" class="com.smirix.senders.SchedulerGetDelayedPostsSender"/>
+    <bean id="schedulerRemovePostSender" class="com.smirix.senders.SchedulerRemovePostSender"/>
 
 
     <bean id="schedulerService" class="com.smirix.services.SchedulerService">
         <property name="vkDelaySender" ref="schedulerVKDelaySender"/>
         <property name="schedulerGetDelayedPostsSender" ref="schedulerGetDelayedPostsSender"/>
+        <property name="schedulerRemovePostSender" ref="schedulerRemovePostSender"/>
     </bean>
 
     <context:annotation-config/>

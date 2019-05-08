@@ -21,6 +21,7 @@
         <form-bean name="ShowClientCommunitiesActionForm" type="actionForms.ShowClientCommunitiesActionForm"/>
         <form-bean name="MakePostInVKGroupActionForm" type="actionForms.MakePostInVKGroupActionForm"/>
         <form-bean name="CreatePostVKActionForm" type="actionForms.CreatePostVKActionForm"/>
+        <form-bean name="RemovePostActionForm" type="actionForms.RemovePostActionForm"/>
         <form-bean name="CreatePostActionForm" type="actionForms.CreatePostActionForm"/>
     </form-beans>
 
@@ -137,6 +138,14 @@
                 scope="request"
                 parameter="unused">
             <forward name="success" path="/WEB-INF/jsp/createvkPost.jsp"/>
+        </action>
+
+        <action path="/private/remove/post"
+                type="actions.RemovePostAction"
+                name="RemovePostActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/removePost.jsp"/>
         </action>
 
         <action path="/private/client/add/tlgm/channel"

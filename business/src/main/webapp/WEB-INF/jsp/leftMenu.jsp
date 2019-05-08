@@ -4,7 +4,7 @@
 <div class="navigation inline">
     <div class="user-profile">
                 <span class="avatar">
-                    <img src="../img/avatar.jpg">
+                    <img src="${pageContext.request.contextPath}/resources/img/avatar.jpg">
                 </span>
         <div class="title">Смирнов Виктор</div>
     </div>

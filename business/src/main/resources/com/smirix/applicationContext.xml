@@ -10,7 +10,7 @@
         <constructor-arg value="SMIRIX" type="java.lang.String"/>
     </bean>
 
-    <bean class="com.smirix.services.apps.AppServicesService"/>
+    <bean id="appServicesService" class="com.smirix.services.apps.AppServicesService"/>
 
     <import resource="vkContext.xml"/>
     <import resource="tlgmContext.xml"/>

@@ -10,10 +10,7 @@ import com.smirix.services.DelayPostService;
 import com.smirix.utils.DateUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.json2pojo.beans.VkCreatePostRq;
-import ru.json2pojo.beans.VkCreatePostRs;
-import ru.json2pojo.beans.VkGetAllDelayedPostsRq;
-import ru.json2pojo.beans.VkGetAllDelayedPostsRs;
+import ru.json2pojo.beans.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,5 +97,23 @@ public class SchedulerService {
         delayedPostRs.setTaskId(task.getId());
 
         return delayedPostRs;
+    }
+
+    public SchedulerRemovePostRs removePost(SchedulerRemovePostRq rq) {
+
+        SchedulerRemovePostRs rs = new SchedulerRemovePostRs();
+        if (rq.getBody() != null) {
+            DelayTask task = delayPostService.getTaskById(rq.getBody());
+            if (task != null) {
+                task.setStatus(TaskStatus.DELETED.getValue());
+                delayPostService.saveOrUpdateTask(task);
+                rs.setBody(rq.getBody());
+            }
+        }
+
+        rs.setHead(rq.getHead());
+        rs.setStatus(new Status(0L, "ok"));
+
+        return rs;
     }
 }

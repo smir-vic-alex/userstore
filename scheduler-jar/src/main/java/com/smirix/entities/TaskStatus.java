@@ -10,6 +10,7 @@ public enum TaskStatus {
     PREPARED("PREPARED"),
     INPROCESS("INPROCESS"),
     DONE("DONE"),
+    DELETED("DELETED"),
     ERROR("ERROR");
 
     private String value;

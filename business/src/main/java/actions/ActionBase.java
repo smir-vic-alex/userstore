@@ -93,4 +93,8 @@ public abstract class ActionBase extends DispatchAction {
     protected void setUserMessage(String msg) {
         WebContext.getCurrentRequest().setAttribute(Globals.MESSAGES_KEY,msg);
     }
+
+    protected void setUserErrorMessage(String msg) {
+        WebContext.getCurrentRequest().setAttribute(Globals.ERROR_KEY,msg);
+    }
 }

@@ -1,5 +1,8 @@
 package actions;
 
+import com.smirix.services.apps.AppService;
+import com.smirix.services.apps.AppServicesService;
+import com.smirix.utils.BeanUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -21,6 +24,9 @@ public class ExitAction extends Action {
         UserUtils.setUserIsLogin(false);
         UserUtils.setCurrentUser(null);
 
-        return success(mapping);
+        AppService appService = BeanUtils.getBean("appServicesService", AppServicesService.class).getByType("AUTH");
+
+
+        return new ActionForward(appService.getHost(), true);
     }
 }

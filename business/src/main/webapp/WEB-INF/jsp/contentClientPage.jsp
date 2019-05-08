@@ -38,7 +38,7 @@
             <c:when test="${not empty form.delayedVKPosts}">
                 <h1>Планируемые посты:</h1>
                 <c:forEach var="post" items="${form.delayedVKPosts}">
-                    <div class="content-row">
+                    <div id="row-task-id-${post.taskId}" class="content-row">
                         <div class="inline">
                             <img class="vk-group-icon" src="${post.avatarUrl}"/>
                         </div>
@@ -65,10 +65,11 @@
                         </div>
                         <div class="inline" style="float: right;">
                             <ul class="delayedPostMenu">
-                                <li><a href=#><img src="/resources/img/gearIcon.png" style="width: 40px;"></a>
+                                <li><a href=#><img src="${pageContext.request.contextPath}/resources/img/gearIcon.png" style="width: 40px;"></a>
                                     <ul class="delayedPostSubMenu">
                                         <li><a href="${pageContext.request.contextPath}/private/edit/post.do?groupId=${post.ownerId}&taskId=${post.taskId}">Редактировать</a></li>
-                                        <li><a href=#>Удалить</a></li>
+                                        <li onclick="removeTask(${post.taskId})">Удалить</li>
+                                        <%--<a href="${pageContext.request.contextPath}/private/remove/post.do?taskId=${post.taskId}"></a>--%>
                                     </ul>
                                 </li>
                             </ul>

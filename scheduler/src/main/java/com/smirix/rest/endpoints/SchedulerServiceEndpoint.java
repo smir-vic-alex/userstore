@@ -3,10 +3,7 @@ package com.smirix.rest.endpoints;
 import com.smirix.rest.services.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import ru.json2pojo.beans.VkCreatePostRq;
-import ru.json2pojo.beans.VkCreatePostRs;
-import ru.json2pojo.beans.VkGetAllDelayedPostsRq;
-import ru.json2pojo.beans.VkGetAllDelayedPostsRs;
+import ru.json2pojo.beans.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -39,5 +36,11 @@ public class SchedulerServiceEndpoint {
     @Path("/get/all/vk/delayed/posts")
     public VkGetAllDelayedPostsRs getAllDelayedPosts(VkGetAllDelayedPostsRq rq) {
         return schedulerService.getAllDelayedPosts(rq);
+    }
+
+    @POST
+    @Path("/remove/post")
+    public SchedulerRemovePostRs removePost(SchedulerRemovePostRq rq) {
+        return schedulerService.removePost(rq);
     }
 }
