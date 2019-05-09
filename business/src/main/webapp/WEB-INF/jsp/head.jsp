@@ -12,7 +12,6 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/js/timepicker/clockpicker/dist/jquery-clockpicker.css">
 
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery/jquery.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/business.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery/jquery-ui.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/timepicker/clockpicker/dist/jquery-clockpicker.js"></script>
 

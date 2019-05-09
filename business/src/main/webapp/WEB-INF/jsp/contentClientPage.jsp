@@ -68,7 +68,7 @@
                                 <li><a href=#><img src="${pageContext.request.contextPath}/resources/img/gearIcon.png" style="width: 40px;"></a>
                                     <ul class="delayedPostSubMenu">
                                         <li><a href="${pageContext.request.contextPath}/private/edit/post.do?groupId=${post.ownerId}&taskId=${post.taskId}">Редактировать</a></li>
-                                        <li onclick="removeTask(${post.taskId})">Удалить</li>
+                                        <li onclick="removeTask(${post.taskId})"><a href="#">Удалить</a></li>
                                         <%--<a href="${pageContext.request.contextPath}/private/remove/post.do?taskId=${post.taskId}"></a>--%>
                                     </ul>
                                 </li>
@@ -86,6 +86,30 @@
                         </div>
                     </div>
                 </c:forEach>
+                <script>
+                    function removeTask(taskId){
+
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/private/remove/post.do',
+                            type: 'POST',
+                            data: 'taskId=' + taskId,
+                            dataType: 'json',
+                            success: function(jsonData) {
+
+                                if(jsonData.message && jsonData.taskId) {
+                                    $('<div class="userMessage">'+jsonData.message+'</div>').insertBefore('#row-task-id-' + jsonData.taskId);
+                                    $('#row-task-id-' + jsonData.taskId).remove();
+                                }
+                                if (jsonData.error && jsonData.taskId) {
+                                    $('#row-task-id-' + jsonData.taskId).append('<div class="errorMessage">'+jsonData.error+'</div>');
+                                }
+                                else if (jsonData.error) {
+                                    $('#globalMessage').append('<div class="errorMessage">'+jsonData.error+'</div>');
+                                }
+                            }
+                        });
+                    }
+                </script>
             </c:when>
             <c:when test="${not empty form.vkUser}">
                 <h1>ВКонтакте</h1>
