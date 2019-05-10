@@ -16,6 +16,7 @@ import utils.UserUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -98,6 +99,10 @@ public class EditPostAction extends ActionBase {
     }
 
     private String getDateExecute(CreatePostActionForm form) {
-        return form.getCalendar() + " " + form.getTime() + ":00";
+        if (form.getIsPlanned()) {
+            return form.getCalendar() + " " + form.getTime() + ":00";
+        } else {
+            return null;
+        }
     }
 }

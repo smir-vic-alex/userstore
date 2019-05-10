@@ -16,6 +16,7 @@ import com.smirix.services.VKConnectorManager;
 import com.smirix.services.VkService;
 import com.smirix.settings.VKApiSetting;
 import com.smirix.utils.DateUtils;
+import com.smirix.utils.StringUtils;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.objects.GroupAuthResponse;
 import com.vk.api.sdk.objects.UserAuthResponse;
@@ -235,7 +236,7 @@ public class VKServiceService {
         try {
             PostRq post = rq.getBody();
             VKUserActor userNetwork = vkService.getVKUserNetworkByUserId(post.getUserId());
-            if(!post.isNotNeedCheckSchedule() && isNeedToDelay(post.getPublishDate())) {
+            if(!post.isNotNeedCheckSchedule() && StringUtils.isNotEmpty(post.getPublishDate()) && isNeedToDelay(post.getPublishDate())) {
 
                 VKDelayPostRq vkDelayPostRq = new VKDelayPostRq();
                 vkDelayPostRq.setTaskId(post.getTaskId());
@@ -250,7 +251,8 @@ public class VKServiceService {
 
                 postRs.setDescription("Пост запланирован с датой исполнения " + post.getPublishDate() + ". За " + vkApiSetting.getDiffMinutesBeforePost() + " минут до исполнения система подготовит пост в группе");
             } else {
-                Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), DateUtils.getDiffDateAndCurrentDateInSeconds(post.getPublishDate()));
+                Integer time = StringUtils.isEmpty(post.getPublishDate()) ? 0 : DateUtils.getDiffDateAndCurrentDateInSeconds(post.getPublishDate());
+                Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), time, post.getFromGroup());
                 postRs.setPostId(postId);
             }
 

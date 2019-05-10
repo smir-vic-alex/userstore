@@ -81,7 +81,7 @@ public class VKConnectorManager
         return Collections.emptyList();
     }
 
-    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time)
+    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time, boolean fromGroup)
     {
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
         try
@@ -89,9 +89,9 @@ public class VKConnectorManager
             WallPostQuery query = vk.wall().post(actor);
 
             query.ownerId(groupId);
-            query.fromGroup(true);
+            query.fromGroup(fromGroup);
             query.message(message);
-            if(time != null) {
+            if(time != null && time > 0) {
                 query.publishDate((int)(System.currentTimeMillis() / 1000L) + time);
             }
             return query.execute().getPostId();
