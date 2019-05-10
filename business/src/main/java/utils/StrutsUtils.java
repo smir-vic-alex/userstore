@@ -32,10 +32,10 @@ public final class StrutsUtils {
     private static String getMessage(String key) {
         HttpServletRequest currentRequest = WebContext.getCurrentRequest();
         if (currentRequest != null) {
-            String msg = (String) currentRequest.getAttribute(key);
-            if (msg != null) {
+            Object msg = currentRequest.getAttribute(key);
+            if (msg instanceof String) {
                 currentRequest.removeAttribute(key);
-                return msg;
+                return (String) msg;
             }
         }
 

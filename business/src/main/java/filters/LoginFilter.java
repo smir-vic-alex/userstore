@@ -17,6 +17,7 @@ public class LoginFilter implements Filter {
     private static final String RESOURCES_PATH = "resourcesPath";
     private static final String AUTH_URL = "authUrl";
     private static final String ERROR_URL = "errorUrl";
+    private static final String EXIT_URL = "exitUrl";
     private static final int MAP_PATHS_SIZE = 3;
     private static Map<String, String> paths;
 
@@ -28,6 +29,7 @@ public class LoginFilter implements Filter {
             paths.put(RESOURCES_PATH, filterConfig.getInitParameter(RESOURCES_PATH));
             paths.put(AUTH_URL, filterConfig.getInitParameter(AUTH_URL));
             paths.put(ERROR_URL, filterConfig.getInitParameter(ERROR_URL));
+            paths.put(EXIT_URL, filterConfig.getInitParameter(EXIT_URL));
         }
     }
 

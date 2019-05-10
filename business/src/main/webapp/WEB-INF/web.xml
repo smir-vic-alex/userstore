@@ -27,7 +27,11 @@
         </init-param>
         <init-param>
             <param-name>errorUrl</param-name>
-            <param-value>/error.do</param-value>
+            <param-value>/private/error.do</param-value>
+        </init-param>
+        <init-param>
+            <param-name>exitUrl</param-name>
+            <param-value>/private/exit.do</param-value>
         </init-param>
     </filter>
 

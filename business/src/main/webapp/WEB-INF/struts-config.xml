@@ -46,6 +46,13 @@
                 parameter="unused">
             <forward name="success" path="/private/client/page/main.do" redirect="true"/>
         </action>
+        <action path="/private/error"
+                type="actions.ErrorAction"
+                name="AuthActionForm"
+                scope="request"
+                parameter="unused">
+            <forward name="success" path="/WEB-INF/jsp/exception.jsp"/>
+        </action>
         <!--Главная страница пользователя с его продуктами, данными по остаткам-->
         <action path="/private/client/page/main"
                 type="actions.ClientMainPageAction"

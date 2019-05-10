@@ -51,17 +51,12 @@
                                 Дата публикации:
                                 <c:out value="${post.fireDate}"/>
                             </div>
-                            <div class="">
-                                <c:set var="checked">
-                                    <c:choose>
-                                        <c:when test="${post.fromGroup}">
-                                            checked
-                                        </c:when>
-                                    </c:choose>
-                                </c:set>
-                                <input id="isFromGroup-${post.taskId}" type="checkbox" disabled="true" <c:out value="${checked}"/>>
-                                <label for="isFromGroup-${post.taskId}"><span></span>От имени группы</label>
-                            </div>
+                            <c:if test="${post.fromGroup}">
+                                <div class="">
+                                    <input id="isFromGroup-${post.taskId}" type="checkbox" disabled checked/>
+                                    <label for="isFromGroup-${post.taskId}"><span></span>От имени группы</label>
+                                </div>
+                            </c:if>
                         </div>
                         <div class="inline" style="float: right;">
                             <ul class="delayedPostMenu">
