@@ -22,42 +22,84 @@
                                 <c:when test="${not empty form.vkGroups}">
                                     <c:set var="isOneGroup" value="${form.isOneGroup}"/>
                                     <c:forEach var="group" items="${form.vkGroups}">
-                                        <div class="inline" style="min-width: 200px;">
-                                            <img class="vk-group-icon" src="${group.avatarUrl}"/>
-                                            <div class="vk-group-icon-title inline">
-                                                <a href="https://vk.com/club${group.vkId}"
-                                                   onclick="window.open(this.href); return false;"
-                                                   onkeypress="window.open(this.href); return false;"><c:out
-                                                        value="${group.name}"/></a>
+                                        <div id="group-wrapper-${group.vkId}" class="inline create-post-group-wrapper button" onclick="check('${group.vkId}');">
+                                            <div class="inline">
+                                                <img class="vk-group-icon" src="${group.avatarUrl}"/>
                                             </div>
+                                            <div class="inline checkbox-group-name">
+                                                <div class="vk-group-icon-title inline">
+                                                    <label for="vkGroupId-${group.vkId}">
+                                                        <a href="https://vk.com/club${group.vkId}"
+                                                            onclick="window.open(this.href); return false;"
+                                                            onkeypress="window.open(this.href); return false;" title="Перейти к группе">
+                                                            <c:out value="${group.name}"/>
+                                                        </a>
+                                                    </label>
+                                                </div>
                                             <c:choose>
                                                 <c:when test="${isOneGroup}">
-                                                    <input type="checkbox" name="vkGroupId" checked
-                                                           value="${group.vkId}"/>
+                                                    <input id="vkGroupId-${group.vkId}" type="checkbox" name="vkGroupId" checked value="${group.vkId}"/>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <html:checkbox property="vkGroupId" value="${group.vkId}"/>
+                                                    <html:checkbox styleId="vkGroupId-${group.vkId}" property="vkGroupId" value="${group.vkId}"/>
                                                 </c:otherwise>
                                             </c:choose>
+                                                <div class="check-area">
+                                                    <div id="vkGroupId-${group.vkId}-checkMark" style="display: none;">
+                                                        <img style="width: 50px; height: 50px;" src="${pageContext.request.contextPath}/resources/img/checkmark.png">
+                                                    </div>
+                                                    <div id="vkGroupId-${group.vkId}-checkMark-off" >
+                                                        <img style="width: 50px; height: 50px;" src="${pageContext.request.contextPath}/resources/img/checkmarkOff.png">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${not empty form.delayedVKPost}">
                                     <c:set var="editPost" value="${form.delayedVKPost}"/>
                                     <input name="taskId" value="${editPost.taskId}" type="hidden"/>
-                                    <div class="inline" style="min-width: 200px;">
-                                        <img class="vk-group-icon" src="${editPost.avatarUrl}"/>
-                                        <div class="vk-group-icon-title inline">
-                                            <a href="https://vk.com/club${editPost.ownerId}"
-                                               onclick="window.open(this.href); return false;"
-                                               onkeypress="window.open(this.href); return false;"><c:out
-                                                    value="${editPost.groupName}"/></a>
+                                    <div id="group-wrapper-${editPost.ownerId}" class="inline create-post-group-wrapper button" style="box-shadow :inset 5px 5px 15px rgba(122,122,122,0.5);">
+                                        <div class="inline">
+                                            <img class="vk-group-icon" src="${editPost.avatarUrl}"/>
                                         </div>
-                                                <input type="checkbox" name="vkGroupId" checked
-                                                       value="${group.ownerId}"/>
+                                        <div class="inline checkbox-group-name">
+                                            <div class="vk-group-icon-title inline">
+                                                <label for="vkGroupId-${editPost.ownerId}">
+                                                    <a href="https://vk.com/club${editPost.ownerId}"
+                                                        onclick="window.open(this.href); return false;"
+                                                        onkeypress="window.open(this.href); return false;" title="Перейти к группе">
+                                                        <c:out value="${editPost.groupName}"/>
+                                                    </a>
+                                                </label>
+                                            </div>
+                                            <input d="vkGroupId-${editPost.ownerId}" type="hidden" name="vkGroupId" value="${editPost.ownerId}"/>
+                                            <div class="check-area">
+                                                <div id="vkGroupId-${editPost.ownerId}-checkMark" >
+                                                    <img style="width: 50px; height: 50px;" src="${pageContext.request.contextPath}/resources/img/checkmark.png">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </c:when>
                             </c:choose>
+                            <script>
+                                function check(checkBoxId) {
+                                    var id = '#vkGroupId-' + checkBoxId;
+
+                                    if ($(id).is(":checked")) {
+                                        $(id).prop("checked", false);
+                                        $(id + '-checkMark').css('display','none');
+                                        $(id + '-checkMark-off').removeAttr( 'style' );
+                                        $('#group-wrapper-'+ checkBoxId).css( 'box-shadow', '' );
+                                    } else {
+                                        $(id).prop("checked", true);
+                                        $(id + '-checkMark-off').css('display','none');
+                                        $(id + '-checkMark').removeAttr( 'style' );
+                                        $('#group-wrapper-'+ checkBoxId).css( 'box-shadow', 'inset 5px 5px 15px rgba(122,122,122,0.5)' );
+                                    }
+                                };
+                            </script>
                         </div>
                     </div>
                     <div>
@@ -80,28 +122,39 @@
                                     <c:when test="${not empty form.delayedVKPost}">
                                         <c:choose>
                                             <c:when test="${form.delayedVKPost.fromGroup}">
-                                                <div><input name="isFromGroup" type="checkbox" value="true" checked>От имени группы</div>
+                                                <div>
+                                                    <input id="isFromGroup" name="isFromGroup" type="checkbox" value="true" checked/>
+                                                    <label for="isFromGroup"><span></span>От имени группы</label>
+                                                </div>
                                             </c:when>
                                             <c:otherwise>
-                                                <div><input name="isFromGroup" type="checkbox" value="true">От имени группы</div>
+                                                <div>
+                                                    <input id="isFromGroup" name="isFromGroup" type="checkbox" value="true"/>
+                                                    <label for="isFromGroup"><span></span>От имени группы</label>
+                                                </div>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:when>
                                     <c:otherwise>
-                                        <div><input name="isFromGroup" type="checkbox" value="true">От имени группы</div>
+                                        <div>
+                                            <input id="isFromGroup" name="isFromGroup" type="checkbox" value="true"/>
+                                            <label for="isFromGroup"><span></span>От имени группы</label>
+                                        </div>
                                     </c:otherwise>
                                 </c:choose>
-                                <div><input name="isCommercial" type="checkbox" value="true">Реклама</div>
+                                <%--<div><input name="isCommercial" type="checkbox" value="true">Реклама</div>--%>
                                 <%--<div><input name="isAddSign" type="checkbox" value="true">Добавить подпись</div>--%>
                             </div>
                             <div class="inline">
                                 <div>
                                     <c:choose>
                                         <c:when test="${not empty form.delayedVKPost}">
-                                            <input id="isPlanned" name="isPlanned" type="checkbox" value="true" checked>Запланировать
+                                            <input id="isPlanned" name="isPlanned" type="checkbox" value="true" checked/>
+                                            <label for="isPlanned"><span></span>Запланировать</label>
                                         </c:when>
                                         <c:otherwise>
-                                            <input id="isPlanned" name="isPlanned" type="checkbox" value="true">Запланировать
+                                            <input id="isPlanned" name="isPlanned" type="checkbox" value="true"/>
+                                            <label for="isPlanned"><span></span>Запланировать</label>
                                         </c:otherwise>
                                     </c:choose>
                                 </div>
@@ -158,7 +211,7 @@
                             });
                         });
                     </script>
-                    <html:submit>Отправить</html:submit>
+                    <html:submit styleClass="button">Отправить</html:submit>
                 </html:form>
             </c:if>
         </div>

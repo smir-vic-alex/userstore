@@ -59,8 +59,8 @@
                                         </c:when>
                                     </c:choose>
                                 </c:set>
-                                От имени группы:
-                                <input type="checkbox" disabled="true" <c:out value="${checked}"/>>
+                                <input id="isFromGroup-${post.taskId}" type="checkbox" disabled="true" <c:out value="${checked}"/>>
+                                <label for="isFromGroup-${post.taskId}"><span></span>От имени группы</label>
                             </div>
                         </div>
                         <div class="inline" style="float: right;">

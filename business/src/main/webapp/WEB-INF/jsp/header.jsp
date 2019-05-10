@@ -6,7 +6,7 @@
         </div>
         <div class="exit_block">
             <a href="${pageContext.request.contextPath}/private/exit.do">
-                <button class="exit_btn" type="submit">Выйти</button>
+                <button class="button" type="submit">Выйти</button>
             </a>
         </div>
     </div>

@@ -20,6 +20,7 @@ header {
     background: white;
     display: block;
     margin-bottom: 10px;
+    box-shadow: 0.2em 0.2em 15px rgba(122,122,122,0.5);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -58,51 +59,17 @@ h5, h6 {
     font-weight: bolder
 }
 
-header .exit_block {
+.exit_block {
     float: right;
-}
-
-header .exit_block ul {
-    margin-top: 40px;
-    list-style: none;
-    overflow: hidden;
-    float: left;
-}
-
-header .exit_block ul li {
-    float: left;
-    margin-left: 50px;
-}
-
-header .exit_block ul li a,
-header .exit_block .exit_btn {
-    text-decoration: none;
-    color: #1b1a1a;
-    font-family: "lato-regular", Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    letter-spacing: 1px;
-}
-
-header .exit_block .exit_btn {
-    float: right;
-    margin: 30px 0 0 50px;
-    padding: 10px 30px 11px 30px;
-    border: 2px solid #1b1a1a;
-    background: transparent;
-
-    transition: all .1s linear;
-    -webkit-transition: all .1s linear;
-    -moz-transition: all .1s linear;
-    -o-transition: all .1s linear;
-}
-
-header .exit_block .exit_btn:hover {
-    background: white;
-    color: #1c3655;
+    margin: 15px auto;
 }
 
 nav {
     display: block;
+}
+
+a {
+    text-decoration: none;
 }
 
 .logo {
@@ -178,6 +145,7 @@ footer .copyrights a.ph_link {
     min-height: 300px;
     border-radius: 10px;
     margin: 0px 35px;
+    box-shadow: 0.2em 0.2em 15px rgba(122,122,122,0.5);
 }
 
 .user-profile {
@@ -270,6 +238,7 @@ footer .copyrights a.ph_link {
     border-radius: 10px;
     padding: 15px;
     margin: 0 0 15px 0;
+    box-shadow: 0.2em 0.2em 15px rgba(122,122,122,0.5);
 }
 
 .left-menu-choose{
@@ -302,8 +271,8 @@ footer .copyrights a.ph_link {
 .vk-group-icon-title {
     font-size: 1.5em;
     color: #2a5885;
-    margin: 0px 15px;
-    position: absolute;
+    /*margin: 0px 15px;*/
+    /*position: absolute;*/
 }
 
 .vk-group-icon-block {
@@ -329,7 +298,7 @@ footer .copyrights a.ph_link {
 }
 
 .button:hover {
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    box-shadow: 0.4em 0.4em 15px rgba(122,122,122,0.5);
 }
 
 .create-post-input-text {
@@ -419,4 +388,51 @@ ul.delayedPostMenu > li:hover > ul.delayedPostSubMenu {
     padding: 10px;
     background: rgba(253, 204, 0, 0.5);
     text-align: center;
+}
+
+.checkbox-group-name {
+    position: absolute;
+    margin: 15px;
+}
+
+.create-post-group-wrapper {
+    min-width: 200px;
+    border: 1px solid;
+    border-radius: 10px ;
+    padding: 10px;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+.checkbox label:before {
+    border-radius: 3px;
+}
+
+input[type="checkbox"] + label span {
+    display: inline-block;
+    width: 48px;
+    height: 48px;
+    margin: -1px 4px 0 0;
+    vertical-align: middle;
+    background: url(checkbox/uncheked.png);
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + label span {
+    background:url(checkbox/checked.png);
+}
+
+input[type="checkbox"]:checked:disabled + label span {
+    background:url(checkbox/checked_disable.png);
+}
+
+input[type="checkbox"]:disabled + label span {
+    background:url(checkbox/unchecked_disable.png);
+}
+
+.check-area {
+    width: 50px;
+    height: 50px;
+    margin: 15px;
 }
