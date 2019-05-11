@@ -12,12 +12,22 @@ import com.vk.api.sdk.objects.GroupAuthResponse;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.groups.responses.GetResponse;
+import com.vk.api.sdk.objects.photos.Photo;
+import com.vk.api.sdk.objects.photos.PhotoUpload;
+import com.vk.api.sdk.objects.photos.responses.PhotoUploadResponse;
+import com.vk.api.sdk.objects.photos.responses.WallUploadResponse;
 import com.vk.api.sdk.objects.wall.responses.PostResponse;
 import com.vk.api.sdk.queries.groups.GroupsGetFilter;
+import com.vk.api.sdk.queries.photos.PhotosGetWallUploadServerQuery;
+import com.vk.api.sdk.queries.photos.PhotosSaveWallPhotoQuery;
+import com.vk.api.sdk.queries.upload.UploadPhotoQuery;
+import com.vk.api.sdk.queries.upload.UploadPhotoWallQuery;
 import com.vk.api.sdk.queries.wall.WallPostQuery;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -81,7 +91,56 @@ public class VKConnectorManager
         return Collections.emptyList();
     }
 
-    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time, boolean fromGroup)
+    private String getUploadServerUrl(UserActor actor, Integer groupId) {
+        try {
+            VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
+            PhotosGetWallUploadServerQuery uploadServerQuery = vk.photos().getWallUploadServer(actor).groupId(groupId);
+
+            return uploadServerQuery.execute().getUploadUrl();
+        } catch (ApiException | ClientException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private WallUploadResponse getPhotoList(String uploadServerUrl, File file) {
+        try {
+            VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
+
+            UploadPhotoWallQuery uploadPhotoQuery = vk.upload().photoWall(uploadServerUrl, file);
+            return uploadPhotoQuery.execute();
+        } catch (ApiException | ClientException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Photo> getNameLoadedPhoto(UserActor actor, Integer groupId, File file) {
+
+        String uploadServerUrl = getUploadServerUrl(actor, groupId);
+        WallUploadResponse wallUploadResponse = getPhotoList(uploadServerUrl, file);
+
+        return getPhotos(actor, groupId, wallUploadResponse);
+    }
+
+    private List<Photo> getPhotos(UserActor actor, Integer groupId, WallUploadResponse wallUploadResponse) {
+        try {
+            VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
+
+            PhotosSaveWallPhotoQuery photosSaveWallPhotoQuery = vk.photos()
+                                                                    .saveWallPhoto(actor, wallUploadResponse.getPhoto())
+                                                                    .server(wallUploadResponse.getServer())
+                                                                    .hash(wallUploadResponse.getHash())
+                                                                    .groupId(groupId);
+
+            return photosSaveWallPhotoQuery.execute();
+        } catch (ApiException | ClientException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time, boolean fromGroup, List<String> attachments)
     {
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
         try
@@ -91,9 +150,14 @@ public class VKConnectorManager
             query.ownerId(groupId);
             query.fromGroup(fromGroup);
             query.message(message);
-            if(time != null && time > 0) {
-                query.publishDate((int)(System.currentTimeMillis() / 1000L) + time);
+            if (CollectionUtils.isNotEmpty(attachments)) {
+                query.attachments(attachments);
             }
+
+            if(time != null && time > 0) {
+                query.publishDate(time); //(int)(System.currentTimeMillis() / 1000L) +
+            }
+
             return query.execute().getPostId();
         }
         catch (ApiException | ClientException e) {

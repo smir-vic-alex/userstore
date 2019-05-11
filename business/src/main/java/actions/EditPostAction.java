@@ -5,19 +5,22 @@ import com.smirix.entities.DelayedVKPost;
 import com.smirix.entities.VKGroup;
 import com.smirix.entities.VKUser;
 import com.smirix.senders.user.requests.UserGroupsRs;
+import com.smirix.utils.BeanUtils;
+import com.smirix.utils.FileHelper;
 import com.smirix.utils.StringUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.FormFile;
+import settings.BusinessSetting;
 import utils.ServiceFactory;
 import utils.UserUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Class description
@@ -33,7 +36,7 @@ public class EditPostAction extends ActionBase {
         CreatePostActionForm form = (CreatePostActionForm) frm;
         Long userId = UserUtils.getCurrentUser().getId();
 
-        if (ArrayUtils.isNotEmpty(form.getVkGroupId()) || StringUtils.isNotEmpty(form.getPostText())) {
+        if (ArrayUtils.isNotEmpty(form.getVkGroupId()) && (StringUtils.isNotEmpty(form.getPostText()) || form.getFileUpload() != null )) {
             createPost(form, userId);
         }
 
@@ -72,19 +75,19 @@ public class EditPostAction extends ActionBase {
     private void createPost(CreatePostActionForm form, Long userId) {
 
         if (form.validate()) {
-            String message = form.getPostText();
-//        List<String> attachments = form.getAttachments();
 
+            String message = form.getPostText();
             Boolean fromGroup = form.getIsFromGroup();
 
             String dateExecute = getDateExecute(form);
-            List<Long> groupIds = Arrays.asList(form.getVkGroupId());
+            Long[] groupIds = form.getVkGroupId();
+
             for (Long groupId : groupIds) {
                 ServiceFactory.getVK().createPost(userId,
                         form.getTaskId(),
                         groupId.intValue(),
                         message,
-                        null,
+                        getAttach(form),
                         dateExecute,
                         fromGroup,
                         false);
@@ -96,6 +99,25 @@ public class EditPostAction extends ActionBase {
                 setUserMessage("Пост отправлен");
             }
         }
+    }
+
+    private Map<String, String> getAttach(CreatePostActionForm form) {
+        if (form.getFileUpload() != null && StringUtils.isNotEmpty(form.getFileUpload().getFileName())) {
+            try {
+
+                String path = BeanUtils.getBean(BusinessSetting.class).getFilePath();
+
+                FormFile formFile = form.getFileUpload();
+                Map<String, String> attach =  Collections.singletonMap(formFile.getFileName(), FileHelper.convertFileToBase64(path + formFile.getFileName(), formFile.getFileData()));
+                form.getFileUpload().destroy();
+
+                return attach;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return Collections.emptyMap();
     }
 
     private String getDateExecute(CreatePostActionForm form) {

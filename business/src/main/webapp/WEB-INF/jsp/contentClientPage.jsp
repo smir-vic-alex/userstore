@@ -79,6 +79,16 @@
                                 <c:out value="${post.message}"/>
                             </div>
                         </div>
+                        <div>
+                            Вложения:
+                            <div>
+                                <c:if test="${not empty post.attachVKDtos}">
+                                    <c:forEach var="attach" items="${post.attachVKDtos}">
+                                        <img src="${attach.externalUrl}" style="width: 300px;">
+                                    </c:forEach>
+                                </c:if>
+                            </div>
+                        </div>
                     </div>
                 </c:forEach>
                 <script>

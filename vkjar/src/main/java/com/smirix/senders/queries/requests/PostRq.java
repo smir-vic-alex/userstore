@@ -4,6 +4,7 @@ package com.smirix.senders.queries.requests;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Виктор on 08.01.2019.
@@ -14,7 +15,7 @@ public class PostRq implements Serializable {
     private Integer ownerId;
     private String message;
     private Boolean fromGroup;
-    private List<String> attachments;
+    private Map<String, String> attachments;
     private String publishDate;
     private boolean isNotNeedCheckSchedule;
 
@@ -58,11 +59,11 @@ public class PostRq implements Serializable {
         this.fromGroup = fromGroup;
     }
 
-    public List<String> getAttachments() {
+    public Map<String, String> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(List<String> attachments) {
+    public void setAttachments(Map<String, String> attachments) {
         this.attachments = attachments;
     }
 

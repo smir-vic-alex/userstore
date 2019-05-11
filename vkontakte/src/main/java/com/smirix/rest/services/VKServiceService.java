@@ -1,6 +1,7 @@
 package com.smirix.rest.services;
 
 import com.smirix.entities.*;
+import com.smirix.requests.AttachmentDto;
 import com.smirix.requests.DelayedPostRs;
 import com.smirix.requests.GetDelayedPostsRs;
 import com.smirix.requests.VKDelayPostRq;
@@ -16,18 +17,22 @@ import com.smirix.services.VKConnectorManager;
 import com.smirix.services.VkService;
 import com.smirix.settings.VKApiSetting;
 import com.smirix.utils.DateUtils;
+import com.smirix.utils.FileHelper;
 import com.smirix.utils.StringUtils;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.objects.GroupAuthResponse;
 import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
+import com.vk.api.sdk.objects.photos.Photo;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ru.json2pojo.beans.*;
 
+import java.io.File;
 import java.util.*;
 
 
@@ -201,6 +206,8 @@ public class VKServiceService {
                 delayedVKPost.setTaskId(postRs.getTaskId());
                 getGroupAvatar(delayedVKPost, groups);
 
+                delayedVKPost.setAttachVKDtos(convertToVK(postRs.getAttachments()));
+
                 delayedVKPostList.add(delayedVKPost);
             }
 
@@ -245,14 +252,33 @@ public class VKServiceService {
                 vkDelayPostRq.setFromGroup(post.getFromGroup());
                 vkDelayPostRq.setMessage(post.getMessage());
                 vkDelayPostRq.setPublishDate(post.getPublishDate());
-                vkDelayPostRq.setAttachments(null);
+                vkDelayPostRq.setAttachments(post.getAttachments());
 
                 schedulerService.delayVKPost(vkDelayPostRq);
 
                 postRs.setDescription("Пост запланирован с датой исполнения " + post.getPublishDate() + ". За " + vkApiSetting.getDiffMinutesBeforePost() + " минут до исполнения система подготовит пост в группе");
             } else {
+                Map<String, String> attachments = post.getAttachments();
+                File file = null;
+
+                if (MapUtils.isNotEmpty(attachments)) {
+                    String path = vkApiSetting.getFilePath();
+                    for (Map.Entry<String, String> entry : attachments.entrySet()) {
+                        file = FileHelper.createFileFromBase64(path + entry.getKey(), entry.getValue());
+                    }
+                }
+
+                UserActor userActor = getUserActor(userNetwork);
+                List<String> preparedAttachments = new ArrayList<>();
+                if (file != null) {
+                    preparedAttachments = convert(vkConnectorManager.getNameLoadedPhoto(userActor, post.getOwnerId(), file));
+                    if (!file.delete()) {
+                        LOGGER.error("Не удалось удалить файл " + file.getAbsolutePath());
+                    }
+                }
+
                 Integer time = StringUtils.isEmpty(post.getPublishDate()) ? 0 : DateUtils.getDiffDateAndCurrentDateInSeconds(post.getPublishDate());
-                Integer postId = vkConnectorManager.createPost(getUserActor(userNetwork), -post.getOwnerId(), post.getMessage(), time, post.getFromGroup());
+                Integer postId = vkConnectorManager.createPost(userActor, -post.getOwnerId(), post.getMessage(), time, post.getFromGroup(), preparedAttachments);
                 postRs.setPostId(postId);
             }
 
@@ -263,6 +289,36 @@ public class VKServiceService {
         }
 
         return rs;
+    }
+
+    private List<String> convert(List<Photo> nameLoadedPhoto) {
+
+        List<String> converted = new ArrayList<>(nameLoadedPhoto.size());
+
+        for (Photo loadedPhoto : nameLoadedPhoto) {
+            converted.add("photo" + loadedPhoto.getOwnerId() + "_" + loadedPhoto.getId());
+        }
+
+        return converted;
+    }
+
+    private List<AttachVKDto> convertToVK(List<AttachmentDto> attachmentDtoList) {
+        if (CollectionUtils.isEmpty(attachmentDtoList)) {
+            return Collections.emptyList();
+        }
+
+        List<AttachVKDto> attachVKDtos = new ArrayList<>(attachmentDtoList.size());
+
+        for (AttachmentDto attachmentDto : attachmentDtoList) {
+            AttachVKDto attachVKDto = new AttachVKDto();
+            attachVKDto.setName(attachmentDto.getName());
+            attachVKDto.setId(attachmentDto.getId());
+            attachVKDto.setExternalUrl(attachmentDto.getExternalUrl());
+
+            attachVKDtos.add(attachVKDto);
+        }
+
+        return attachVKDtos;
     }
 
     private boolean isNeedToDelay(String publishDate) {

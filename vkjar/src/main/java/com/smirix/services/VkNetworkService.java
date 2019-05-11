@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -115,7 +116,7 @@ public class VkNetworkService {
         }
     }
 
-    public void createPost(Long userId, Long taskId, Integer groupId, String message, List<String> attachments, String publishDate, Boolean fromGroup, boolean isNoNeedCheckSchedule) {
+    public void createPost(Long userId, Long taskId, Integer groupId, String message, Map<String,String> attachments, String publishDate, Boolean fromGroup, boolean isNoNeedCheckSchedule) {
         try {
             PostRq rq = new PostRq();
             rq.setTaskId(taskId);

@@ -1,6 +1,8 @@
 package com.smirix.requests;
 
 
+import java.util.List;
+
 /**
  * Class description
  *
@@ -16,6 +18,7 @@ public class DelayedPostRs {
 
     private String fireDate;
     private String status;
+    private List<AttachmentDto> attachments;
 
     public Long getTaskId() {
         return taskId;
@@ -71,5 +74,13 @@ public class DelayedPostRs {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<AttachmentDto> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<AttachmentDto> attachments) {
+        this.attachments = attachments;
     }
 }

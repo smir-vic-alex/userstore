@@ -436,3 +436,10 @@ input[type="checkbox"]:disabled + label span {
     height: 50px;
     margin: 15px;
 }
+
+.thumb-image{
+    float:left;
+    width:100px;
+    position:relative;
+    padding:5px;
+}

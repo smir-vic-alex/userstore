@@ -12,6 +12,10 @@
 
     <bean id="appServicesService" class="com.smirix.services.apps.AppServicesService"/>
 
+    <bean id="businessSetting" class="settings.BusinessSetting">
+        <constructor-arg value="com/smirix/business-application-config.properties" type="java.lang.String"/>
+    </bean>
+
     <import resource="vkContext.xml"/>
     <import resource="tlgmContext.xml"/>
     <import resource="schdlrContext.xml"/>

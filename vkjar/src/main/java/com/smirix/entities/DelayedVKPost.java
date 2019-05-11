@@ -1,5 +1,7 @@
 package com.smirix.entities;
 
+import java.util.List;
+
 /**
  * Class description
  *
@@ -17,6 +19,7 @@ public class DelayedVKPost {
     private String status;
     private String avatarUrl;
     private String groupName;
+    private List<AttachVKDto> attachVKDtos;
 
     public Long getTaskId() {
         return taskId;
@@ -88,5 +91,13 @@ public class DelayedVKPost {
 
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    public List<AttachVKDto> getAttachVKDtos() {
+        return attachVKDtos;
+    }
+
+    public void setAttachVKDtos(List<AttachVKDto> attachVKDtos) {
+        this.attachVKDtos = attachVKDtos;
     }
 }

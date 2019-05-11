@@ -14,6 +14,20 @@
         <property name="userId"     column="USER_ID"    type="java.lang.Long"/>
         <property name="message"    column="MESSAGE"    type="java.lang.String"/>
         <property name="fromGroup"  column="FROM_GROUP" type="java.lang.Boolean"/>
+
+    </class>
+
+    <class name="com.smirix.entities.Attachment" table="ATTACHMENTS">
+        <id  name="id" column="ID" type="java.lang.Long">
+            <generator class="org.hibernate.id.enhanced.SequenceStyleGenerator">
+                <param name="optimizer">none</param>
+                <param name="sequence_name">attachments_id_seq</param>
+            </generator>
+        </id>
+        <property name="externalUrl"        column="EXTERNAL_URL"       type="java.lang.String"/>
+        <property name="privateUrl"         column="PRIVATE_URL"        type="java.lang.String"/>
+        <property name="name"               column="NAME"               type="java.lang.String"/>
+        <property name="postId"             column="POST_ID"            type="java.lang.Long"/>
     </class>
 
     <query name="com.smirix.entities.DelayedPost.getById">
@@ -22,6 +36,10 @@
 
     <query name="com.smirix.entities.DelayedPost.getByIdAndUser">
         select post from com.smirix.entities.DelayedPost as post where post.userId = :userId and post.id = :id
+    </query>
+
+    <query name="com.smirix.entities.Attachment.getByPostId">
+        select attach from com.smirix.entities.Attachment as attach where attach.postId = :postId
     </query>
 
 </hibernate-mapping>

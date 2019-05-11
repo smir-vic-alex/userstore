@@ -1,8 +1,7 @@
 package com.smirix.requests;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Class description
@@ -16,7 +15,7 @@ public class VKDelayPostRq implements Serializable {
     private Integer ownerId;
     private String message;
     private Boolean fromGroup;
-    private List<String> attachments;
+    private Map<String, String> attachments;
     private String publishDate;
 
     public Long getTaskId() {
@@ -59,11 +58,11 @@ public class VKDelayPostRq implements Serializable {
         this.fromGroup = fromGroup;
     }
 
-    public List<String> getAttachments() {
+    public Map<String, String> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(List<String> attachments) {
+    public void setAttachments(Map<String, String> attachments) {
         this.attachments = attachments;
     }
 

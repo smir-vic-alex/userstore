@@ -14,7 +14,7 @@
         <h1>Создать новый пост</h1>
         <div class="content-row">
             <c:if test="${not empty form.vkUser}">
-                <html:form action="/private/edit/post">
+                <html:form action="/private/edit/post" method="post" enctype="multipart/form-data">
                     <div>
                         <h3>Куда постить</h3>
                         <div>
@@ -22,7 +22,14 @@
                                 <c:when test="${not empty form.vkGroups}">
                                     <c:set var="isOneGroup" value="${form.isOneGroup}"/>
                                     <c:forEach var="group" items="${form.vkGroups}">
-                                        <div id="group-wrapper-${group.vkId}" class="inline create-post-group-wrapper button" onclick="check('${group.vkId}');">
+                                        <c:choose>
+                                            <c:when test="${isOneGroup}">
+                                                <div id="group-wrapper-${group.vkId}" class="inline create-post-group-wrapper button" onclick="check('${group.vkId}');">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <div id="group-wrapper-${group.vkId}" class="inline create-post-group-wrapper button" onclick="check('${group.vkId}');">
+                                            </c:otherwise>
+                                        </c:choose>
                                             <div class="inline">
                                                 <img class="vk-group-icon" src="${group.avatarUrl}"/>
                                             </div>
@@ -54,6 +61,17 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <c:if test="${isOneGroup}">
+                                            <script>
+                                                $(document).ready(function() {
+                                                    var id = '#vkGroupId-${group.vkId}';
+                                                    $(id).prop("checked", true);
+                                                    $(id + '-checkMark-off').css('display','none');
+                                                    $(id + '-checkMark').removeAttr( 'style' );
+                                                    $('#group-wrapper-${group.vkId}').css( 'box-shadow', 'inset 5px 5px 15px rgba(122,122,122,0.5)' );
+                                                });
+                                            </script>
+                                        </c:if>
                                     </c:forEach>
                                 </c:when>
                                 <c:when test="${not empty form.delayedVKPost}">
@@ -73,7 +91,7 @@
                                                     </a>
                                                 </label>
                                             </div>
-                                            <input d="vkGroupId-${editPost.ownerId}" type="hidden" name="vkGroupId" value="${editPost.ownerId}"/>
+                                            <input id="vkGroupId-${editPost.ownerId}" type="hidden" name="vkGroupId" value="${editPost.ownerId}"/>
                                             <div class="check-area">
                                                 <div id="vkGroupId-${editPost.ownerId}-checkMark" >
                                                     <img style="width: 50px; height: 50px;" src="${pageContext.request.contextPath}/resources/img/checkmark.png">
@@ -197,6 +215,45 @@
                     </div>
                     <div>
                         <h3>Вложения</h3>
+                        <div id="wrapper" style="margin-top: 20px;">
+                            <input id="fileUpload" name="fileUpload" multiple type="file"/>
+                            <div id="image-holder"></div>
+                            <div id="upload-result">
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function() {
+                                    $("#fileUpload").on('change', function() {
+                                        //Get count of selected files
+                                        var countFiles = $(this)[0].files.length;
+                                        var imgPath = $(this)[0].value;
+                                        var extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase();
+                                        var image_holder = $("#image-holder");
+                                        image_holder.empty();
+                                        if (extn == "gif" || extn == "png" || extn == "jpg" || extn == "jpeg") {
+                                            if (typeof(FileReader) != "undefined") {
+                                                //loop for each file selected for uploaded.
+                                                for (var i = 0; i < countFiles; i++)
+                                                {
+                                                    var reader = new FileReader();
+                                                    reader.onload = function(e) {
+                                                        $("<img />", {
+                                                            "src": e.target.result,
+                                                            "class": "thumb-image"
+                                                        }).appendTo(image_holder);
+                                                    };
+                                                    image_holder.show();
+                                                    reader.readAsDataURL($(this)[0].files[i]);
+                                                }
+                                            } else {
+                                                alert("This browser does not support FileReader.");
+                                            }
+                                        } else {
+                                            alert("Pls select only images");
+                                        }
+                                    });
+                            });
+                        </script>
                     </div>
                     <script>
                         $(function () {
@@ -211,6 +268,8 @@
                             });
                         });
                     </script>
+                    <input type="hidden" name="array" value="1">
+                    <input type="hidden" name="array" value="2">
                     <html:submit styleClass="button">Отправить</html:submit>
                 </html:form>
             </c:if>

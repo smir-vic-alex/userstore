@@ -1,21 +1,21 @@
 package com.smirix.services;
 
 import com.smirix.common.Pair;
+import com.smirix.entities.Attachment;
 import com.smirix.entities.DelayTask;
 import com.smirix.entities.DelayedPost;
 import com.smirix.entities.TaskStatus;
 import com.smirix.hibernate.HibernateExecutor;
 import com.smirix.requests.VKDelayPostRq;
 import com.smirix.utils.DateUtils;
+import com.smirix.utils.FileHelper;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -72,7 +72,7 @@ public class DelayPostService extends BusinessService {
         }
     }
 
-    public DelayTask delayPost(VKDelayPostRq delayRq) {
+    public DelayTask delayPost(VKDelayPostRq delayRq, List<Attachment> attachments) {
         return new HibernateExecutor<DelayTask>().execute((session) ->
                 {
                     try {
@@ -82,6 +82,13 @@ public class DelayPostService extends BusinessService {
                         delayedPost.setMessage(delayRq.getMessage());
 
                         saveOrUpdate(delayedPost, DelayedPost.class);
+
+                        if (CollectionUtils.isNotEmpty(attachments)) {
+                            for (Attachment attachment : attachments) {
+                                attachment.setPostId(delayedPost.getId());
+                                saveOrUpdate(attachment, Attachment.class);
+                            }
+                        }
 
                         DelayTask delayTask = new DelayTask();
                         delayTask.setDelayPostId(delayedPost.getId());
@@ -96,7 +103,7 @@ public class DelayPostService extends BusinessService {
                         return delayTask;
                     } catch (Exception e) {
                         LOGGER.error(ERROR_MSG, e);
-                        throw e;
+                        return null;
                     }
                 }
         );
@@ -166,6 +173,22 @@ public class DelayPostService extends BusinessService {
                     return null;
                 }
             }
+        );
+    }
+
+    public List<Attachment> getByPostId(Long postId) {
+        return new HibernateExecutor<List<Attachment>>().execute((session) ->
+                {
+                    try {
+                        Query<Attachment> query = session.createNamedQuery("com.smirix.entities.Attachment.getByPostId", Attachment.class);
+                        query.setParameter("postId", postId);
+
+                        return query.list();
+                    } catch (Exception e) {
+                        LOGGER.error(ERROR_MSG, e);
+                        return Collections.emptyList();
+                    }
+                }
         );
     }
 

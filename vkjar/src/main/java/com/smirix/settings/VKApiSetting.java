@@ -15,6 +15,7 @@ public class VKApiSetting extends Setting {
     private static final String USER_PREFIX = PREFIX + "user.";
     private static final String GROUP_PREFIX = PREFIX + "group.";
     private static final String DIFF_MINUTES_BEFORE_POST_KEY = PREFIX + "diff.minutes.before.post";
+    private static final String FILE_PATH_KEY = PREFIX + "file.path";
 
     public VKApiSetting(String fileName) {
         super(fileName);
@@ -69,5 +70,9 @@ public class VKApiSetting extends Setting {
 
     public int getDiffMinutesBeforePost() {
         return Integer.parseInt(getProperty(DIFF_MINUTES_BEFORE_POST_KEY));
+    }
+
+    public String getFilePath() {
+        return getProperty(FILE_PATH_KEY);
     }
 }

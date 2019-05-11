@@ -9,8 +9,8 @@ import com.smirix.utils.WebContext;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.struts.Globals;
+import org.apache.struts.upload.FormFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -40,6 +40,15 @@ public class CreatePostActionForm extends ActionFormBase {
     private boolean isFromGroup;
     private boolean isAddSign;
     private boolean isCommercial;
+    private FormFile fileUpload;
+
+    public FormFile getFileUpload() {
+        return fileUpload;
+    }
+
+    public void setFileUpload(FormFile fileUpload) {
+        this.fileUpload = fileUpload;
+    }
 
     public Long getTaskId() {
         return taskId;
@@ -172,8 +181,8 @@ public class CreatePostActionForm extends ActionFormBase {
 
         }
 
-        if (StringUtils.isEmpty(getPostText())) {
-            return error("Текст поста не может быть пустым!");
+        if (StringUtils.isEmpty(getPostText()) && getFileUpload() == null) {
+            return error("Заполните текст поста или добавьте картинку");
         }
 
         return true;
