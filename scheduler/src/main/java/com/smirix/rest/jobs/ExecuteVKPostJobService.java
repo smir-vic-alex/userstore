@@ -51,8 +51,9 @@ public class ExecuteVKPostJobService {
 
                 if (post != null) {
                     Map<String, String> attachments = new HashMap<>();
-                    if (CollectionUtils.isNotEmpty(post.getAttachments())) {
-                        for (Attachment attachment : post.getAttachments()) {
+                    List<Attachment> attachList = delayPostService.getByPostId(post.getId());
+                    if (CollectionUtils.isNotEmpty(attachList)) {
+                        for (Attachment attachment : attachList) {
 
                             attachments.put(attachment.getName(), FileHelper.convertFileToBase64(new File(attachment.getPrivateUrl())));
                         }
