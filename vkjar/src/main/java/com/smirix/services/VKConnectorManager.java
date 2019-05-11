@@ -155,7 +155,7 @@ public class VKConnectorManager
             }
 
             if(time != null && time > 0) {
-                query.publishDate(time); //(int)(System.currentTimeMillis() / 1000L) +
+                query.publishDate((int)(System.currentTimeMillis() / 1000L) + time);
             }
 
             return query.execute().getPostId();
