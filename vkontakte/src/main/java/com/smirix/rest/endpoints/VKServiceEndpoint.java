@@ -23,7 +23,6 @@ public class VKServiceEndpoint {
     @Qualifier("vkServiceService")
     private VKServiceService vkServiceService;
 
-    //todo Проверять на подлинность источника запросов для всех модулей
     @POST
     @Path("/get/auth/url")
     public GetAuthUrlRs getAuthUrl(GetAuthUrlRq rq) {
