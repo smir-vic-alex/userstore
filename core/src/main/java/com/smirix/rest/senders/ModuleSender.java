@@ -3,6 +3,8 @@ package com.smirix.rest.senders;
 import com.smirix.common.Sender;
 import com.smirix.rest.elements.messages.Head;
 import com.smirix.rest.elements.messages.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -14,16 +16,21 @@ import java.util.UUID;
  */
 public abstract class ModuleSender<Rq extends Serializable, Rs extends Serializable> implements Sender<Rq, Rs>{
 
+    protected static Logger LOGGER = LoggerFactory.getLogger(ModuleSender.class);
+
     @Override
     public Rs send(Rq requestEntity) throws Exception {
         try {
             Message<Rq> request = buildRequest(requestEntity);
-            //todo добавить логирование
+
+            LOGGER.info("Отправка запроса uuid = " + request.getHead().getUuid());
+
             Object rawResponse = execute(request);
             rawResponse = postExecute(rawResponse);
-
             Message<Rs> response = buildResponse(rawResponse);
-            //todo добавить логирование
+
+            LOGGER.info("Обработка ответа uuid = " + response.getHead().getUuid());
+
             return getResult(response);
         } catch (Exception e) {
             e.printStackTrace();
