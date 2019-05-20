@@ -8,10 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by Smirnov-VA on 24.07.2017.
+ * Created by Виктор on 24.07.2017.
  */
 public class ContextFilter implements Filter {
-
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -28,7 +27,9 @@ public class ContextFilter implements Filter {
         WebContext.setCurrentResponse(response);
 
         try {
+
             filterChain.doFilter(servletRequest, servletResponse);
+
         } finally {
             WebContext.setCurrentRequest(null);
             WebContext.setCurrentResponse(null);
