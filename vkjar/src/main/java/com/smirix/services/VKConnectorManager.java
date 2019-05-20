@@ -166,10 +166,8 @@ public class VKConnectorManager {
      * @return Идентификатор поста
      */
     public Integer createPost(UserActor actor, Integer groupId, String message, int time, boolean fromGroup, List<String> attachments) {
-
-        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-
         try {
+            VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
             WallPostQuery query = vk.wall()
                                     .post(actor)
                                     .ownerId(groupId)
