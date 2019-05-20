@@ -13,17 +13,15 @@ import com.vk.api.sdk.objects.UserAuthResponse;
 import com.vk.api.sdk.objects.groups.GroupFull;
 import com.vk.api.sdk.objects.groups.responses.GetResponse;
 import com.vk.api.sdk.objects.photos.Photo;
-import com.vk.api.sdk.objects.photos.PhotoUpload;
-import com.vk.api.sdk.objects.photos.responses.PhotoUploadResponse;
 import com.vk.api.sdk.objects.photos.responses.WallUploadResponse;
-import com.vk.api.sdk.objects.wall.responses.PostResponse;
 import com.vk.api.sdk.queries.groups.GroupsGetFilter;
 import com.vk.api.sdk.queries.photos.PhotosGetWallUploadServerQuery;
 import com.vk.api.sdk.queries.photos.PhotosSaveWallPhotoQuery;
-import com.vk.api.sdk.queries.upload.UploadPhotoQuery;
 import com.vk.api.sdk.queries.upload.UploadPhotoWallQuery;
 import com.vk.api.sdk.queries.wall.WallPostQuery;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -36,30 +34,46 @@ import java.util.List;
  * Коннектор для логина пользователем
  * Created by Smirnov Victor on 09.04.17.
  */
-public class VKConnectorManager
-{
+public class VKConnectorManager {
+
+    private static final String VK_ERROR_MSG = "Ошибка при обращении к ВКонтакте.";
+    private static final String VK_ERROR_MSG_EMPTY = VK_ERROR_MSG + " Вернулся пустой ответ UserAuthResponse";
+    private static Logger LOGGER = LoggerFactory.getLogger(VKConnectorManager.class);
+
     @Autowired
     @Qualifier("vkApiSetting")
     private VKApiSetting vkApiSetting;
 
-    public UserAuthResponse authUser(String code)
-    {
+    /**
+     * Получение access token пользователя ВКонтакте
+     * @param code - код обмена на access token
+     * @return Ответ от ВКонтакте
+     */
+    public UserAuthResponse authUser(String code) {
+
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
         UserAuthResponse authResponse;
-        try
-        {
+
+        try {
+
+            Integer applicationId = vkApiSetting.getApplicationId();
+            String secretKey = vkApiSetting.getApplicationSecretKey();
+            String redirectUrl = vkApiSetting.getApplicationRedirectUri();
+
             authResponse = vk.oauth()
-                    .userAuthorizationCodeFlow(vkApiSetting.getApplicationId(), vkApiSetting.getApplicationSecretKey(), vkApiSetting.getApplicationRedirectUri(), code)
+                    .userAuthorizationCodeFlow(applicationId, secretKey, redirectUrl, code)
                     .execute();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+
+        } catch (Exception e) {
+            LOGGER.error(VK_ERROR_MSG, e);
+            throw new RuntimeException(VK_ERROR_MSG, e);
         }
 
         if (authResponse == null) {
-            throw new RuntimeException("com.smirix.services.VKConnectorManager#authUser authResponse == null");
+            LOGGER.error(VK_ERROR_MSG_EMPTY);
+            throw new RuntimeException(VK_ERROR_MSG_EMPTY);
         }
+
         return authResponse;
     }
 
@@ -73,7 +87,7 @@ public class VKConnectorManager
             return vk.groups().getById(userActor).groupIds(StringUtils.integerCollectionToListOfStrings(response.getItems())).execute();
         }
         catch (ApiException | ClientException e) {
-            e.printStackTrace();
+            LOGGER.error(VK_ERROR_MSG, e);
         }
         return Collections.emptyList();
     }
@@ -86,7 +100,7 @@ public class VKConnectorManager
             return vk.groups().getById(userActor).groupIds((StringUtils.integerCollectionToListOfStrings(ids))).execute();
         }
         catch (ApiException | ClientException e) {
-            e.printStackTrace();
+            LOGGER.error(VK_ERROR_MSG, e);
         }
         return Collections.emptyList();
     }
@@ -98,7 +112,7 @@ public class VKConnectorManager
 
             return uploadServerQuery.execute().getUploadUrl();
         } catch (ApiException | ClientException e) {
-            e.printStackTrace();
+            LOGGER.error(VK_ERROR_MSG, e);
         }
         return null;
     }
@@ -110,7 +124,7 @@ public class VKConnectorManager
             UploadPhotoWallQuery uploadPhotoQuery = vk.upload().photoWall(uploadServerUrl, file);
             return uploadPhotoQuery.execute();
         } catch (ApiException | ClientException e) {
-            e.printStackTrace();
+            LOGGER.error(VK_ERROR_MSG, e);
         }
         return null;
     }
@@ -134,17 +148,16 @@ public class VKConnectorManager
                                                                     .groupId(groupId);
 
             return photosSaveWallPhotoQuery.execute();
+
         } catch (ApiException | ClientException e) {
-            e.printStackTrace();
+            LOGGER.error(VK_ERROR_MSG, e);
         }
         return null;
     }
 
-    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time, boolean fromGroup, List<String> attachments)
-    {
+    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time, boolean fromGroup, List<String> attachments) {
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-        try
-        {
+        try {
             WallPostQuery query = vk.wall().post(actor);
 
             query.ownerId(groupId);
@@ -161,31 +174,29 @@ public class VKConnectorManager
             return query.execute().getPostId();
         }
         catch (ApiException | ClientException e) {
-            e.printStackTrace();
+            LOGGER.error(VK_ERROR_MSG, e);
         }
         return null;
     }
 
-    public GroupAuthResponse authGroup(String code)
-    {
+    public GroupAuthResponse authGroup(String code) {
         VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
         GroupAuthResponse authResponse;
-        try
-        {
+        try {
             authResponse = vk.oauth()
                     .groupAuthorizationCodeFlow(vkApiSetting.getApplicationId(), vkApiSetting.getApplicationSecretKey(), vkApiSetting.getApplicationRedirectGroupUri(), code)
                     .execute();
         }
         catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            LOGGER.error(VK_ERROR_MSG, e);
+            throw new RuntimeException(VK_ERROR_MSG, e);
         }
 
         if (authResponse == null) {
-            throw new RuntimeException("com.smirix.services.VKConnectorManager#authGroup authResponse == null");
+            LOGGER.error(VK_ERROR_MSG + " authResponse == null");
+            throw new RuntimeException(VK_ERROR_MSG + "com.smirix.services.VKConnectorManager#authGroup authResponse == null");
         }
 
         return authResponse;
     }
-
 }
