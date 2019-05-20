@@ -8,19 +8,13 @@ import java.util.Calendar;
  */
 public class Head implements Serializable {
 
-    private Long code;
     private String scUrl;
     private Calendar time;
     private String uuid;
 
-    public Long getCode() {
-        return code;
-    }
-
-    public void setCode(Long code) {
-        this.code = code;
-    }
-
+    /**
+     * @return url запроса
+     */
     public String getScUrl() {
         return scUrl;
     }
@@ -29,6 +23,9 @@ public class Head implements Serializable {
         this.scUrl = url;
     }
 
+    /**
+     * @return время запроса
+     */
     public Calendar getTime() {
         return time;
     }
@@ -37,6 +34,9 @@ public class Head implements Serializable {
         this.time = time;
     }
 
+    /**
+     * @return уникальный идентификатор запроса
+     */
     public String getUuid() {
         return uuid;
     }
