@@ -4,7 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by Smirnov-VA on 24.07.2017.
+ * Класс работы с текущим контекстом запроса
+ * Created by Виктор on 24.07.2017.
  */
 public class WebContext {
 
@@ -26,5 +27,4 @@ public class WebContext {
     public static void setCurrentResponse(HttpServletResponse response) {
         currentResponse.set(response);
     }
-
 }

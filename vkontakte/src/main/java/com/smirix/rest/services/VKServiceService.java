@@ -277,7 +277,11 @@ public class VKServiceService {
                     }
                 }
 
-                Integer time = StringUtils.isEmpty(post.getPublishDate()) ? 0 : DateUtils.getDiffDateAndCurrentDateInSeconds(post.getPublishDate());
+                int time = StringUtils.isEmpty(post.getPublishDate()) ? 0 : DateUtils.getDiffDateAndCurrentDateInSeconds(post.getPublishDate());
+                if(time > 0) {
+                    time = (int)(System.currentTimeMillis() / 1000L) + time;
+                }
+
                 Integer postId = vkConnectorManager.createPost(userActor, -post.getOwnerId(), post.getMessage(), time, post.getFromGroup(), preparedAttachments);
                 postRs.setPostId(postId);
             }

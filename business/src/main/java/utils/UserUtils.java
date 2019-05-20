@@ -25,10 +25,17 @@ public class UserUtils {
         WebContext.getCurrentRequest().getSession(NOT_CREATE_SESSION).setAttribute(USER_ATTR, user);
     }
 
+    /**
+     * Установить признак, что пользователь прошел аутентификацию
+     * @param userIsLogin - false пользователь не прошел, true - прошел
+     */
     public static void setUserIsLogin(boolean userIsLogin){
         WebContext.getCurrentRequest().getSession(NOT_CREATE_SESSION).setAttribute(IS_USER_LOGIN_ATTR, userIsLogin);
     }
 
+    /**
+     * @return является ли текущий пользователь аутентифицированным
+     */
     public static boolean isUserLogin(){
         HttpSession session = WebContext.getCurrentRequest().getSession();
         return session.getAttribute(IS_USER_LOGIN_ATTR) != null && (boolean) session.getAttribute(IS_USER_LOGIN_ATTR);
