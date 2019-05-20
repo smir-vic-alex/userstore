@@ -216,8 +216,11 @@
                     <div>
                         <h3>Вложения</h3>
                         <div id="wrapper" style="margin-top: 20px;">
-                            <input id="fileUpload" name="fileUpload" multiple type="file"/>
-                            <div id="image-holder"></div>
+
+                                <input id="fileUpload" name="fileUpload" multiple type="file" class="inputfile"/>
+                                <label for="fileUpload" class="label" id="labelFileUpload">Выбрать</label>
+                            <div id="image-holder" class="imageHolder" style="display: none;">
+                            </div>
                             <div id="upload-result">
                             </div>
                         </div>
@@ -235,15 +238,24 @@
                                                 //loop for each file selected for uploaded.
                                                 for (var i = 0; i < countFiles; i++)
                                                 {
+                                                    $("<img />", {
+                                                        "id":"deleteButton",
+                                                        "src": '${pageContext.request.contextPath}/resources/img/delete-button.png',
+                                                        "class": "delete-button"
+                                                    }).appendTo(image_holder);
+
                                                     var reader = new FileReader();
                                                     reader.onload = function(e) {
                                                         $("<img />", {
+                                                            "id":"loadedImg",
                                                             "src": e.target.result,
                                                             "class": "thumb-image"
                                                         }).appendTo(image_holder);
                                                     };
                                                     image_holder.show();
                                                     reader.readAsDataURL($(this)[0].files[i]);
+                                                    $('#labelFileUpload').css('display','none');
+                                                    $("#image-holder").removeAttr( 'style' );
                                                 }
                                             } else {
                                                 alert("This browser does not support FileReader.");
@@ -252,6 +264,14 @@
                                             alert("Pls select only images");
                                         }
                                     });
+
+                                $("#image-holder").on('click', function() {
+                                    $('#fileUpload').val('');
+                                    $('#labelFileUpload').removeAttr( 'style' );
+                                    $('#image-holder').css('display','none');
+                                    $('#deleteButton').remove();
+                                    $('#loadedImg').remove();
+                                });
                             });
                         </script>
                     </div>

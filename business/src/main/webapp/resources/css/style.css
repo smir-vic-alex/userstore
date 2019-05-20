@@ -438,8 +438,61 @@ input[type="checkbox"]:disabled + label span {
 }
 
 .thumb-image{
-    float:left;
+    opacity: 1;
     width:100px;
-    position:relative;
-    padding:5px;
+    /*transition: .5s ease;*/
+    backface-visibility: hidden;
+    position: relative;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.imageHolder {
+    margin: 15px;
+    padding: 5px;
+    border: dotted #c7c7c7;
+    width: 100px;
+    height: 100px;
+    background: #e6e6e6;
+}
+
+.imageHolder:hover .thumb-image {
+    opacity: 0.3;
+}
+
+.label {
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    cursor: pointer;
+    display: block;
+    font: 18px/90px Helvetica;
+    border: dotted #c7c7c7;
+    color: #868686;
+    background: white;
+    margin: 15px;
+    text-decoration: none;
+}
+
+.label:hover {
+    background: #e6e6e6;
+}
+
+.delete-button {
+    width: 100px;
+    margin-bottom: 100px;
+    position: absolute;
+    opacity: 0;
+}
+
+.imageHolder:hover .delete-button {
+    opacity: 1;
+    z-index: 2;
 }
