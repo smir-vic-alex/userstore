@@ -155,27 +155,41 @@ public class VKConnectorManager {
         return null;
     }
 
-    public Integer createPost(UserActor actor, Integer groupId, String message, Integer time, boolean fromGroup, List<String> attachments) {
-        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
-        try {
-            WallPostQuery query = vk.wall().post(actor);
+    /**
+     * Создать пост в сообществе
+     * @param actor - Пользователь ВКонтакте
+     * @param groupId - Идентификатор сообщества
+     * @param message - Публикуемое сообщение
+     * @param time - Время публикации
+     * @param fromGroup - Если true, то опубликовать от имени группы. Если false, то опубликовать от имени пользователя
+     * @param attachments - Вложения
+     * @return Идентификатор поста
+     */
+    public Integer createPost(UserActor actor, Integer groupId, String message, int time, boolean fromGroup, List<String> attachments) {
 
-            query.ownerId(groupId);
-            query.fromGroup(fromGroup);
-            query.message(message);
+        VkApiClient vk = new VkApiClient(HttpTransportClient.getInstance());
+
+        try {
+            WallPostQuery query = vk.wall()
+                                    .post(actor)
+                                    .ownerId(groupId)
+                                    .fromGroup(fromGroup)
+                                    .message(message);
+
             if (CollectionUtils.isNotEmpty(attachments)) {
                 query.attachments(attachments);
             }
 
-            if(time != null && time > 0) {
-                query.publishDate((int)(System.currentTimeMillis() / 1000L) + time);
+            if(time > 0) {
+                query.publishDate(time);
             }
 
             return query.execute().getPostId();
-        }
-        catch (ApiException | ClientException e) {
+
+        } catch (ApiException | ClientException e) {
             LOGGER.error(VK_ERROR_MSG, e);
         }
+
         return null;
     }
 
