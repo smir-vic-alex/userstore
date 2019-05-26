@@ -5,22 +5,29 @@ import com.smirix.entities.Node;
 import com.smirix.entities.Password;
 import com.smirix.entities.Token;
 import com.smirix.services.AuthenticationService;
+import com.smirix.utils.CookieHelper;
+import com.smirix.utils.PasswordUtils;
+import com.smirix.utils.TokenUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import ru.json2pojo.beans.*;
 
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
-import java.util.Calendar;
-import java.util.UUID;
 
-import static javax.ws.rs.core.Cookie.DEFAULT_VERSION;
-import static javax.ws.rs.core.NewCookie.DEFAULT_MAX_AGE;
 
 /**
  * Created by Виктор on 15.11.2018.
  */
 public class SystemAuthService {
+
+    private static final String WRONG_PASSWD_MESSAGE = "Неправильный пароль";
+    private static final String WRONG_LOGIN_MESSAGE = "Не найден запрашиваемый логин";
+    private static final String ACCESS_DENIED_MSG = "Доступ запрещен";
+
+    private static Logger LOGGER = LoggerFactory.getLogger(SystemAuthService.class);
 
     @Autowired
     @Qualifier("authenticationService")
@@ -28,47 +35,40 @@ public class SystemAuthService {
 
     public Response login(LoginRq loginRq) {
         try {
+
             Login login = authenticationService.getLoginByName(loginRq.getLogin());
-            if (login == null)
-                throw new RuntimeException("Неправильный логин");
 
-            Password password = authenticationService.getPasswordByUserId(login.getUserId());
-            if (password == null || !password.getPassword().equals(loginRq.getPassword()))
-                throw new RuntimeException("Неправильный пароль");
+            if (login == null) {
+                LOGGER.error(WRONG_LOGIN_MESSAGE);
+                throw new RuntimeException(WRONG_LOGIN_MESSAGE);
+            }
 
-            Token token = getToken(login);
+            Password password = authenticationService.getPasswordById(login.getId());
 
+            if (PasswordUtils.isNotValidPassword(loginRq.getPassword(), password.getHash())) {
+                LOGGER.error(WRONG_PASSWD_MESSAGE);
+                throw new RuntimeException(WRONG_PASSWD_MESSAGE);
+            }
+
+            Token token = TokenUtils.generateToken(login);
             authenticationService.saveToken(token);
 
             return getResponse(token);
+
         } catch (Exception e) {
+            LOGGER.error(ACCESS_DENIED_MSG);
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
 
-    private Response getResponse(Token token) throws Exception {
-        LoginRs rs = new LoginRs();
+    private Response getResponse(Token token) {
+
         Node node = authenticationService.getUserNodeByUserId(token.getUserId());
-        rs.setRedirectUrl(node.getUrl());//"http://localhost:8081/auth.do"
-        NewCookie cookie = new NewCookie("token", token.getToken(), "/", null, DEFAULT_VERSION, null, DEFAULT_MAX_AGE, null, false, false);
+        NewCookie cookie = CookieHelper.getCookie(token.getToken());
+
+        LoginRs rs = new LoginRs();
+        rs.setRedirectUrl(node.getUrl());
+
         return Response.ok(rs).cookie(cookie).build();
-    }
-
-    private Token getToken(Login login) {
-        Token token = new Token();
-        token.setToken(UUID.randomUUID().toString());
-        token.setUserId(login.getUserId());
-        Calendar expired = Calendar.getInstance();
-        expired.add(Calendar.MINUTE, 1);
-        token.setExpired(expired);
-        return token;
-    }
-
-    public Response logoff(LogoffRq logoffRq) {
-        return Response.ok().build();
-    }
-
-    public RegisterRs register(RegisterRq registerRq) {
-        return new RegisterRs();
     }
 }

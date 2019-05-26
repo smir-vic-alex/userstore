@@ -29,16 +29,4 @@ public class SystemAuthEndpoint {
     public Response login(LoginRq loginRq) {
         return systemAuthService.login(loginRq);
     }
-
-    @POST
-    @Path("/register")
-    public RegisterRs register(RegisterRq registerRq) {
-        return systemAuthService.register(registerRq);
-    }
-
-    @POST
-    @Path("/logoff")
-    public Response logoff(LogoffRq logoffRq) {
-        return systemAuthService.logoff(logoffRq);
-    }
 }

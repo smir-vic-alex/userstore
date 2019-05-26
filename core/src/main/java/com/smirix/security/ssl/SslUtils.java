@@ -22,9 +22,7 @@ public class SslUtils {
 
             return sc;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return null;
     }
 }

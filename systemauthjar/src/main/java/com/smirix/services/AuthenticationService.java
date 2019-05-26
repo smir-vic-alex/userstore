@@ -29,7 +29,7 @@ public class AuthenticationService extends BusinessService {
         );
     }
 
-    public Password getPasswordByUserId(Long userId) {
+    public Password getPasswordById(Long userId) {
         return new HibernateExecutor<Password>().execute((session) ->
                 {
                     try {
