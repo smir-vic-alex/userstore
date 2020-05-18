@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * Class description
- *
  * @author Smirnov-VA
  * @created on 2019-03-23
  */

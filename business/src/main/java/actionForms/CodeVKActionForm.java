@@ -1,10 +1,9 @@
 package actionForms;
 
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
- * Created by Smirnov-VA on 21.07.2017.
+ * Created by Smirnov-VA on 21.07.2017
  */
 public class CodeVKActionForm extends ActionFormBase {
     private String code;
