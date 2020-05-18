@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by Smirnov-VA on 21.07.2017.
+ * Created by Smirnov-VA on 21.07.2017
  */
 public class CodeVKAction extends VKAction {
 
