@@ -3,7 +3,7 @@ package accesses;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- * Created by Виктор on 24.07.2017.
+ * Created by Виктор on 24.07.2017
  */
 public class EncryptUtils {
 
