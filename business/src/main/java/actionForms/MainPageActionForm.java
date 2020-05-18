@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Class description
- *
  * @author Smirnov-VA
  * @created on 2019-03-24
  */
