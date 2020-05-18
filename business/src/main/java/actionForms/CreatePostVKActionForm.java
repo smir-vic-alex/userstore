@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
- * Created by Виктор on 15.10.2017.
+ * Created by Виктор on 15.10.2017
  */
 public class CreatePostVKActionForm extends ActionFormBase {
     private List<VKGroup> availableNetworks;
