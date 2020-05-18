@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
 /**
- * Created by Smirnov-VA on 19.07.2017.
+ * Created by Smirnov-VA on 19.07.2017
  */
 public final class StrutsUtils {
 
