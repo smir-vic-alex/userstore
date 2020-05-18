@@ -7,7 +7,7 @@ import com.smirix.utils.WebContext;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by Виктор on 07.10.2017.
+ * Created by Виктор on 07.10.2017
  */
 public class UserUtils {
 
